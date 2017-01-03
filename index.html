@@ -18,13 +18,14 @@
 <body>
 	<h1>Cinema Tycoon</h1>
 	<div class="full-width" ng-app="cinemaTycoonApp">
-		<div class="full-width"  ng-controller="HUDController as hudCtrl">
+		<div id="hud" class="full-width"  ng-controller="HUDController as hudCtrl">
 			<p ng-bind="hudCtrl.content.balance | currency"></p>
 			<p ng-bind="hudCtrl.content.ticketPrice | currency"></p>
 		</div>
 		<div class="full-width"  ng-controller="FrontDoorController as fdCtrl">
 			<p ng-bind="fdCtrl.content.ticketPrice | currency"></p>
 			<button ng-click="fdCtrl.lowerTicketPrice()">Reduce Price</button>
+			<button ng-click="fdCtrl.raiseTicketPrice()">Increase Price</button>
 		</div>
 	</div>
 </body>

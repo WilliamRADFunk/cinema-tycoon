@@ -12,11 +12,12 @@ body
 }
 h1
 {
+    background: url("../images/marquee.gif") no-repeat center center;
     background-color: #000000;
     color: #FFFFFF;
-    line-height: 65px;
-    margin-top: 0px;
-    padding-top: 0px;
+    height: 92px;
+    margin: 0px;
+    padding-top: 160px;
     text-align: center;
 }
 .full-width
