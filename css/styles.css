@@ -1,6 +1,6 @@
 /* 
-Emo.te Stylesheet v1.0
-Last Updated: 2016-Nov-03
+Cinema Tycoon Stylesheet v1.0
+Last Updated: 2017-Jan-03
 Author: William R.A.D. Funk - http://WilliamRobertFunk.com 
 */
 body
@@ -12,5 +12,14 @@ body
 }
 h1
 {
+    background-color: #000000;
+    color: #FFFFFF;
+    line-height: 65px;
+    margin-top: 0px;
+    padding-top: 0px;
     text-align: center;
+}
+.full-width
+{
+    width: 100%;
 }

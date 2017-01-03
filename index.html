@@ -6,15 +6,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,IE=11,IE=EmulateIE11,IE=10,IE=EmulateIE10,IE=9,IE=EmulateIE9,IE=8,IE=EmulateIE8,IE=7,IE=EmulateIE7" />
 
-    <title>Cinema Tycoon</title>
-    <!-- Customized styles by William R.A.D. Funk -->
-    <link rel="stylesheet" href="css/styles.css">
-    <!--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0-beta.5/angular.min.js"></script>-->
-    <script type="text/javascript" src="node_modules/angular/angular.js"></script>
-  </head>
-  <body>
-    <div ng-app>
-      <h1>Cinema Tycoon</h1>
-    </div>
-  </body>
+	<title>Cinema Tycoon</title>
+	<!-- Customized styles by William R.A.D. Funk -->
+	<link rel="stylesheet" href="css/styles.css">
+	<!-- Angular Framework scripts by the folks at Angular -->
+	<!--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0-beta.5/angular.min.js"></script>-->
+	<script type="text/javascript" src="node_modules/angular/angular.js"></script>
+	<!-- Custom Scripts by William R.A.D. Funk -->
+	<script type="text/javascript" src="js/scripts.js"></script>
+</head>
+<body>
+	<h1>Cinema Tycoon</h1>
+	<div class="full-width" ng-app="cinemaTycoonApp">
+		<div class="full-width"  ng-controller="HUDController as hudCtrl">
+			<p ng-bind="hudCtrl.content.balance | currency"></p>
+			<p ng-bind="hudCtrl.content.ticketPrice | currency"></p>
+		</div>
+		<div class="full-width"  ng-controller="FrontDoorController as fdCtrl">
+			<p ng-bind="fdCtrl.content.ticketPrice | currency"></p>
+			<button ng-click="fdCtrl.lowerTicketPrice()">Reduce Price</button>
+		</div>
+	</div>
+</body>
 </html>
