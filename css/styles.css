@@ -12,6 +12,10 @@ body
 	padding: 0;
 	width: 100%;
 }
+button
+{
+	color: #000000;
+}
 #header
 {
 	/* Image from: http://freytheater.com/ */
@@ -52,6 +56,20 @@ body
 {
 	border: none;
 }
+#ticket-booth-inactive,
+#parking-inactive,
+#snack-inactive
+{
+	height: 200px;
+}
+#ticket-booth-active,
+#parking-active,
+#snack-active
+{
+	height: 200px;
+	padding-top: 55px;
+	text-align: center;
+}
 #ticket-booth-inactive
 {
 	/*
@@ -59,40 +77,38 @@ body
 	*  && https://openclipart.org/detail/3190/ticket
 	*/
 	background: url("../images/ticket-booth.png") no-repeat center center;
-	height: 200px;
 }
 #ticket-booth-active
 {
 	/* Image from: https://openclipart.org/user-detail/Moini */
 	background: url("../images/blank.png") no-repeat center center;
-	height: 200px;
-	padding-top: 55px;
-	text-align: center;
-}
-#ticket-booth-active > button
-{
-	color: #000000;
 }
 #parking-inactive
 {
 	/*
 	*  Modified image from: https://openclipart.org/user-detail/Moini
-	*  && https://openclipart.org/detail/3190/ticket
+	*  && https://openclipart.org/detail/260680/car15
 	*/
 	background: url("../images/parking.png") no-repeat center center;
-	height: 200px;
 }
 #parking-active
 {
 	/* Image from: https://openclipart.org/user-detail/Moini */
 	background: url("../images/blank.png") no-repeat center center;
-	height: 200px;
-	padding-top: 55px;
-	text-align: center;
 }
-#parking-active > button
+#snack-inactive
 {
-	color: #000000;
+	/*
+	*  Modified image from: https://openclipart.org/user-detail/Moini
+	*  && https://openclipart.org/detail/217027/office-services-icon-set
+	*  && http://www.free-icons-download.net/images/coke-and-popcorn-icon-75211.png
+	*/
+	background: url("../images/snacks.png") no-repeat center center;
+}
+#snack-active
+{
+	/* Image from: https://openclipart.org/user-detail/Moini */
+	background: url("../images/blank-long.png") no-repeat center center;
 }
 .centered
 {

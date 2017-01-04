@@ -100,6 +100,35 @@
 				</div>
 			</div>
 		</div>
+		<div id="level-2-container" class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
+			<div id="snack-container" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-controller="SnackController as snackCtrl" entering="snackCtrl.entered()" exiting="snackCtrl.exited()">
+				<div id="snack-inactive" ng-show="!snackCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
+				<div id="snack-active" ng-show="snackCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<p class="underline">Snacks Offered: {{snackCtrl.content.numOfSnacks}} / {{snackCtrl.content.maxSnacks}}</p>
+					<p class="underline">Cost to Expand: {{ (snackCtrl.content.numOfSnacks + 1) * snackCtrl.content.newSnackPriceMultiplier | currency}}</p>
+					<button type="button" class="btn btn-info" ng-click="snackCtrl.increaseSnacks()">Buy New Snack</button>
+				</div>
+			</div>
+		</div>
+		<div id="level-3-container" class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
+			<div id="gameroom-container" class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-controller="gameroomController as gameroomCtrl" entering="gameroomCtrl.entered()" exiting="gameroomCtrl.exited()">
+				<div id="gameroomCtrl-inactive" ng-show="!gameroomCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
+				<div id="gameroomCtrl-active" ng-show="gameroomCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<p class="underline">Games Offered: {{gameroomCtrl.content.numOfSnacks}} / {{gameroomCtrl.content.maxSnacks}}</p>
+					<p class="underline">Cost to Expand: {{ (gameroomCtrl.content.numOfSnacks + 1) * gameroomCtrl.content.newSnackPriceMultiplier | currency}}</p>
+					<button type="button" class="btn btn-info" ng-click="gameroomCtrl.increaseSnacks()">Buy New Game</button>
+				</div>
+			</div>
+			<div id="office-container" class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-controller="OfficeController as officeCtrl" entering="officeCtrl.entered()" exiting="officeCtrl.exited()">
+				<div id="office-inactive" ng-show="!officeCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
+				<div id="office-active" ng-show="officeCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<button type="button" class="btn btn-info" ng-click="officeCtrl.changePromo()">Change Promotion</button>
+					<button type="button" class="btn btn-info" ng-click="officeCtrl.produceMovie()">Produce Movie</button>
+					<button type="button" class="btn btn-info" ng-click="officeCtrl.hireEmployee()">Hire Employees</button>
+					<button type="button" class="btn btn-info" ng-click="officeCtrl.fireEmployee()">Fire Employees</button>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
 </html>

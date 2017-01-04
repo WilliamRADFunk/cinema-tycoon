@@ -48,7 +48,7 @@ cinemaTycoonApp.factory('gameData', function(){
 	game.addTheater = function() {
 		if(game.numOfTheaters >= game.maxTheaters)
 		{
-			game.numOfTheaters = game.maxTheaters
+			game.numOfTheaters = game.maxTheaters;
 		}
 		else
 		{
@@ -64,7 +64,7 @@ cinemaTycoonApp.factory('gameData', function(){
 	game.addSnack = function() {
 		if(game.numOfSnacks >= game.maxSnacks)
 		{
-			game.numOfSnacks = game.maxSnacks
+			game.numOfSnacks = game.maxSnacks;
 		}
 		else
 		{
@@ -80,7 +80,7 @@ cinemaTycoonApp.factory('gameData', function(){
 	game.addParking = function() {
 		if(game.parkingLevels >= game.maxParkingLevels)
 		{
-			game.parkingLevels = game.maxParkingLevels
+			game.parkingLevels = game.maxParkingLevels;
 		}
 		else
 		{
@@ -91,6 +91,22 @@ cinemaTycoonApp.factory('gameData', function(){
 				game.balance -= cost;
 			}
 		}
+	};
+	// Adds an extra employee to the theater.
+	game.addEmployee = function() {
+		if(game.numOfEmployees >= game.maxEmployees)
+		{
+			game.numOfEmployees = game.maxEmployees;
+		}
+		else game.numOfEmployees++;
+	};
+	// Removes an employee from the theater.
+	game.addEmployee = function() {
+		if(game.numOfEmployees <= 1)
+		{
+			game.numOfEmployees = 1;
+		}
+		else game.numOfEmployees--;
 	};
 	// Pass one-way data to those dependent on the service.
 	return game;
@@ -128,7 +144,6 @@ cinemaTycoonApp.controller('FrontDoorController', ['gameData', function(game) {
 		self.active = false;
 	};
 }]);
-
 // Main function is to increase parking capacity.
 cinemaTycoonApp.controller('ParkingLotController', ['gameData', function(game) {
 	var self = this;
@@ -138,6 +153,27 @@ cinemaTycoonApp.controller('ParkingLotController', ['gameData', function(game) {
 
 	self.expandParking = function() {
 		game.addParking();
+	};
+
+	self.entered = function() {
+		console.log("Entered");
+		self.active = true;
+	};
+
+	self.exited = function() {
+		console.log("Exited");
+		self.active = false;
+	};
+}]);
+// Main function is to increase snacks offered.
+cinemaTycoonApp.controller('SnackController', ['gameData', function(game) {
+	var self = this;
+
+	self.content = game;
+	self.active = false;
+
+	self.increaseSnacks = function() {
+		game.addSnack();
 	};
 
 	self.entered = function() {
