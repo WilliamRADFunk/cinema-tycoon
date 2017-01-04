@@ -87,8 +87,8 @@
 				<div id="ticket-booth-active" ng-show="fdCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<p class="underline">Ticket Price</p>
 					<p ng-bind="fdCtrl.content.ticketPrice | currency"></p>
-					<button ng-click="fdCtrl.lowerTicketPrice()">Reduce Price</button>
-					<button ng-click="fdCtrl.raiseTicketPrice()">Increase Price</button>
+					<button type="button" class="btn btn-info" ng-click="fdCtrl.lowerTicketPrice()">Reduce Price</button>
+					<button type="button" class="btn btn-info" ng-click="fdCtrl.raiseTicketPrice()">Increase Price</button>
 				</div>
 			</div>
 			<div id="parking-container" class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-controller="ParkingLotController as parkCtrl" entering="parkCtrl.entered()" exiting="parkCtrl.exited()">
@@ -96,7 +96,7 @@
 				<div id="parking-active" ng-show="parkCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<p>Current Parking Level: {{parkCtrl.content.parkingLevels}} / {{parkCtrl.content.maxParkingLevels}}</p>
 					<p class="underline">Cost to Expand: {{ (parkCtrl.content.parkingLevels + 1) * parkCtrl.content.parkingExpandCost | currency}}</p>
-					<button ng-click="parkCtrl.expandParking()">Expand Parking Lot</button>
+					<button type="button" class="btn btn-info" ng-click="parkCtrl.expandParking()">Expand Parking Lot</button>
 				</div>
 			</div>
 		</div>
