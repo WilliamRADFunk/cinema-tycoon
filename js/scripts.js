@@ -1,7 +1,11 @@
 var cinemaTycoonApp = angular.module('cinemaTycoonApp',[]);
 
 cinemaTycoonApp.factory('gameData', function(){
-	var game = {};							// 
+	var game = {};
+
+	game.day = 1;							// Tracks the day of the year.
+	game.season = "Winter";					// The current season (relevant for movie effectiveness).
+	game.year = 1;							// Total years user has been playing.
 
 	game.balance = 1000;					// Player's bank balance.
 	game.numOfTheaters = 1;					// Player's total existing theaters.
@@ -73,12 +77,43 @@ cinemaTycoonApp.controller('FrontDoorController', ['gameData', function(game) {
 	var self = this;
 
 	self.content = game;
+	self.active = false;
 
 	self.lowerTicketPrice = function() {
 		game.lowerTicketPrice();
-	}
+	};
 
 	self.raiseTicketPrice = function() {
 		game.raiseTicketPrice();
-	}
+	};
+
+	self.entered = function() {
+		console.log("Entered");
+		self.active = true;
+	};
+
+	self.exited = function() {
+		console.log("Exited");
+		self.active = false;
+	};
 }]);
+
+cinemaTycoonApp.directive("entering", function(){
+	return function(scope, element, attrs) {
+		element.bind("mouseenter", function(){
+			scope.$apply(function() {
+				scope.$eval(attrs.entering);
+			});
+		})
+	}
+});
+
+cinemaTycoonApp.directive("exiting", function(){
+	return function(scope, element, attrs) {
+		element.bind("mouseleave", function(){
+			scope.$apply(function() {
+				scope.$eval(attrs.exiting);
+			});
+		})
+	}
+});
