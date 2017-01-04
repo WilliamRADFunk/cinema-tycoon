@@ -25,7 +25,7 @@
 </head>
 <body>
 	<div class="container" ng-app="cinemaTycoonApp">
-		<div id="header" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">Cinema Tycoon</div>
+		<div id="header" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">Cinema Tycoon<h6>a <a href="http://www.williamrobertfunk.com/" target="_blank">William Robert Funk</a> creation</h6></div>
 		<div id="hud-container" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"  ng-controller="HUDController as hudCtrl">
 			<div id="hud" class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
 				<div class="centered col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
@@ -36,6 +36,18 @@
 						<tbody>
 							<tr>
 								<td>Bank: <span class="right">{{hudCtrl.content.balance | currency}}</span></td>
+							</tr>
+							<tr>
+								<td>Theaters: <span class="right">{{hudCtrl.content.numOfTheaters}} / {{hudCtrl.content.maxTheaters}}</span></td>
+							</tr>
+							<tr>
+								<td>Total Seats: <span class="right">{{hudCtrl.content.totalSeats}} / {{hudCtrl.content.numOfTheaters * 100}}</span></td>
+							</tr>
+							<tr>
+								<td>Total Licenses: <span class="right">{{hudCtrl.content.numOfLicenses}}</span></td>
+							</tr>
+							<tr>
+								<td>Snack Choices: <span class="right">{{hudCtrl.content.numOfSnacks}} / {{hudCtrl.content.maxSnacks}}</span></td>
 							</tr>
 							<tr>
 								<td>Ticket Price: <span class="right">{{hudCtrl.content.ticketPrice | currency}}</span></td>
@@ -52,18 +64,40 @@
 							<tr>
 								<td>Total $ from Snack Sales (last week): <span class="right">{{hudCtrl.content.profitSnackSales | currency}}</span></td>
 							</tr>
+							<tr>
+								<td>Total $ for Expenses (last week): <span class="right">{{hudCtrl.content.expenses | currency}}</span></td>
+							</tr>
+							<tr>
+								<td>Total $ in Profit/Loss (last week): <span class="right">{{hudCtrl.content.netProfit | currency}}</span></td>
+							</tr>
+							<tr>
+								<td>Total Employees: <span class="right">{{hudCtrl.content.numOfEmployees}} / {{hudCtrl.content.maxEmployees}} ( {{hudCtrl.content.employeeResult}} )</span></td>
+							</tr>
+							<tr>
+								<td>Current Promotion: <span class="right">{{hudCtrl.content.currentPromotion}}</span></td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
 			</div>
 		</div>
-		<div id="ticket-booth-container" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-controller="FrontDoorController as fdCtrl" entering="fdCtrl.entered()" exiting="fdCtrl.exited()">
-			<div id="ticket-booth-inactive" ng-show="!fdCtrl.active" class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12"></div>
-			<div id="ticket-booth-active" ng-show="fdCtrl.active" class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
-				<p><u>Ticket Price</u></p>
-				<p ng-bind="fdCtrl.content.ticketPrice | currency"></p>
-				<button ng-click="fdCtrl.lowerTicketPrice()">Reduce Price</button>
-				<button ng-click="fdCtrl.raiseTicketPrice()">Increase Price</button>
+		<div id="level-1-container" class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
+			<div id="ticket-booth-container" class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-controller="FrontDoorController as fdCtrl" entering="fdCtrl.entered()" exiting="fdCtrl.exited()">
+				<div id="ticket-booth-inactive" ng-show="!fdCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
+				<div id="ticket-booth-active" ng-show="fdCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<p class="underline">Ticket Price</p>
+					<p ng-bind="fdCtrl.content.ticketPrice | currency"></p>
+					<button ng-click="fdCtrl.lowerTicketPrice()">Reduce Price</button>
+					<button ng-click="fdCtrl.raiseTicketPrice()">Increase Price</button>
+				</div>
+			</div>
+			<div id="parking-container" class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-controller="ParkingLotController as parkCtrl" entering="parkCtrl.entered()" exiting="parkCtrl.exited()">
+				<div id="parking-inactive" ng-show="!parkCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
+				<div id="parking-active" ng-show="parkCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<p>Current Parking Level: {{parkCtrl.content.parkingLevels}} / {{parkCtrl.content.maxParkingLevels}}</p>
+					<p class="underline">Cost to Expand: {{ (parkCtrl.content.parkingLevels + 1) * parkCtrl.content.parkingExpandCost | currency}}</p>
+					<button ng-click="parkCtrl.expandParking()">Expand Parking Lot</button>
+				</div>
 			</div>
 		</div>
 	</div>

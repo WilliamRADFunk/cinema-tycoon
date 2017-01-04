@@ -21,14 +21,28 @@ body
 	font-size: 36px;
 	height: 252px;
 	margin: 0px;
-	padding-top: 160px;
+	padding-top: 150px;
 	text-align: center;
 	width: 100%;
+}
+#header > h6
+{
+	margin: 0px;
+	padding: 0px;
+}
+#header > h6 > a
+{
+	color: #00FF00;
+	text-decoration: none;
+}
+#header > h6 > a:hover
+{
+	text-decoration: underline;
 }
 #hud
 {
 	border: 1px solid #00441C;
-	padding: 20px 0px;
+	padding-top: 20px;
 }
 #hud > div:first-child
 {
@@ -41,23 +55,48 @@ body
 	*  && https://openclipart.org/detail/3190/ticket
 	*/
 	background: url("../images/ticket-booth.png") no-repeat center center;
-	height: 300px;
+	height: 200px;
 }
 #ticket-booth-active
 {
 	/* Image from: https://openclipart.org/user-detail/Moini */
 	background: url("../images/blank.png") no-repeat center center;
-	height: 300px;
-	padding-top: 100px;
+	height: 200px;
+	padding-top: 55px;
 	text-align: center;
 }
 #ticket-booth-active > button
 {
 	color: #000000;
 }
+#parking-inactive
+{
+	/*
+	*  Modified image from: https://openclipart.org/user-detail/Moini
+	*  && https://openclipart.org/detail/3190/ticket
+	*/
+	background: url("../images/parking.png") no-repeat center center;
+	height: 200px;
+}
+#parking-active
+{
+	/* Image from: https://openclipart.org/user-detail/Moini */
+	background: url("../images/blank.png") no-repeat center center;
+	height: 200px;
+	padding-top: 55px;
+	text-align: center;
+}
+#parking-active > button
+{
+	color: #000000;
+}
 .centered
 {
 	text-align: center;
+}
+.left
+{
+	float: left;
 }
 .right
 {
