@@ -5,108 +5,139 @@ cinemaTycoonApp.factory('gameData', function(){
 	var promo = ["None"];
 	var employ = ["Dismal"];
 
-	game.day = 1;							// Tracks the day of the year.
-	game.season = "Winter";					// The current season (relevant for movie effectiveness).
-	game.year = 1;							// Total years user has been playing.
+	game.timeData = {}
+	game.timeData.day = 1;								// Tracks the day of the year.
+	game.timeData.season = "Winter";					// The current season (relevant for movie effectiveness).
+	game.timeData.year = 1;								// Total years user has been playing.
 
-	game.balance = 10000;					// Player's bank balance.
-	game.numOfTheaters = 1;					// Player's total existing theaters.
-	game.maxTheaters = 10;					// Maximum number of theaters possible.
-	game.newTheaterPriceMultiplier = 1000;	// Multiplier for additional theaters.
-	game.totalSeats = 10;					// Total seats (possible tickets) cinema has.
-	game.numOfLicenses = 1;					// Total number of movie licenses currently owned.
-	game.numOfSnacks = 1;					// Player's total existing snack choices.
-	game.maxSnacks = 6;						// Maximum number of snacks possible.
-	game.newSnackPriceMultiplier = 500;		// Multiplier for additional snacks.
-	game.numOfEmployees = 1;				// Player's current number of employed workers.
-	game.maxEmployees = 5;					// Maximum number of employees possible.
-	game.employeeResult = employ[0];		// Description of employee amount.
-	game.employeeCostMultiplier = 750;		// Multiplier for employees on payday.
-	game.ticketPrice = 10.00;				// Price of a movie ticket.
-	game.currentPromotion = promo[0];		// Enum value for marketing promotion.
-	game.parkingLevels = 1;					// Current parking lot capacity level.
-	game.maxParkingLevels = 10;				// Maximum number of parking levels possible.
-	game.parkingExpandCost = 2000			// Cost multiplier to expand local parking space.
+	game.miscData = {};
+	game.miscData.balance = 10000;						// Player's bank balance.
+	game.miscData.ticketPrice = 10.00;					// Price of a movie ticket.
+	game.miscData.currentPromotion = promo[0];			// Enum value for marketing promotion.
+	game.miscData.numOfLicenses = 1;					// Total number of movie licenses currently owned.
 
-	game.profitTicketSales = 0.0;			// Tally of total ticket's sold at cost in last period.
-	game.profitSnackSales = 0.0;			// Tally of total snacks sold at cost in last period.
-	game.expenses = 0.0;					// Total cost of running theater in last period.
+	game.theaterData = {};
+	game.theaterData.numOfTheaters = 1;					// Player's total existing theaters.
+	game.theaterData.maxTheaters = 10;					// Maximum number of theaters possible.
+	game.theaterData.newTheaterPriceMultiplier = 1000;	// Multiplier for additional theaters.
+	game.theaterData.totalSeats = 10;					// Total seats (possible tickets) cinema has.	
 
-	game.netProfit = 0.0;					// Total profit/loss for the last period.
+	game.snackData = {};
+	game.snackData.numOfSnacks = 1;						// Player's total existing snack choices.
+	game.snackData.maxSnacks = 6;						// Maximum number of snacks possible.
+	game.snackData.newSnackPriceMultiplier = 500;		// Multiplier for additional snacks.
+
+	game.gameroomData = {};
+	game.gameroomData.numOfGames = 1;					// Player's total existing game choices.
+	game.gameroomData.maxGames = 5;						// Maximum number of games possible.
+	game.gameroomData.newGamePriceMultiplier = 1000;	// Multiplier for additional games.
+
+	game.employeeData = {};
+	game.employeeData.numOfEmployees = 1;				// Player's current number of employed workers.
+	game.employeeData.maxEmployees = 5;					// Maximum number of employees possible.
+	game.employeeData.employeeResult = employ[0];		// Description of employee amount.
+	game.employeeData.employeeCostMultiplier = 750;		// Multiplier for employees on payday.
+	
+	game.parkingData = {};
+	game.parkingData.parkingLevels = 1;					// Current parking lot capacity level.
+	game.parkingData.maxParkingLevels = 10;				// Maximum number of parking levels possible.
+	game.parkingData.parkingExpandCost = 2000			// Cost multiplier to expand local parking space.
+
+	game.profitData = {};
+	game.profitData.profitTicketSales = 0.0;			// Tally of total ticket's sold at cost in last period.
+	game.profitData.profitSnackSales = 0.0;				// Tally of total snacks sold at cost in last period.
+	game.profitData.expenses = 0.0;						// Total cost of running theater in last period.
+	game.profitData.netProfit = 0.0;					// Total profit/loss for the last period.
 
 	// Updates the reduction of ticket price for entire game.
 	game.lowerTicketPrice = function() {
-		game.ticketPrice -= 0.10;
-		if(game.ticketPrice <= 0) game.ticketPrice = 0.0;
+		game.miscData.ticketPrice -= 0.10;
+		if(game.miscData.ticketPrice <= 0) game.miscData.ticketPrice = 0.0;
 	};
 	// Updates the increase of ticket price for entire game.
 	game.raiseTicketPrice = function() {
-		game.ticketPrice += 0.10;
-		if(game.ticketPrice >= 100) game.ticketPrice = 100.0;
+		game.miscData.ticketPrice += 0.10;
+		if(game.miscData.ticketPrice >= 100) game.miscData.ticketPrice = 100.0;
 	};
 	// Adds a theater iff player has the money.
 	game.addTheater = function() {
-		if(game.numOfTheaters >= game.maxTheaters)
+		if(game.theaterData.numOfTheaters >= game.theaterData.maxTheaters)
 		{
-			game.numOfTheaters = game.maxTheaters;
+			game.theaterData.numOfTheaters = game.theaterData.maxTheaters;
 		}
 		else
 		{
-			var cost = (game.numOfTheaters + 1) * game.newTheaterPriceMultiplier;
-			if( cost <= game.balance)
+			var cost = (game.theaterData.numOfTheaters + 1) * game.theaterData.newTheaterPriceMultiplier;
+			if( cost <= game.miscData.balance)
 			{
-				game.numOfTheaters++;
-				game.balance -= cost;
+				game.theaterData.numOfTheaters++;
+				game.miscData.balance -= cost;
 			}
 		}
 	};
 	// Adds a snack iff player has the money.
 	game.addSnack = function() {
-		if(game.numOfSnacks >= game.maxSnacks)
+		if(game.snackData.numOfSnacks >= game.snackData.maxSnacks)
 		{
-			game.numOfSnacks = game.maxSnacks;
+			game.snackData.numOfSnacks = game.snackData.maxSnacks;
 		}
 		else
 		{
-			var cost = (game.numOfSnacks + 1) * game.newSnackPriceMultiplier;
-			if( cost <= game.balance)
+			var cost = (game.snackData.numOfSnacks + 1) * game.snackData.newSnackPriceMultiplier;
+			if( cost <= game.miscData.balance)
 			{
-				game.numOfSnacks++;
-				game.balance -= cost;
+				game.snackData.numOfSnacks++;
+				game.miscData.balance -= cost;
+			}
+		}
+	};
+	// Adds a game iff player has the money.
+	game.addGame = function() {
+		if(game.gameroomData.numOfGames >= game.gameroomData.maxGames)
+		{
+			game.gameroomData.numOfGames = game.gameroomData.maxGames;
+		}
+		else
+		{
+			var cost = (game.gameroomData.numOfGames + 1) * game.gameroomData.newGamePriceMultiplier;
+			if( cost <= game.miscData.balance)
+			{
+				game.gameroomData.numOfGames++;
+				game.miscData.balance -= cost;
 			}
 		}
 	};
 	// Adds extra parking iff player has the money.
 	game.addParking = function() {
-		if(game.parkingLevels >= game.maxParkingLevels)
+		if(game.parkingData.parkingLevels >= game.parkingData.maxParkingLevels)
 		{
-			game.parkingLevels = game.maxParkingLevels;
+			game.parkingData.parkingLevels = game.parkingData.maxParkingLevels;
 		}
 		else
 		{
-			var cost = (game.parkingLevels + 1) * game.parkingExpandCost;
-			if( cost <= game.balance)
+			var cost = (game.parkingData.parkingLevels + 1) * game.parkingData.parkingExpandCost;
+			if( cost <= game.miscData.balance)
 			{
-				game.parkingLevels++;
-				game.balance -= cost;
+				game.parkingData.parkingLevels++;
+				game.miscData.balance -= cost;
 			}
 		}
 	};
 	// Adds an extra employee to the theater.
 	game.addEmployee = function() {
-		if(game.numOfEmployees >= game.maxEmployees)
+		if(game.employeeData.numOfEmployees >= game.employeeData.maxEmployees)
 		{
-			game.numOfEmployees = game.maxEmployees;
+			game.employeeData.numOfEmployees = game.employeeData.maxEmployees;
 		}
-		else game.numOfEmployees++;
+		else game.employeeData.numOfEmployees++;
 	};
 	// Removes an employee from the theater.
 	game.addEmployee = function() {
-		if(game.numOfEmployees <= 1)
+		if(game.employeeData.numOfEmployees <= 1)
 		{
-			game.numOfEmployees = 1;
+			game.employeeData.numOfEmployees = 1;
 		}
-		else game.numOfEmployees--;
+		else game.employeeData.numOfEmployees--;
 	};
 	// Pass one-way data to those dependent on the service.
 	return game;
@@ -116,14 +147,20 @@ cinemaTycoonApp.factory('gameData', function(){
 cinemaTycoonApp.controller('HUDController', ['gameData', function(game) {
 	var self = this;
 
-	self.content = game;
+	self.timeData = game.timeData;
+	self.miscData = game.miscData;
+	self.theaterData = game.theaterData;
+	self.snackData = game.snackData;
+	self.employeeData = game.employeeData;
+	self.parkingData = game.parkingData;
+	self.profitData = game.profitData;
 }]);
 // Main function is to adjust ticket price.
 // Shows how much people like/dislike the price.
 cinemaTycoonApp.controller('FrontDoorController', ['gameData', function(game) {
 	var self = this;
 
-	self.content = game;
+	self.miscData = game.miscData;
 	self.active = false;
 
 	self.lowerTicketPrice = function() {
@@ -135,12 +172,10 @@ cinemaTycoonApp.controller('FrontDoorController', ['gameData', function(game) {
 	};
 
 	self.entered = function() {
-		console.log("Entered");
 		self.active = true;
 	};
 
 	self.exited = function() {
-		console.log("Exited");
 		self.active = false;
 	};
 }]);
@@ -148,7 +183,7 @@ cinemaTycoonApp.controller('FrontDoorController', ['gameData', function(game) {
 cinemaTycoonApp.controller('ParkingLotController', ['gameData', function(game) {
 	var self = this;
 
-	self.content = game;
+	self.parkingData = game.parkingData;
 	self.active = false;
 
 	self.expandParking = function() {
@@ -156,12 +191,10 @@ cinemaTycoonApp.controller('ParkingLotController', ['gameData', function(game) {
 	};
 
 	self.entered = function() {
-		console.log("Entered");
 		self.active = true;
 	};
 
 	self.exited = function() {
-		console.log("Exited");
 		self.active = false;
 	};
 }]);
@@ -169,7 +202,7 @@ cinemaTycoonApp.controller('ParkingLotController', ['gameData', function(game) {
 cinemaTycoonApp.controller('SnackController', ['gameData', function(game) {
 	var self = this;
 
-	self.content = game;
+	self.snackData = game.snackData;
 	self.active = false;
 
 	self.increaseSnacks = function() {
@@ -177,12 +210,48 @@ cinemaTycoonApp.controller('SnackController', ['gameData', function(game) {
 	};
 
 	self.entered = function() {
-		console.log("Entered");
 		self.active = true;
 	};
 
 	self.exited = function() {
-		console.log("Exited");
+		self.active = false;
+	};
+}]);
+// Main function is to increase games offered.
+cinemaTycoonApp.controller('GameroomController', ['gameData', function(game) {
+	var self = this;
+
+	self.gameroomData = game.gameroomData;
+	self.active = false;
+
+	self.increaseGames = function() {
+		game.addGame();
+	};
+
+	self.entered = function() {
+		self.active = true;
+	};
+
+	self.exited = function() {
+		self.active = false;
+	};
+}]);
+// Main function is to handle employees, choose promotions, or make a movie.
+cinemaTycoonApp.controller('OfficeController', ['gameData', function(game) {
+	var self = this;
+
+	self.miscData = game.miscData;
+	self.active = false;
+
+	self.increaseGames = function() {
+		//game.addGame();
+	};
+
+	self.entered = function() {
+		self.active = true;
+	};
+
+	self.exited = function() {
 		self.active = false;
 	};
 }]);

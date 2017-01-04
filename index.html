@@ -29,28 +29,28 @@
 		<div id="hud-container" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"  ng-controller="HUDController as hudCtrl">
 			<div id="hud" class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
 				<div class="centered col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
-					--- Day: {{hudCtrl.content.day}} -- Season: {{hudCtrl.content.season}} -- Year: {{hudCtrl.content.year}} ---
+					--- Day: {{hudCtrl.timeData.day}} -- Season: {{hudCtrl.timeData.season}} -- Year: {{hudCtrl.timeData.year}} ---
 				</div>
 				<div class="table-responsive col-lg-6 col-md-6 col-sm-12 col-xs-12">
 					<table class="table">
 						<tbody>
 							<tr>
-								<td>Bank: <span class="right">{{hudCtrl.content.balance | currency}}</span></td>
+								<td>Bank: <span class="right">{{hudCtrl.miscData.balance | currency}}</span></td>
 							</tr>
 							<tr>
-								<td>Theaters: <span class="right">{{hudCtrl.content.numOfTheaters}} / {{hudCtrl.content.maxTheaters}}</span></td>
+								<td>Theaters: <span class="right">{{hudCtrl.theaterData.numOfTheaters}} / {{hudCtrl.theaterData.maxTheaters}}</span></td>
 							</tr>
 							<tr>
-								<td>Total Seats: <span class="right">{{hudCtrl.content.totalSeats}} / {{hudCtrl.content.numOfTheaters * 100}}</span></td>
+								<td>Total Seats: <span class="right">{{hudCtrl.theaterData.totalSeats}} / {{hudCtrl.theaterData.numOfTheaters * 100}}</span></td>
 							</tr>
 							<tr>
-								<td>Total Licenses: <span class="right">{{hudCtrl.content.numOfLicenses}}</span></td>
+								<td>Total Licenses: <span class="right">{{hudCtrl.miscData.numOfLicenses}}</span></td>
 							</tr>
 							<tr>
-								<td>Snack Choices: <span class="right">{{hudCtrl.content.numOfSnacks}} / {{hudCtrl.content.maxSnacks}}</span></td>
+								<td>Snack Choices: <span class="right">{{hudCtrl.snackData.numOfSnacks}} / {{hudCtrl.snackData.maxSnacks}}</span></td>
 							</tr>
 							<tr>
-								<td>Ticket Price: <span class="right">{{hudCtrl.content.ticketPrice | currency}}</span></td>
+								<td>Ticket Price: <span class="right">{{hudCtrl.miscData.ticketPrice | currency}}</span></td>
 							</tr>
 						</tbody>
 					</table>
@@ -59,22 +59,22 @@
 					<table class="table">
 						<tbody>
 							<tr>
-								<td>Total $ from Ticket Sales (last week): <span class="right">{{hudCtrl.content.profitTicketSales | currency}}</span></td>
+								<td>Total $ from Ticket Sales (last week): <span class="right">{{hudCtrl.profitData.profitTicketSales | currency}}</span></td>
 							</tr>
 							<tr>
-								<td>Total $ from Snack Sales (last week): <span class="right">{{hudCtrl.content.profitSnackSales | currency}}</span></td>
+								<td>Total $ from Snack Sales (last week): <span class="right">{{hudCtrl.profitData.profitSnackSales | currency}}</span></td>
 							</tr>
 							<tr>
-								<td>Total $ for Expenses (last week): <span class="right">{{hudCtrl.content.expenses | currency}}</span></td>
+								<td>Total $ for Expenses (last week): <span class="right">{{hudCtrl.profitData.expenses | currency}}</span></td>
 							</tr>
 							<tr>
-								<td>Total $ in Profit/Loss (last week): <span class="right">{{hudCtrl.content.netProfit | currency}}</span></td>
+								<td>Total $ in Profit/Loss (last week): <span class="right">{{hudCtrl.profitData.netProfit | currency}}</span></td>
 							</tr>
 							<tr>
-								<td>Total Employees: <span class="right">{{hudCtrl.content.numOfEmployees}} / {{hudCtrl.content.maxEmployees}} ( {{hudCtrl.content.employeeResult}} )</span></td>
+								<td>Total Employees: <span class="right">{{hudCtrl.employeeData.numOfEmployees}} / {{hudCtrl.employeeData.maxEmployees}} ( {{hudCtrl.employeeData.employeeResult}} )</span></td>
 							</tr>
 							<tr>
-								<td>Current Promotion: <span class="right">{{hudCtrl.content.currentPromotion}}</span></td>
+								<td>Current Promotion: <span class="right">{{hudCtrl.miscData.currentPromotion}}</span></td>
 							</tr>
 						</tbody>
 					</table>
@@ -86,7 +86,7 @@
 				<div id="ticket-booth-inactive" ng-show="!fdCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
 				<div id="ticket-booth-active" ng-show="fdCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<p class="underline">Ticket Price</p>
-					<p ng-bind="fdCtrl.content.ticketPrice | currency"></p>
+					<p ng-bind="fdCtrl.miscData.ticketPrice | currency"></p>
 					<button type="button" class="btn btn-info" ng-click="fdCtrl.lowerTicketPrice()">Reduce Price</button>
 					<button type="button" class="btn btn-info" ng-click="fdCtrl.raiseTicketPrice()">Increase Price</button>
 				</div>
@@ -94,8 +94,8 @@
 			<div id="parking-container" class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-controller="ParkingLotController as parkCtrl" entering="parkCtrl.entered()" exiting="parkCtrl.exited()">
 				<div id="parking-inactive" ng-show="!parkCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
 				<div id="parking-active" ng-show="parkCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<p>Current Parking Level: {{parkCtrl.content.parkingLevels}} / {{parkCtrl.content.maxParkingLevels}}</p>
-					<p class="underline">Cost to Expand: {{ (parkCtrl.content.parkingLevels + 1) * parkCtrl.content.parkingExpandCost | currency}}</p>
+					<p>Current Parking Level: {{parkCtrl.parkingData.parkingLevels}} / {{parkCtrl.parkingData.maxParkingLevels}}</p>
+					<p class="underline">Cost to Expand: {{ (parkCtrl.parkingData.parkingLevels + 1) * parkCtrl.parkingData.parkingExpandCost | currency}}</p>
 					<button type="button" class="btn btn-info" ng-click="parkCtrl.expandParking()">Expand Parking Lot</button>
 				</div>
 			</div>
@@ -104,19 +104,19 @@
 			<div id="snack-container" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-controller="SnackController as snackCtrl" entering="snackCtrl.entered()" exiting="snackCtrl.exited()">
 				<div id="snack-inactive" ng-show="!snackCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
 				<div id="snack-active" ng-show="snackCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<p class="underline">Snacks Offered: {{snackCtrl.content.numOfSnacks}} / {{snackCtrl.content.maxSnacks}}</p>
-					<p class="underline">Cost to Expand: {{ (snackCtrl.content.numOfSnacks + 1) * snackCtrl.content.newSnackPriceMultiplier | currency}}</p>
+					<p class="underline">Snacks Offered: {{snackCtrl.snackData.numOfSnacks}} / {{snackCtrl.snackData.maxSnacks}}</p>
+					<p class="underline">Cost to Expand: {{ (snackCtrl.snackData.numOfSnacks + 1) * snackCtrl.snackData.newSnackPriceMultiplier | currency}}</p>
 					<button type="button" class="btn btn-info" ng-click="snackCtrl.increaseSnacks()">Buy New Snack</button>
 				</div>
 			</div>
 		</div>
 		<div id="level-3-container" class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
-			<div id="gameroom-container" class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-controller="gameroomController as gameroomCtrl" entering="gameroomCtrl.entered()" exiting="gameroomCtrl.exited()">
-				<div id="gameroomCtrl-inactive" ng-show="!gameroomCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
-				<div id="gameroomCtrl-active" ng-show="gameroomCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<p class="underline">Games Offered: {{gameroomCtrl.content.numOfSnacks}} / {{gameroomCtrl.content.maxSnacks}}</p>
-					<p class="underline">Cost to Expand: {{ (gameroomCtrl.content.numOfSnacks + 1) * gameroomCtrl.content.newSnackPriceMultiplier | currency}}</p>
-					<button type="button" class="btn btn-info" ng-click="gameroomCtrl.increaseSnacks()">Buy New Game</button>
+			<div id="gameroom-container" class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-controller="GameroomController as grCtrl" entering="grCtrl.entered()" exiting="grCtrl.exited()">
+				<div id="gameroom-inactive" ng-show="!grCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
+				<div id="gameroom-active" ng-show="grCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<p class="underline">Games Offered: {{grCtrl.gameroomData.numOfGames}} / {{grCtrl.gameroomData.maxGames}}</p>
+					<p class="underline">Cost to Expand: {{ (grCtrl.gameroomData.numOfGames + 1) * grCtrl.gameroomData.newGamePriceMultiplier | currency}}</p>
+					<button type="button" class="btn btn-info" ng-click="grCtrl.increaseGames()">Buy New Game</button>
 				</div>
 			</div>
 			<div id="office-container" class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-controller="OfficeController as officeCtrl" entering="officeCtrl.entered()" exiting="officeCtrl.exited()">

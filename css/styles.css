@@ -58,13 +58,17 @@ button
 }
 #ticket-booth-inactive,
 #parking-inactive,
-#snack-inactive
+#snack-inactive,
+#gameroom-inactive,
+#office-inactive
 {
 	height: 200px;
 }
 #ticket-booth-active,
 #parking-active,
-#snack-active
+#snack-active,
+#gameroom-active,
+#office-active
 {
 	height: 200px;
 	padding-top: 55px;
@@ -96,19 +100,57 @@ button
 	/* Image from: https://openclipart.org/user-detail/Moini */
 	background: url("../images/blank.png") no-repeat center center;
 }
-#snack-inactive
-{
-	/*
-	*  Modified image from: https://openclipart.org/user-detail/Moini
-	*  && https://openclipart.org/detail/217027/office-services-icon-set
-	*  && http://www.free-icons-download.net/images/coke-and-popcorn-icon-75211.png
-	*/
-	background: url("../images/snacks.png") no-repeat center center;
+@media (min-width: 300px) {
+	#snack-inactive
+	{
+		/*
+		*  Modified image from: https://openclipart.org/user-detail/Moini
+		*  && https://openclipart.org/detail/217027/office-services-icon-set
+		*  && http://www.free-icons-download.net/images/coke-and-popcorn-icon-75211.png
+		*/
+		background: url("../images/snacks-small.png") no-repeat center center;
+	}
+	#snack-active
+	{
+		/* Image from: https://openclipart.org/user-detail/Moini */
+		background: url("../images/blank.png") no-repeat center center;
+	}
 }
-#snack-active
+@media (min-width: 1000px) {
+	#snack-inactive
+	{
+		/*
+		*  Modified image from: https://openclipart.org/user-detail/Moini
+		*  && https://openclipart.org/detail/217027/office-services-icon-set
+		*  && http://www.free-icons-download.net/images/coke-and-popcorn-icon-75211.png
+		*/
+		background: url("../images/snacks.png") no-repeat center center;
+	}
+	#snack-active
+	{
+		/* Modified image from: https://openclipart.org/user-detail/Moini */
+		background: url("../images/blank-long.png") no-repeat center center;
+	}
+}
+#gameroom-inactive
+{
+	/* Modified image from: https://openclipart.org/user-detail/Moini */
+	background: url("../images/gameroom.png") no-repeat center center;
+}
+#gameroom-active
 {
 	/* Image from: https://openclipart.org/user-detail/Moini */
-	background: url("../images/blank-long.png") no-repeat center center;
+	background: url("../images/blank.png") no-repeat center center;
+}
+#office-inactive
+{
+	/* Modified image from: https://openclipart.org/user-detail/Moini */
+	background: url("../images/office.png") no-repeat center center;
+}
+#office-active
+{
+	/* Image from: https://openclipart.org/user-detail/Moini */
+	background: url("../images/blank.png") no-repeat center center;
 }
 .centered
 {
