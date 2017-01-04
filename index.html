@@ -8,25 +8,25 @@
 
 	<title>Cinema Tycoon</title>
 	<!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<!-- Customized styles by William R.A.D. Funk -->
 	<link rel="stylesheet" href="css/styles.css">
 	<!-- Angular Framework scripts by the folks at Angular -->
 	<!--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0-beta.5/angular.min.js"></script>-->
 	<script type="text/javascript" src="node_modules/angular/angular.js"></script>
 	<!-- JQUERY Library for additional functionality -->
-    <script type="text/javascript" src="js/jquery-1.11.2.js"></script>
+	<script type="text/javascript" src="js/jquery-1.11.2.js"></script>
 	<!-- Bootstrap core JavaScript -->
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
-    <!-- Bootstrap core JavaScript -->
-    <script type="text/javascript" src="js/respond.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<!-- Bootstrap core JavaScript -->
+	<script type="text/javascript" src="js/respond.min.js"></script>
 	<!-- Custom Scripts by William R.A.D. Funk -->
 	<script type="text/javascript" src="js/scripts.js"></script>
 </head>
 <body>
 	<div class="container" ng-app="cinemaTycoonApp">
 		<div id="header" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">Cinema Tycoon<h6>a <a href="http://www.williamrobertfunk.com/" target="_blank">William Robert Funk</a> creation</h6></div>
-		<div id="hud-container" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"  ng-controller="HUDController as hudCtrl">
+		<div id="hud-container" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-controller="HUDController as hudCtrl" ng-show="hudCtrl.initial.isStarted">
 			<div id="hud" class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
 				<div class="centered col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
 					--- Day: {{hudCtrl.timeData.day}} -- Season: {{hudCtrl.timeData.season}} -- Year: {{hudCtrl.timeData.year}} ---
@@ -82,7 +82,7 @@
 			</div>
 		</div>
 		<div id="level-1-container" class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
-			<div id="ticket-booth-container" class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-controller="FrontDoorController as fdCtrl" entering="fdCtrl.entered()" exiting="fdCtrl.exited()">
+			<div id="ticket-booth-container" class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-controller="FrontDoorController as fdCtrl" ng-show="fdCtrl.initial.isStarted" entering="fdCtrl.entered()" exiting="fdCtrl.exited()">
 				<div id="ticket-booth-inactive" ng-show="!fdCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
 				<div id="ticket-booth-active" ng-show="fdCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<p class="underline">Ticket Price</p>
@@ -91,7 +91,7 @@
 					<button type="button" class="btn btn-info" ng-click="fdCtrl.raiseTicketPrice()">Increase Price</button>
 				</div>
 			</div>
-			<div id="parking-container" class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-controller="ParkingLotController as parkCtrl" entering="parkCtrl.entered()" exiting="parkCtrl.exited()">
+			<div id="parking-container" class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-controller="ParkingLotController as parkCtrl" ng-show="parkCtrl.initial.isStarted" entering="parkCtrl.entered()" exiting="parkCtrl.exited()">
 				<div id="parking-inactive" ng-show="!parkCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
 				<div id="parking-active" ng-show="parkCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<p>Current Parking Level: {{parkCtrl.parkingData.parkingLevels}} / {{parkCtrl.parkingData.maxParkingLevels}}</p>
@@ -101,7 +101,7 @@
 			</div>
 		</div>
 		<div id="level-2-container" class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
-			<div id="snack-container" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-controller="SnackController as snackCtrl" entering="snackCtrl.entered()" exiting="snackCtrl.exited()">
+			<div id="snack-container" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-controller="SnackController as snackCtrl" ng-show="snackCtrl.initial.isStarted" entering="snackCtrl.entered()" exiting="snackCtrl.exited()">
 				<div id="snack-inactive" ng-show="!snackCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
 				<div id="snack-active" ng-show="snackCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<p class="underline">Snacks Offered: {{snackCtrl.snackData.numOfSnacks}} / {{snackCtrl.snackData.maxSnacks}}</p>
@@ -111,7 +111,7 @@
 			</div>
 		</div>
 		<div id="level-3-container" class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
-			<div id="gameroom-container" class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-controller="GameroomController as grCtrl" entering="grCtrl.entered()" exiting="grCtrl.exited()">
+			<div id="gameroom-container" class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-controller="GameroomController as grCtrl" ng-show="grCtrl.initial.isStarted" entering="grCtrl.entered()" exiting="grCtrl.exited()">
 				<div id="gameroom-inactive" ng-show="!grCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
 				<div id="gameroom-active" ng-show="grCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<p class="underline">Games Offered: {{grCtrl.gameroomData.numOfGames}} / {{grCtrl.gameroomData.maxGames}}</p>
@@ -119,14 +119,21 @@
 					<button type="button" class="btn btn-info" ng-click="grCtrl.increaseGames()">Buy New Game</button>
 				</div>
 			</div>
-			<div id="office-container" class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-controller="OfficeController as officeCtrl" entering="officeCtrl.entered()" exiting="officeCtrl.exited()">
+			<div id="office-container" class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-controller="OfficeController as officeCtrl" ng-show="officeCtrl.initial.isStarted" entering="officeCtrl.entered()" exiting="officeCtrl.exited()">
 				<div id="office-inactive" ng-show="!officeCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
 				<div id="office-active" ng-show="officeCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<button type="button" class="btn btn-info" ng-click="officeCtrl.changePromo()">Change Promotion</button>
-					<button type="button" class="btn btn-info" ng-click="officeCtrl.produceMovie()">Produce Movie</button>
-					<button type="button" class="btn btn-info" ng-click="officeCtrl.hireEmployee()">Hire Employees</button>
-					<button type="button" class="btn btn-info" ng-click="officeCtrl.fireEmployee()">Fire Employees</button>
+					<button type="button" class="btn btn-info" ng-click="officeCtrl.changePromo()">Change</br>Promotion</button>
+					<button type="button" class="btn btn-info" ng-click="officeCtrl.produceMovie()">Produce</br>Movie</button>
+					<p>Staff Total: {{officeCtrl.employeeData.numOfEmployees}} / {{officeCtrl.employeeData.maxEmployees}} ( {{officeCtrl.employeeData.employeeResult}} )</p>
+					<button type="button" class="btn btn-info" ng-click="officeCtrl.hireEmployee()">Hire</button>
+					<button type="button" class="btn btn-info" ng-click="officeCtrl.fireEmployee()">Fire</button>
 				</div>
+			</div>
+		</div>
+		<div id="level-start-container" class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12">
+			<div id="startModal" ng-controller="StartController as startCtrl" ng-show="!startCtrl.initial.isStarted">
+				<p>Hellow World!</p>
+				<button type="button" class="btn btn-default" ng-click="startCtrl.activateTime(3)">Start</button>
 			</div>
 		</div>
 	</div>
