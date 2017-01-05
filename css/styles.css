@@ -166,8 +166,15 @@ button
 #startModal
 {
 	background-color: rgb(25,74,112);
+	border: 3px solid #FFFFFF;
+	border-radius: 10%;
 	color: #FFFFFF;
 	height: 200px;
+	padding-left: 10px;
+}
+#startModal > p:first-child
+{
+	padding-top: 25px;
 }
 .centered
 {

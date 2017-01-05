@@ -6,7 +6,8 @@ cinemaTycoonApp.factory('gameData', function(){
 	var employ = ["Dismal", "Substandard", "Decent", "Friendly", "Super"];
 	var season = ["Winter", "Spring", "Summer", "Autumn"];
 
-	game.start = false;									// Tracks whether player has started or not.
+	game.initial = {};
+	game.initial.isStarted = false;						// Tracks whether player has started or not.
 
 	game.timeData = {}
 	game.timeData.day = 1;								// Tracks the day of the year.
@@ -54,7 +55,7 @@ cinemaTycoonApp.factory('gameData', function(){
 
 	// Starts game
 	game.startGame = function(speed) {
-		game.start = true;
+		game.initial.isStarted = true;
 	};
 	// Main time-keeping function that serves as a simple game loop.
 	game.newDay = function() {
@@ -180,8 +181,7 @@ cinemaTycoonApp.factory('gameData', function(){
 cinemaTycoonApp.controller('HUDController', ['gameData', function(game) {
 	var self = this;
 
-	self.initial = {};
-	self.initial.isStarted = game.start;
+	self.initial = game.initial;
 	self.timeData = game.timeData;
 	self.miscData = game.miscData;
 	self.theaterData = game.theaterData;
@@ -195,8 +195,7 @@ cinemaTycoonApp.controller('HUDController', ['gameData', function(game) {
 cinemaTycoonApp.controller('FrontDoorController', ['gameData', function(game) {
 	var self = this;
 
-	self.initial = {};
-	self.initial.isStarted = game.start;
+	self.initial = game.initial;
 	self.miscData = game.miscData;
 	self.active = false;
 
@@ -220,8 +219,7 @@ cinemaTycoonApp.controller('FrontDoorController', ['gameData', function(game) {
 cinemaTycoonApp.controller('ParkingLotController', ['gameData', function(game) {
 	var self = this;
 
-	self.initial = {};
-	self.initial.isStarted = game.start;
+	self.initial = game.initial;
 	self.parkingData = game.parkingData;
 	self.active = false;
 
@@ -241,8 +239,7 @@ cinemaTycoonApp.controller('ParkingLotController', ['gameData', function(game) {
 cinemaTycoonApp.controller('SnackController', ['gameData', function(game) {
 	var self = this;
 
-	self.initial = {};
-	self.initial.isStarted = game.start;
+	self.initial = game.initial;
 	self.snackData = game.snackData;
 	self.active = false;
 
@@ -262,8 +259,7 @@ cinemaTycoonApp.controller('SnackController', ['gameData', function(game) {
 cinemaTycoonApp.controller('GameroomController', ['gameData', function(game) {
 	var self = this;
 
-	self.initial = {};
-	self.initial.isStarted = game.start;
+	self.initial = game.initial;
 	self.gameroomData = game.gameroomData;
 	self.active = false;
 
@@ -283,8 +279,7 @@ cinemaTycoonApp.controller('GameroomController', ['gameData', function(game) {
 cinemaTycoonApp.controller('OfficeController', ['gameData', function(game) {
 	var self = this;
 
-	self.initial = {};
-	self.initial.isStarted = game.start;
+	self.initial = game.initial;
 	self.miscData = game.miscData;
 	self.employeeData = game.employeeData;
 	self.active = false;
@@ -309,13 +304,13 @@ cinemaTycoonApp.controller('OfficeController', ['gameData', function(game) {
 cinemaTycoonApp.controller('StartController', ['gameData', '$interval', function(game, $interval) {
 	var self = this;
 
-	self.initial = {};
-	self.initial.isStarted = game.start;
+	self.initial = game.initial;
+
 
 	self.activateTime = function(speed) {
 		console.log("Begin");
 		game.startGame();
-		$Interval(game.newDay(), (1000 * speed));
+		$interval(game.newDay, (1000 * speed));
 	};
 }]);
 
