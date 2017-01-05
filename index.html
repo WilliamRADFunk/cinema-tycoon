@@ -50,6 +50,9 @@
 								<td>Snack Choices: <span class="right">{{hudCtrl.snackData.numOfSnacks}} / {{hudCtrl.snackData.maxSnacks}}</span></td>
 							</tr>
 							<tr>
+								<td>Games Offered: <span class="right">{{hudCtrl.gameroomData.numOfGames}} / {{hudCtrl.gameroomData.maxGames}}</span></td>
+							</tr>
+							<tr>
 								<td>Ticket Price: <span class="right">{{hudCtrl.miscData.ticketPrice | currency}}</span></td>
 							</tr>
 						</tbody>
@@ -59,10 +62,10 @@
 					<table class="table">
 						<tbody>
 							<tr>
-								<td>Total $ from Ticket Sales (yesterday): <span class="right">{{hudCtrl.profitData.profitTicketSales | currency}}</span></td>
+								<td>Total $ from Ticket Sales (last week): <span class="right">{{hudCtrl.profitData.profitTicketSales | currency}}</span></td>
 							</tr>
 							<tr>
-								<td>Total $ from Snack Sales (yesterday): <span class="right">{{hudCtrl.profitData.profitSnackSales | currency}}</span></td>
+								<td>Total $ from Snack Sales (last week): <span class="right">{{hudCtrl.profitData.profitSnackSales | currency}}</span></td>
 							</tr>
 							<tr>
 								<td>Total $ for Expenses (last week): <span class="right">{{hudCtrl.profitData.expenses | currency}}</span></td>
@@ -72,6 +75,9 @@
 							</tr>
 							<tr>
 								<td>Total Employees: <span class="right">{{hudCtrl.employeeData.numOfEmployees}} / {{hudCtrl.employeeData.maxEmployees}} ( {{hudCtrl.employeeData.employeeResult}} )</span></td>
+							</tr>
+							<tr>
+								<td>Parking Levels: <span class="right">{{hudCtrl.parkingData.parkingLevels}} / {{hudCtrl.parkingData.maxParkingLevels}}</span></td>
 							</tr>
 							<tr>
 								<td>Current Promotion: <span class="right">{{hudCtrl.miscData.currentPromotion}}</span></td>
