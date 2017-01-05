@@ -2,6 +2,7 @@ var cinemaTycoonApp = angular.module('cinemaTycoonApp',[]);
 
 cinemaTycoonApp.factory('gameData', function(){
 	var game = {};
+	var basicLeaseRent = 500;
 	var promo = ["None"];
 	var employ = ["Dismal", "Substandard", "Decent", "Friendly", "Super"];
 	var season = ["Winter", "Spring", "Summer", "Autumn"];
@@ -17,22 +18,25 @@ cinemaTycoonApp.factory('gameData', function(){
 	game.miscData = {};
 	game.miscData.balance = 10000;						// Player's bank balance.
 	game.miscData.ticketPrice = 10.00;					// Price of a movie ticket.
-	game.miscData.currentPromotion = promo[0];			// Enum value for marketing promotion.
+	game.miscData.currentPromotionIndex = 0;			// Enum index for marketing promotion.
+	game.miscData.currentPromotion =
+		promo[game.miscData.currentPromotionIndex];		// Enum value for marketing promotion.
+	game.miscData.promotionMultiplier = 500;			// Multiplier for marketing promotions.
 	game.miscData.numOfLicenses = 1;					// Total number of movie licenses currently owned.
 
 	game.theaterData = {};
-	game.theaterData.numOfTheaters = 1;					// Player's total existing theaters.
+	game.theaterData.numOfTheaters = 0;					// Player's total existing theaters.
 	game.theaterData.maxTheaters = 10;					// Maximum number of theaters possible.
 	game.theaterData.newTheaterPriceMultiplier = 1000;	// Multiplier for additional theaters.
 	game.theaterData.totalSeats = 10;					// Total seats (possible tickets) cinema has.	
 
 	game.snackData = {};
-	game.snackData.numOfSnacks = 1;						// Player's total existing snack choices.
-	game.snackData.maxSnacks = 6;						// Maximum number of snacks possible.
+	game.snackData.numOfSnacks = 0;						// Player's total existing snack choices.
+	game.snackData.maxSnacks = 5;						// Maximum number of snacks possible.
 	game.snackData.newSnackPriceMultiplier = 500;		// Multiplier for additional snacks.
 
 	game.gameroomData = {};
-	game.gameroomData.numOfGames = 1;					// Player's total existing game choices.
+	game.gameroomData.numOfGames = 0;					// Player's total existing game choices.
 	game.gameroomData.maxGames = 5;						// Maximum number of games possible.
 	game.gameroomData.newGamePriceMultiplier = 1000;	// Multiplier for additional games.
 
@@ -40,10 +44,10 @@ cinemaTycoonApp.factory('gameData', function(){
 	game.employeeData.numOfEmployees = 1;				// Player's current number of employed workers.
 	game.employeeData.maxEmployees = 5;					// Maximum number of employees possible.
 	game.employeeData.employeeResult = employ[0];		// Description of employee amount.
-	game.employeeData.employeeCostMultiplier = 750;		// Multiplier for employees on payday.
+	game.employeeData.employeeCostMultiplier = 500;		// Multiplier for employees on payday.
 	
 	game.parkingData = {};
-	game.parkingData.parkingLevels = 1;					// Current parking lot capacity level.
+	game.parkingData.parkingLevels = 0;					// Current parking lot capacity level.
 	game.parkingData.maxParkingLevels = 10;				// Maximum number of parking levels possible.
 	game.parkingData.parkingExpandCost = 2000			// Cost multiplier to expand local parking space.
 
@@ -61,6 +65,19 @@ cinemaTycoonApp.factory('gameData', function(){
 	game.newDay = function() {
 		console.log("Checking in");
 		// TODO: Tally expenses for that day.
+		if(game.timeData.day % 7 === 0)
+		{
+			var expenses = ( basicLeaseRent +
+				(game.theaterData.numOfTheaters * (0.25 * game.theaterData.newTheaterPriceMultiplier)) +
+				(game.snackData.numOfSnacks * (0.10 * game.snackData.newSnackPriceMultiplier)) +
+				(game.gameroomData.numOfGames * (0.10 * game.gameroomData.newGamePriceMultiplier)) +
+				(game.employeeData.numOfEmployees * game.employeeData.employeeCostMultiplier) +
+				(game.parkingData.parkingLevels * (0.15 * game.parkingData.parkingExpandCost)) +
+				(game.miscData.currentPromotionIndex * game.miscData.promotionMultiplier)
+			);
+			game.profitData.expenses = expenses;
+			game.miscData.balance -= expenses;
+		}
 		if(game.timeData.day === 365)
 		{
 			game.timeData.day = 1;
@@ -310,7 +327,7 @@ cinemaTycoonApp.controller('StartController', ['gameData', '$interval', function
 	self.activateTime = function(speed) {
 		console.log("Begin");
 		game.startGame();
-		$interval(game.newDay, (1000 * speed));
+		self.intervalPromise = $interval(game.newDay, (1000 * speed));
 	};
 }]);
 

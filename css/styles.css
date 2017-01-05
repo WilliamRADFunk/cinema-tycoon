@@ -140,6 +140,24 @@ button
 		/* Image from: https://openclipart.org/user-detail/Moini */
 		background: url("../images/blank.png") no-repeat center center;
 	}
+	#startModal
+	{
+		background-color: rgb(25,74,112);
+		border: 3px solid #FFFFFF;
+		border-radius: 10%;
+		color: #FFFFFF;
+		font-size: 12px;
+		height: 300px;
+		padding: 0px 10px;
+	}
+	#startModal > p:first-child
+	{
+		padding-top: 25px;
+	}
+	#startModal > button
+	{
+		margin-top: 20px;
+	}
 }
 @media (min-width: 500px) {
 	#hud
@@ -163,18 +181,11 @@ button
 		background: url("../images/blank-long.png") no-repeat center center;
 	}
 }
-#startModal
-{
-	background-color: rgb(25,74,112);
-	border: 3px solid #FFFFFF;
-	border-radius: 10%;
-	color: #FFFFFF;
-	height: 200px;
-	padding-left: 10px;
-}
-#startModal > p:first-child
-{
-	padding-top: 25px;
+@media (min-width: 1200px) {
+	#startModal
+	{
+		font-size: 14px;
+	}
 }
 .centered
 {
