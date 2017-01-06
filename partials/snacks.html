@@ -1,4 +1,4 @@
-<div id="snack-container" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-controller="SnackController as snackCtrl" ng-show="snackCtrl.initial.isStarted" entering="snackCtrl.entered()" exiting="snackCtrl.exited()">
+<div id="snack-container" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-controller="SnackController as snackCtrl" ng-show="snackCtrl.state.isStarted" entering="snackCtrl.entered()" exiting="snackCtrl.exited()">
 	<div id="snack-inactive" ng-show="!snackCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
 	<div id="snack-active" ng-show="snackCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 		<p class="underline">Snacks Offered: {{snackCtrl.snackData.numOfSnacks}} / {{snackCtrl.snackData.maxSnacks}}</p>

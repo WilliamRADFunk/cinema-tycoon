@@ -1,6 +1,6 @@
 cinemaTycoonApp.factory('gameData', function(){
 	var game = {};
-	var basicLeaseRent = 500;
+	var basicLeaseRent = 1000;
 	var promo = ["None"];
 	var employ = ["Dismal", "Substandard", "Decent", "Friendly", "Super"];
 	var season = ["Winter", "Spring", "Summer", "Autumn"];
@@ -8,8 +8,9 @@ cinemaTycoonApp.factory('gameData', function(){
 	var weekSnackProfits = 0;
 	var weekGamesProfits = 0;
 
-	game.initial = {};
-	game.initial.isStarted = false;						// Tracks whether player has started or not.
+	game.state = {};
+	game.state.isStarted = false;						// Tracks whether player has started or not.
+	game.state.isPaused = false;						// Tracks whether player has paused game.
 
 	game.timeData = {}
 	game.timeData.day = 1;								// Tracks the day of the year.
@@ -59,12 +60,13 @@ cinemaTycoonApp.factory('gameData', function(){
 	game.profitData = {};
 	game.profitData.profitTicketSales = 0.0;			// Tally of total ticket's sold at cost in last period.
 	game.profitData.profitSnackSales = 0.0;				// Tally of total snacks sold at cost in last period.
+	game.profitData.profitGamesSales = 0.0;				// Tally of total games sold at cost in last period.
 	game.profitData.expenses = 0.0;						// Total cost of running theater in last period.
 	game.profitData.netProfit = 0.0;					// Total profit/loss for the last period.
 
 	// Starts game
 	game.startGame = function(speed) {
-		game.initial.isStarted = true;
+		game.state.isStarted = true;
 		game.addTheater(); // TODO: Delete this chunk after done testing.
 	};
 	// Main time-keeping function that serves as a simple game loop.
@@ -80,7 +82,7 @@ cinemaTycoonApp.factory('gameData', function(){
 			game.miscData.balance -= expenses;
 			game.profitData.profitTicketSales = weekTicketProfits;
 			game.profitData.profitSnackSales = weekSnackProfits;
-			game.profitData.profitSnackSales = weekGamesProfits;
+			game.profitData.profitGamesSales = weekGamesProfits;
 			game.profitData.netProfit = weekTicketProfits + weekSnackProfits + weekGamesProfits - expenses;
 			weekTicketProfits = 0;
 			weekSnackProfits = 0;
@@ -214,9 +216,16 @@ cinemaTycoonApp.factory('gameData', function(){
 		// Initial ticket sale modifier before pros and cons are weighed.
 		var dailyPatronModifier = (Math.random() + 0.01);
 		// Additional parking encourages patronage.
-		dailyPatronModifier += game.parkingData.parkingLevels + 0.01;
+		dailyPatronModifier += game.parkingData.parkingLevels * 0.01;
 		// More employees means better service and cleaner establishment = more patrons.
-		dailyPatronModifier *= (game.employeeData.numOfEmployees / (game.employeeData.maxEmployees / 2));
+		if((game.employeeData.numOfEmployees / (game.employeeData.maxEmployees / 2.0)) < 1)
+		{
+			dailyPatronModifier -= (game.employeeData.numOfEmployees / (game.employeeData.maxEmployees / 2.0)) * 0.1;
+		}
+		else if((game.employeeData.numOfEmployees / (game.employeeData.maxEmployees / 2.0)) > 1)
+		{
+			dailyPatronModifier += ((game.employeeData.numOfEmployees / (game.employeeData.maxEmployees / 2.0)) - 1) * 0.01;
+		}
 		// Ticket price has direct impact on patronage.
 		if(game.miscData.ticketPrice < 5) dailyPatronModifier += 0.05;
 		else if(game.miscData.ticketPrice >= 5 && game.miscData.ticketPrice < 7.5) dailyPatronModifier += 0.025;
@@ -232,20 +241,30 @@ cinemaTycoonApp.factory('gameData', function(){
 		{
 			ticketsSoldToday += game.theaterData.theatersOwned[i].getTicketsSold(dailyPatronModifier, game.timeData.seasonIndex);
 		}
-		// 5 showings a day
-		ticketsSoldToday *= 5;
+		// 3 showings a day
+		ticketsSoldToday *= 3;
 		dailyProfit = ticketsSoldToday * game.miscData.ticketPrice;
 		weekTicketProfits += dailyProfit;
 
 		// Based on ticket sales, how many snacks were purchased.
-		// TODO: Snacks.
 		var snackProfit = 0;
+		var priceModifier = 1;
+		for(var i = 0; i < game.snackData.numOfSnacks; i++)
+		{
+			var rando = (Math.floor((Math.random() * 10) + 1)) * 0.1; // Keeping snack purchases 10%, 20%...100% of ticket sales.
+			snackProfit += rando * ticketsSoldToday * (priceModifier + (i*0.5)); // Each snack is $0.5 more expensive than last.
+		}
 		dailyProfit += snackProfit;
 		weekSnackProfits += snackProfit;
 
 		// Based on ticket sales, how many games were played.
-		// TODO: Games.
 		var gamesProfit = 0;
+		var priceModifier = 0.25;
+		for(var i = 0; i < game.gameroomData.numOfGames; i++)
+		{
+			var rando = (Math.floor((Math.random() * 10) + 1)) * 0.1; // Keeping games purchases 10%, 20%...100% of ticket sales.
+			gamesProfit += rando * ticketsSoldToday * (priceModifier + (i*0.25)); // Each game is $0.25 more expensive than last.
+		}
 		dailyProfit += gamesProfit;
 		weekGamesProfits += gamesProfit;
 
@@ -253,11 +272,11 @@ cinemaTycoonApp.factory('gameData', function(){
 	};
 	calculateWeeklyExpenses = function() {
 		return  ( basicLeaseRent +
-				(game.theaterData.numOfTheaters * (0.25 * game.theaterData.newTheaterPriceMultiplier)) +
-				(game.snackData.numOfSnacks * (0.10 * game.snackData.newSnackPriceMultiplier)) +
-				(game.gameroomData.numOfGames * (0.10 * game.gameroomData.newGamePriceMultiplier)) +
+				(game.theaterData.numOfTheaters * (0.75 * game.theaterData.newTheaterPriceMultiplier)) +
+				(game.snackData.numOfSnacks * (0.25 * game.snackData.newSnackPriceMultiplier)) +
+				(game.gameroomData.numOfGames * (0.25 * game.gameroomData.newGamePriceMultiplier)) +
 				(game.employeeData.numOfEmployees * game.employeeData.employeeCostMultiplier) +
-				(game.parkingData.parkingLevels * (0.15 * game.parkingData.parkingExpandCost)) +
+				(game.parkingData.parkingLevels * (0.25 * game.parkingData.parkingExpandCost)) +
 				(game.miscData.currentPromotionIndex * game.miscData.promotionMultiplier) );
 	};
 	// Pass one-way data to those dependent on the service.

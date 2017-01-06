@@ -3,7 +3,7 @@
 cinemaTycoonApp.controller('HUDController', ['gameData', function(game) {
 	var self = this;
 
-	self.initial = game.initial;
+	self.state = game.state;
 	self.timeData = game.timeData;
 	self.miscData = game.miscData;
 	self.theaterData = game.theaterData;
@@ -18,7 +18,7 @@ cinemaTycoonApp.controller('HUDController', ['gameData', function(game) {
 cinemaTycoonApp.controller('FrontDoorController', ['gameData', function(game) {
 	var self = this;
 
-	self.initial = game.initial;
+	self.state = game.state;
 	self.miscData = game.miscData;
 	self.active = false;
 
@@ -42,7 +42,7 @@ cinemaTycoonApp.controller('FrontDoorController', ['gameData', function(game) {
 cinemaTycoonApp.controller('ParkingLotController', ['gameData', function(game) {
 	var self = this;
 
-	self.initial = game.initial;
+	self.state = game.state;
 	self.parkingData = game.parkingData;
 	self.active = false;
 
@@ -62,7 +62,7 @@ cinemaTycoonApp.controller('ParkingLotController', ['gameData', function(game) {
 cinemaTycoonApp.controller('SnackController', ['gameData', function(game) {
 	var self = this;
 
-	self.initial = game.initial;
+	self.state = game.state;
 	self.snackData = game.snackData;
 	self.active = false;
 
@@ -82,7 +82,7 @@ cinemaTycoonApp.controller('SnackController', ['gameData', function(game) {
 cinemaTycoonApp.controller('GameroomController', ['gameData', function(game) {
 	var self = this;
 
-	self.initial = game.initial;
+	self.state = game.state;
 	self.gameroomData = game.gameroomData;
 	self.active = false;
 
@@ -102,7 +102,7 @@ cinemaTycoonApp.controller('GameroomController', ['gameData', function(game) {
 cinemaTycoonApp.controller('OfficeController', ['gameData', function(game) {
 	var self = this;
 
-	self.initial = game.initial;
+	self.state = game.state;
 	self.miscData = game.miscData;
 	self.employeeData = game.employeeData;
 	self.active = false;
@@ -127,10 +127,27 @@ cinemaTycoonApp.controller('OfficeController', ['gameData', function(game) {
 cinemaTycoonApp.controller('StartController', ['gameData', '$interval', function(game, $interval) {
 	var self = this;
 
-	self.initial = game.initial;
+	self.state = game.state;
+	self.intervalPromise;
+	self.speed;
 
 	self.activateTime = function(speed) {
 		game.startGame();
-		self.intervalPromise = $interval(game.newDay, (1000 * speed));
+		self.speed = speed;
+		self.intervalPromise = $interval(game.newDay, (1000 * self.speed));
+	};
+
+	self.pauseTime = function() {
+		game.state.isPaused = true;
+		var cancelSucceeded = false;
+		do
+		{
+			cancelSucceeded = $interval.cancel(self.intervalPromise);
+		} while(!cancelSucceeded);
+	};
+
+	self.unpauseTime = function() {
+		game.state.isPaused = false;
+		self.intervalPromise = $interval(game.newDay, (1000 * self.speed));
 	};
 }]);

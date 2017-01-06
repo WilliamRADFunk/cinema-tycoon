@@ -1,4 +1,4 @@
-<div id="ticket-booth-container" class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-controller="FrontDoorController as fdCtrl" ng-show="fdCtrl.initial.isStarted" entering="fdCtrl.entered()" exiting="fdCtrl.exited()">
+<div id="ticket-booth-container" class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-controller="FrontDoorController as fdCtrl" ng-show="fdCtrl.state.isStarted" entering="fdCtrl.entered()" exiting="fdCtrl.exited()">
 	<div id="ticket-booth-inactive" ng-show="!fdCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
 	<div id="ticket-booth-active" ng-show="fdCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 		<p class="underline">Ticket Price</p>

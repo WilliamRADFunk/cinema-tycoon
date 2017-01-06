@@ -51,6 +51,7 @@ button
 #hud > div:first-child
 {
 	padding-bottom: 20px;
+	padding-top: 10px;
 }
 #hud > div.table-responsive
 {
@@ -120,6 +121,14 @@ button
 	/* Image from: https://openclipart.org/user-detail/Moini */
 	background: url("../images/blank.png") no-repeat center center;
 	padding-top: 45px;
+}
+#pause.btn,
+#play.btn
+{
+	height: 20px;
+	margin-bottom: -22px;
+	padding-top: 0px;
+	padding-bottom: 21px;
 }
 @media (min-width: 300px) {
 	#hud
