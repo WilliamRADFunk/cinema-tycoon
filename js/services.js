@@ -11,6 +11,7 @@ cinemaTycoonApp.factory('gameData', function(){
 	game.state = {};
 	game.state.isStarted = false;						// Tracks whether player has started or not.
 	game.state.isPaused = false;						// Tracks whether player has paused game.
+	game.state.isHelp = false;							// Tracks whether player is in help modal.
 
 	game.timeData = {}
 	game.timeData.day = 1;								// Tracks the day of the year.
@@ -68,6 +69,16 @@ cinemaTycoonApp.factory('gameData', function(){
 	game.startGame = function(speed) {
 		game.state.isStarted = true;
 		game.addTheater(); // TODO: Delete this chunk after done testing.
+	};
+	// Pauses and unpauses game
+	game.pause = function(pause) {
+		game.state.isPaused = pause;
+		console.log("game is paused: " + game.state.isPaused);
+	};
+	// Changes help mode
+	game.help = function(help) {
+		game.state.isHelp = help;
+		console.log("need help: " + game.state.isHelp);
 	};
 	// Main time-keeping function that serves as a simple game loop.
 	game.newDay = function() {

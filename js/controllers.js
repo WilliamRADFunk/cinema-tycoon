@@ -138,7 +138,8 @@ cinemaTycoonApp.controller('StartController', ['gameData', '$interval', function
 	};
 
 	self.pauseTime = function() {
-		game.state.isPaused = true;
+		if(self.state.isPaused) return;
+		game.pause(true);
 		var cancelSucceeded = false;
 		do
 		{
@@ -147,12 +148,18 @@ cinemaTycoonApp.controller('StartController', ['gameData', '$interval', function
 	};
 
 	self.unpauseTime = function() {
-		game.state.isPaused = false;
+		if(!self.state.isPaused) return;
+		game.pause(false);
 		self.intervalPromise = $interval(game.newDay, (1000 * self.speed));
 	};
 
 	self.needHelp = function() {
-		game.state.isPaused = true;
+		game.help(true);
 		self.pauseTime();
+	};
+
+	self.exitHelp = function() {
+		game.help(false);
+		self.unpauseTime();
 	};
 }]);
