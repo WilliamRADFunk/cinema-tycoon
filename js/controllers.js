@@ -150,4 +150,9 @@ cinemaTycoonApp.controller('StartController', ['gameData', '$interval', function
 		game.state.isPaused = false;
 		self.intervalPromise = $interval(game.newDay, (1000 * self.speed));
 	};
+
+	self.needHelp = function() {
+		game.state.isPaused = true;
+		self.pauseTime();
+	};
 }]);

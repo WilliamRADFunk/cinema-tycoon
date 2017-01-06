@@ -7,7 +7,8 @@
 		<button type="button" class="btn btn-default col-lg-2 col-lg-offset-5 col-md-2 col-md-offset-5 col-sm-2 col-sm-offset-5 col-xs-4 col-xs-offset-4" ng-click="startCtrl.activateTime(3)">Start</button>
 	</div>
 	<div ng-show="startCtrl.state.isStarted">
-		<button id="pause" type="button" class="btn btn-info glyphicon glyphicon-pause col-lg-2 col-lg-offset-5 col-md-2 col-md-offset-5 col-sm-2 col-sm-offset-5 col-xs-2 col-xs-offset-5" ng-show="!startCtrl.state.isPaused" ng-click="startCtrl.pauseTime()"></button>
+		<button id="pause" type="button" class="btn btn-info glyphicon glyphicon-pause col-lg-1 col-lg-offset-4 col-md-1 col-md-offset-4 col-sm-1 col-sm-offset-4 col-xs-1 col-xs-offset-4" ng-show="!startCtrl.state.isPaused" ng-click="startCtrl.pauseTime()"></button>
+		<button id="help" type="button" class="btn btn-info glyphicon glyphicon-question-sign col-lg-1 col-lg-offset-2 col-md-1 col-md-offset-2 col-sm-1 col-sm-offset-2 col-xs-1 col-xs-offset-2" ng-show="!startCtrl.state.isPaused" ng-click="startCtrl.needHelp()"></button>
 		<button id="play" type="button" class="btn btn-info glyphicon glyphicon-play col-lg-2 col-lg-offset-5 col-md-2 col-md-offset-5 col-sm-2 col-sm-offset-5 col-xs-2 col-xs-offset-5" ng-show="startCtrl.state.isPaused" ng-click="startCtrl.unpauseTime()"></button>
 	</div>
 </div>

@@ -123,12 +123,14 @@ button
 	padding-top: 45px;
 }
 #pause.btn,
-#play.btn
+#play.btn,
+#help.btn
 {
 	height: 20px;
 	margin-bottom: -22px;
 	padding-top: 0px;
 	padding-bottom: 21px;
+	z-index: 2;
 }
 @media (min-width: 300px) {
 	#hud
