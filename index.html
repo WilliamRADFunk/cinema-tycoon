@@ -26,124 +26,20 @@
 <body>
 	<div class="container" ng-app="cinemaTycoonApp">
 		<div id="header" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">Cinema Tycoon<h6>a <a href="http://www.williamrobertfunk.com/" target="_blank">William Robert Funk</a> creation</h6></div>
-		<div id="hud-container" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-controller="HUDController as hudCtrl" ng-show="hudCtrl.initial.isStarted">
-			<div id="hud" class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
-				<div class="centered col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
-					--- Day: {{hudCtrl.timeData.day}} -- Season: {{hudCtrl.timeData.season}} -- Year: {{hudCtrl.timeData.year}} ---
-				</div>
-				<div class="table-responsive col-lg-6 col-md-6 col-sm-12 col-xs-12">
-					<table class="table">
-						<tbody>
-							<tr>
-								<td>Bank: <span class="right">{{hudCtrl.miscData.balance | currency}}</span></td>
-							</tr>
-							<tr>
-								<td>Theaters: <span class="right">{{hudCtrl.theaterData.numOfTheaters}} / {{hudCtrl.theaterData.maxTheaters}}</span></td>
-							</tr>
-							<tr>
-								<td>Total Seats: <span class="right">{{hudCtrl.theaterData.totalSeats}} / {{hudCtrl.theaterData.numOfTheaters * 100}}</span></td>
-							</tr>
-							<tr>
-								<td>Total Licenses: <span class="right">{{hudCtrl.miscData.numOfLicenses}}</span></td>
-							</tr>
-							<tr>
-								<td>Snack Choices: <span class="right">{{hudCtrl.snackData.numOfSnacks}} / {{hudCtrl.snackData.maxSnacks}}</span></td>
-							</tr>
-							<tr>
-								<td>Games Offered: <span class="right">{{hudCtrl.gameroomData.numOfGames}} / {{hudCtrl.gameroomData.maxGames}}</span></td>
-							</tr>
-							<tr>
-								<td>Ticket Price: <span class="right">{{hudCtrl.miscData.ticketPrice | currency}}</span></td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-				<div class="table-responsive col-lg-6 col-md-6 col-sm-12 col-xs-12">
-					<table class="table">
-						<tbody>
-							<tr>
-								<td>Total $ from Ticket Sales (last week): <span class="right">{{hudCtrl.profitData.profitTicketSales | currency}}</span></td>
-							</tr>
-							<tr>
-								<td>Total $ from Snack Sales (last week): <span class="right">{{hudCtrl.profitData.profitSnackSales | currency}}</span></td>
-							</tr>
-							<tr>
-								<td>Total $ for Expenses (last week): <span class="right">{{hudCtrl.profitData.expenses | currency}}</span></td>
-							</tr>
-							<tr>
-								<td>Total $ in Profit/Loss (last week): <span class="right">{{hudCtrl.profitData.netProfit | currency}}</span></td>
-							</tr>
-							<tr>
-								<td>Total Employees: <span class="right">{{hudCtrl.employeeData.numOfEmployees}} / {{hudCtrl.employeeData.maxEmployees}} ( {{hudCtrl.employeeData.employeeResult}} )</span></td>
-							</tr>
-							<tr>
-								<td>Parking Levels: <span class="right">{{hudCtrl.parkingData.parkingLevels}} / {{hudCtrl.parkingData.maxParkingLevels}}</span></td>
-							</tr>
-							<tr>
-								<td>Current Promotion: <span class="right">{{hudCtrl.miscData.currentPromotion}}</span></td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
+		<div ng-include src="'partials/hud.html'"></div>
 		<div id="level-1-container" class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
-			<div id="ticket-booth-container" class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-controller="FrontDoorController as fdCtrl" ng-show="fdCtrl.initial.isStarted" entering="fdCtrl.entered()" exiting="fdCtrl.exited()">
-				<div id="ticket-booth-inactive" ng-show="!fdCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
-				<div id="ticket-booth-active" ng-show="fdCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<p class="underline">Ticket Price</p>
-					<p ng-bind="fdCtrl.miscData.ticketPrice | currency"></p>
-					<button type="button" class="btn btn-info" ng-click="fdCtrl.lowerTicketPrice()">Reduce Price</button>
-					<button type="button" class="btn btn-info" ng-click="fdCtrl.raiseTicketPrice()">Increase Price</button>
-				</div>
-			</div>
-			<div id="parking-container" class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-controller="ParkingLotController as parkCtrl" ng-show="parkCtrl.initial.isStarted" entering="parkCtrl.entered()" exiting="parkCtrl.exited()">
-				<div id="parking-inactive" ng-show="!parkCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
-				<div id="parking-active" ng-show="parkCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<p>Current Parking Level: {{parkCtrl.parkingData.parkingLevels}} / {{parkCtrl.parkingData.maxParkingLevels}}</p>
-					<p class="underline">Cost to Expand: {{ (parkCtrl.parkingData.parkingLevels + 1) * parkCtrl.parkingData.parkingExpandCost | currency}}</p>
-					<button type="button" class="btn btn-info" ng-click="parkCtrl.expandParking()">Expand Parking Lot</button>
-				</div>
-			</div>
+			<div ng-include src="'partials/ticket-booth.html'"></div>
+			<div ng-include src="'partials/parking.html'"></div>
 		</div>
 		<div id="level-2-container" class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
-			<div id="snack-container" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-controller="SnackController as snackCtrl" ng-show="snackCtrl.initial.isStarted" entering="snackCtrl.entered()" exiting="snackCtrl.exited()">
-				<div id="snack-inactive" ng-show="!snackCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
-				<div id="snack-active" ng-show="snackCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<p class="underline">Snacks Offered: {{snackCtrl.snackData.numOfSnacks}} / {{snackCtrl.snackData.maxSnacks}}</p>
-					<p class="underline">Cost to Expand: {{ (snackCtrl.snackData.numOfSnacks + 1) * snackCtrl.snackData.newSnackPriceMultiplier | currency}}</p>
-					<button type="button" class="btn btn-info" ng-click="snackCtrl.increaseSnacks()">Buy New Snack</button>
-				</div>
-			</div>
+			<div ng-include src="'partials/snacks.html'"></div>
 		</div>
 		<div id="level-3-container" class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
-			<div id="gameroom-container" class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-controller="GameroomController as grCtrl" ng-show="grCtrl.initial.isStarted" entering="grCtrl.entered()" exiting="grCtrl.exited()">
-				<div id="gameroom-inactive" ng-show="!grCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
-				<div id="gameroom-active" ng-show="grCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<p class="underline">Games Offered: {{grCtrl.gameroomData.numOfGames}} / {{grCtrl.gameroomData.maxGames}}</p>
-					<p class="underline">Cost to Expand: {{ (grCtrl.gameroomData.numOfGames + 1) * grCtrl.gameroomData.newGamePriceMultiplier | currency}}</p>
-					<button type="button" class="btn btn-info" ng-click="grCtrl.increaseGames()">Buy New Game</button>
-				</div>
-			</div>
-			<div id="office-container" class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-controller="OfficeController as officeCtrl" ng-show="officeCtrl.initial.isStarted" entering="officeCtrl.entered()" exiting="officeCtrl.exited()">
-				<div id="office-inactive" ng-show="!officeCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
-				<div id="office-active" ng-show="officeCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<button type="button" class="btn btn-info" ng-click="officeCtrl.changePromo()">Change</br>Promotion</button>
-					<button type="button" class="btn btn-info" ng-click="officeCtrl.produceMovie()">Produce</br>Movie</button>
-					<p>Staff Total: {{officeCtrl.employeeData.numOfEmployees}} / {{officeCtrl.employeeData.maxEmployees}} ( {{officeCtrl.employeeData.employeeResult}} )</p>
-					<button type="button" class="btn btn-info" ng-click="officeCtrl.hireEmployee()">Hire</button>
-					<button type="button" class="btn btn-info" ng-click="officeCtrl.fireEmployee()">Fire</button>
-				</div>
-			</div>
+			<div ng-include src="'partials/gameroom.html'"></div>
+			<div ng-include src="'partials/office.html'"></div>
 		</div>
 		<div id="level-start-container" class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12">
-			<div id="startModal" ng-controller="StartController as startCtrl" ng-show="!startCtrl.initial.isStarted">
-				<p>Welcome to Cinema Tycoon!</p>
-				<p>As an up-and-coming entrepreneur and aficionado of the silver screen, you've recently leased a chunk of mall real-estate for the purpose of running a movie theater.</p>
-				<p>One day, if you play your cards right, you could even produce your <i>own</i> films.</p>
-				<p>Whether you play it fast and loose, or cautiously slow, your ultimate goal is to turn your seed money into a million dollars. Do that, and you've won. Drop more than $1,000 in debt and the landowner will pull your lease.</p>
-				<button type="button" class="btn btn-default col-lg-2 col-lg-offset-5 col-md-2 col-md-offset-5 col-sm-2 col-sm-offset-5 col-xs-4 col-xs-offset-4" ng-click="startCtrl.activateTime(3)">Start</button>
-			</div>
+			<div ng-include src="'partials/start.html'"></div>
 		</div>
 	</div>
 </body>

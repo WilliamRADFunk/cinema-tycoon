@@ -1,0 +1,8 @@
+<div id="gameroom-container" class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-controller="GameroomController as grCtrl" ng-show="grCtrl.initial.isStarted" entering="grCtrl.entered()" exiting="grCtrl.exited()">
+	<div id="gameroom-inactive" ng-show="!grCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
+	<div id="gameroom-active" ng-show="grCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		<p class="underline">Games Offered: {{grCtrl.gameroomData.numOfGames}} / {{grCtrl.gameroomData.maxGames}}</p>
+		<p class="underline">Cost to Expand: {{ (grCtrl.gameroomData.numOfGames + 1) * grCtrl.gameroomData.newGamePriceMultiplier | currency}}</p>
+		<button type="button" class="btn btn-info" ng-click="grCtrl.increaseGames()">Buy New Game</button>
+	</div>
+</div>

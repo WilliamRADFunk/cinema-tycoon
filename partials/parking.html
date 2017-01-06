@@ -1,0 +1,8 @@
+<div id="parking-container" class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-controller="ParkingLotController as parkCtrl" ng-show="parkCtrl.initial.isStarted" entering="parkCtrl.entered()" exiting="parkCtrl.exited()">
+	<div id="parking-inactive" ng-show="!parkCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
+	<div id="parking-active" ng-show="parkCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		<p>Current Parking Level: {{parkCtrl.parkingData.parkingLevels}} / {{parkCtrl.parkingData.maxParkingLevels}}</p>
+		<p class="underline">Cost to Expand: {{ (parkCtrl.parkingData.parkingLevels + 1) * parkCtrl.parkingData.parkingExpandCost | currency}}</p>
+		<button type="button" class="btn btn-info" ng-click="parkCtrl.expandParking()">Expand Parking Lot</button>
+	</div>
+</div>
