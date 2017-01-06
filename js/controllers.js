@@ -123,6 +123,22 @@ cinemaTycoonApp.controller('OfficeController', ['gameData', function(game) {
 		self.active = false;
 	};
 }]);
+// Main function is to handle salon details (buy seats, upgrade screen, change movie).
+cinemaTycoonApp.controller('SalonController', ['gameData', function(game) {
+	var self = this;
+
+	self.state = game.state;
+	self.theaterData = game.theaterData;
+	self.active = false;
+
+	self.entered = function() {
+		self.active = true;
+	};
+
+	self.exited = function() {
+		self.active = false;
+	};
+}]);
 // Main function is to instigate the game timer.
 cinemaTycoonApp.controller('StartController', ['gameData', '$interval', function(game, $interval) {
 	var self = this;
