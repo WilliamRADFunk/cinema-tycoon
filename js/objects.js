@@ -1,4 +1,4 @@
-var createTheater = function() {
+var createSalon = function() {
 	var seats = 10;
 	var seatCost = 200;
 	var maxSeats = 100;
@@ -54,6 +54,9 @@ var createTheater = function() {
 				return balance;
 			}
 		},
+		getSeatCost: function(quantity) {
+			return (seatCost * quantity);
+		},
 		getProjectorLevel: function() {
 			return projectorLevel;
 		},
@@ -93,7 +96,7 @@ var createTheater = function() {
 				isMoviePlaying = false;
 				return;
 			}
-			// Ensures only legit movies make it into the theater itself.
+			// Ensures only legit movies make it into the salon itself.
 			if(movie.title === undefined || movie.title === null || movie.title === "") return;
 			if(movie.synopsis === undefined || movie.synopsis === null || movie.synopsis === "") return;
 			if(movie.expectedPopularity === undefined || movie.expectedPopularity === null || movie.expectedPopularity < 0 || movie.expectedPopularity > 1) return;

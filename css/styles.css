@@ -12,9 +12,20 @@ body
 	padding: 0;
 	width: 100%;
 }
-button
+button,
+select,
+input
 {
 	color: #000000;
+}
+input[type='number']
+{
+	text-align: center;
+}
+select
+{
+	height: 26px;
+	width: 40px;
 }
 #header
 {
@@ -241,4 +252,11 @@ button
 .right
 {
 	float: right;
+}
+.btn.btn-flat
+{
+	height: 26px;
+	margin-bottom: 3px;
+	padding-bottom: 0px;
+	padding-top: 0px;
 }

@@ -29,13 +29,13 @@ cinemaTycoonApp.factory('gameData', function(){
 	game.miscData.promotionMultiplier = 500;			// Multiplier for marketing promotions.
 	game.miscData.numOfLicenses = 1;					// Total number of movie licenses currently owned.
 
-	game.theaterData = {};
-	game.theaterData.theatersOwned = [];				// Contains the actual theater objects.
-	game.theaterData.numOfTheaters =
-		game.theaterData.theatersOwned.length;			// Player's total existing theaters.
-	game.theaterData.maxTheaters = 10;					// Maximum number of theaters possible.
-	game.theaterData.newTheaterPriceMultiplier = 1000;	// Multiplier for additional theaters.
-	game.theaterData.totalSeats = 0;					// Total seats (possible tickets) cinema has.	
+	game.salonData = {};
+	game.salonData.salonsOwned = [];					// Contains the actual salon objects.
+	game.salonData.numOfSalons =
+		game.salonData.salonsOwned.length;				// Player's total existing salons.
+	game.salonData.maxSalons = 10;						// Maximum number of salons possible.
+	game.salonData.newSalonPriceMultiplier = 1000;		// Multiplier for additional salons.
+	game.salonData.totalSeats = 0;						// Total seats (possible tickets) cinema has.	
 
 	game.snackData = {};
 	game.snackData.numOfSnacks = 0;						// Player's total existing snack choices.
@@ -62,13 +62,12 @@ cinemaTycoonApp.factory('gameData', function(){
 	game.profitData.profitTicketSales = 0.0;			// Tally of total ticket's sold at cost in last period.
 	game.profitData.profitSnackSales = 0.0;				// Tally of total snacks sold at cost in last period.
 	game.profitData.profitGamesSales = 0.0;				// Tally of total games sold at cost in last period.
-	game.profitData.expenses = 0.0;						// Total cost of running theater in last period.
+	game.profitData.expenses = 0.0;						// Total cost of running cinema in last period.
 	game.profitData.netProfit = 0.0;					// Total profit/loss for the last period.
 
 	// Starts game
 	game.startGame = function(speed) {
 		game.state.isStarted = true;
-		game.addTheater(); // TODO: Delete this chunk after done testing.
 	};
 	// Pauses and unpauses game
 	game.pause = function(pause) {
@@ -126,29 +125,32 @@ cinemaTycoonApp.factory('gameData', function(){
 		game.miscData.ticketPrice += 0.10;
 		if(game.miscData.ticketPrice >= 100) game.miscData.ticketPrice = 100.0;
 	};
-	// Adds a theater iff player has the money.
-	game.addTheater = function() {
-		if(game.theaterData.numOfTheaters >= game.theaterData.maxTheaters)
+	// Adds a salon iff player has the money.
+	game.addSalon = function() {
+		if(game.salonData.numOfSalons >= game.salonData.maxSalons)
 		{
-			game.theaterData.numOfTheaters = game.theaterData.maxTheaters;
+			game.salonData.numOfSalons = game.salonData.maxSalons;
+			return false;
 		}
 		else
 		{
-			var cost = (game.theaterData.numOfTheaters + 1) * game.theaterData.newTheaterPriceMultiplier;
+			var cost = (game.salonData.numOfSalons + 1) * game.salonData.newSalonPriceMultiplier;
 			if( cost <= game.miscData.balance)
 			{
-				var salon = createTheater();
-				game.theaterData.theatersOwned.push(salon);
-				game.theaterData.numOfTheaters = game.theaterData.theatersOwned.length;
-				var totalSeats = 0;
-				for(var i = 0; i < game.theaterData.theatersOwned.length; i++)
-				{
-					totalSeats += game.theaterData.theatersOwned[i].getSeats();
-				}
-				game.theaterData.totalSeats = totalSeats;
+				var salon = createSalon();
+				game.salonData.salonsOwned.push(salon);
+				game.salonData.numOfSalons = game.salonData.salonsOwned.length;
+				game.salonData.totalSeats = calculateTotalSeats();
 				game.miscData.balance -= cost;
+				return true;
 			}
+			else return false;
 		}
+	};
+	// Since salon object has seat quantity and balance checker, buy and adjust totalSeats.
+	game.buySeats = function(salonNum, quantity) {
+		game.miscData.balance = game.salonData.salonsOwned[salonNum].addSeats(quantity, game.miscData.balance);
+		game.salonData.totalSeats = calculateTotalSeats();
 	};
 	// Adds a snack iff player has the money.
 	game.addSnack = function() {
@@ -198,7 +200,7 @@ cinemaTycoonApp.factory('gameData', function(){
 			}
 		}
 	};
-	// Adds an extra employee to the theater.
+	// Adds an extra employee to the cinema.
 	game.addEmployee = function() {
 		if(game.employeeData.numOfEmployees >= game.employeeData.maxEmployees)
 		{
@@ -210,7 +212,7 @@ cinemaTycoonApp.factory('gameData', function(){
 			game.employeeData.employeeResult = employ[game.employeeData.numOfEmployees - 1];
 		}
 	};
-	// Removes an employee from the theater.
+	// Removes an employee from the cinema.
 	game.removeEmployee = function() {
 		if(game.employeeData.numOfEmployees <= 1)
 		{
@@ -246,11 +248,11 @@ cinemaTycoonApp.factory('gameData', function(){
 		else if(game.miscData.ticketPrice >= 17.5 && game.miscData.ticketPrice < 20) dailyPatronModifier -= 0.05;
 		else dailyPatronModifier -= 0.5;
 		if(dailyPatronModifier <= 0) dailyPatronModifier = 0.01;
-		// Now to apply modifier to the available seats in all theaters.
+		// Now to apply modifier to the available seats in all salons.
 		var ticketsSoldToday = 0;
-		for(var i = 0; i < game.theaterData.theatersOwned.length; i++)
+		for(var i = 0; i < game.salonData.salonsOwned.length; i++)
 		{
-			ticketsSoldToday += game.theaterData.theatersOwned[i].getTicketsSold(dailyPatronModifier, game.timeData.seasonIndex);
+			ticketsSoldToday += game.salonData.salonsOwned[i].getTicketsSold(dailyPatronModifier, game.timeData.seasonIndex);
 		}
 		// 3 showings a day
 		ticketsSoldToday *= 3;
@@ -283,12 +285,20 @@ cinemaTycoonApp.factory('gameData', function(){
 	};
 	calculateWeeklyExpenses = function() {
 		return  ( basicLeaseRent +
-				(game.theaterData.numOfTheaters * (0.75 * game.theaterData.newTheaterPriceMultiplier)) +
+				(game.salonData.numOfSalons * (0.75 * game.salonData.newSalonPriceMultiplier)) +
 				(game.snackData.numOfSnacks * (0.25 * game.snackData.newSnackPriceMultiplier)) +
 				(game.gameroomData.numOfGames * (0.25 * game.gameroomData.newGamePriceMultiplier)) +
 				(game.employeeData.numOfEmployees * game.employeeData.employeeCostMultiplier) +
 				(game.parkingData.parkingLevels * (0.25 * game.parkingData.parkingExpandCost)) +
 				(game.miscData.currentPromotionIndex * game.miscData.promotionMultiplier) );
+	};
+	calculateTotalSeats = function() {
+		var totalSeats = 0;
+		for(var i = 0; i < game.salonData.salonsOwned.length; i++)
+		{
+			totalSeats += game.salonData.salonsOwned[i].getSeats();
+		}
+		return totalSeats;
 	};
 	// Pass one-way data to those dependent on the service.
 	return game;

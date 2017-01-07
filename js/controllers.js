@@ -1,4 +1,4 @@
-// Main function is to display theater data.
+// Main function is to display cinema data.
 // Additional functions will include save, load, produce movies.
 cinemaTycoonApp.controller('HUDController', ['gameData', function(game) {
 	var self = this;
@@ -6,7 +6,7 @@ cinemaTycoonApp.controller('HUDController', ['gameData', function(game) {
 	self.state = game.state;
 	self.timeData = game.timeData;
 	self.miscData = game.miscData;
-	self.theaterData = game.theaterData;
+	self.salonData = game.salonData;
 	self.snackData = game.snackData;
 	self.gameroomData = game.gameroomData;
 	self.employeeData = game.employeeData;
@@ -128,8 +128,59 @@ cinemaTycoonApp.controller('SalonController', ['gameData', function(game) {
 	var self = this;
 
 	self.state = game.state;
-	self.theaterData = game.theaterData;
+	self.salonData = game.salonData;
+	self.isSalonAvailable = (self.salonData.numOfSalons < self.salonData.maxSalons) ? true : false;
+	self.state.activeSalon = 0;
+	self.state.selectedSalon = self.state.activeSalon.toString();
 	self.active = false;
+
+	self.buildSalon = function() {
+		if(game.addSalon())
+		{
+			self.state.activeSalon = self.salonData.numOfSalons;
+			self.state.selectedSalon = self.state.activeSalon.toString();
+		}
+	};
+
+	self.changeSalon = function(value) {
+		if(value > 0 && value < self.salonData.numOfSalons)
+		{
+			self.state.activeSalon = value;
+		}
+	};
+
+	self.getPossibleSeats = function() {
+		if(self.state.activeSalon <= 0 || self.salonData.numOfSalons <= 0) return 0;
+		else
+		{
+			return (self.salonData.salonsOwned[self.state.activeSalon - 1].getMaxSeats() -
+					self.salonData.salonsOwned[self.state.activeSalon - 1].getSeats());
+		}
+	};
+
+	self.getSeats = function() {
+		if(self.state.activeSalon <= 0 || self.salonData.numOfSalons <= 0) return 0;
+		else return self.salonData.salonsOwned[self.state.activeSalon - 1].getSeats();
+	};
+
+	self.getMaxSeats = function() {
+		if(self.state.activeSalon <= 0 || self.salonData.numOfSalons <= 0) return 0;
+		else return self.salonData.salonsOwned[self.state.activeSalon - 1].getMaxSeats();
+	};
+
+	self.buySeats = function() {
+		if(self.state.activeSalon <= 0 || self.salonData.numOfSalons <= 0) return;
+		else
+		{
+			game.buySeats(self.state.activeSalon-1, self.seatAmount);
+			self.seatAmount = 0;
+		}
+	};
+
+	self.getSeatCost = function() {
+		if(self.state.activeSalon <= 0 || self.salonData.numOfSalons <= 0 || self.seatAmount === undefined) return 0;
+		else return self.salonData.salonsOwned[self.state.activeSalon - 1].getSeatCost(self.seatAmount);
+	},
 
 	self.entered = function() {
 		self.active = true;

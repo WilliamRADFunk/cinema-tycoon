@@ -3,7 +3,9 @@
 
 ## User takes over a movie theater, and must make it thrive.
 
-## Theater contains various upgrades, additonal rooms, emplyees, custom movies (titles and synopsis), promotions, etc.
+## A Theater has a number of salons (viewing rooms), each containing various upgrades, additonal rooms, emplyees, custom movies (titles and synopsis), promotions, etc.
+
+## Upgrades and purchases to the theater (arcade games, snacks, parking spaces, etc.) provide additional income.
 
 ## Random events give user choices to make that can either benefit or hurt player's income.
 
