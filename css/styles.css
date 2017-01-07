@@ -145,7 +145,18 @@ select
 	padding-bottom: 21px;
 	z-index: 2;
 }
+#helpModal > p > span.glyphicon
+{
+	padding-top: 2px;
+}
 @media (min-width: 300px) {
+	#pause.btn,
+	#play.btn,
+	#help.btn
+	{
+		padding-left: 0px;
+		padding-right: 0px;
+	}
 	#hud
 	{
 		font-size: 12px;
@@ -188,10 +199,18 @@ select
 		height: 300px;
 		padding: 0px 10px;
 	}
-	#startModal > p:first-child,
-	#helpModal > p:first-child
+	#helpModal
+	{
+		border-radius: 1%;
+		height: 4550px;
+	}
+	#startModal > p:first-child
 	{
 		padding-top: 25px;
+	}
+	#helpModal > p > span
+	{
+		margin-top: 25px;
 	}
 	#startModal > button,
 	#helpModal > button
@@ -232,6 +251,10 @@ select
 	{
 		/* Modified image from: https://openclipart.org/user-detail/Moini */
 		background: url("../images/blank-long.png") no-repeat center center;
+	}
+	#helpModal
+	{
+		height: 3490px;
 	}
 }
 @media (min-width: 1200px) {
