@@ -202,15 +202,11 @@ select
 	#helpModal
 	{
 		border-radius: 1%;
-		height: 4550px;
+		height: 4100px;
 	}
 	#startModal > p:first-child
 	{
 		padding-top: 25px;
-	}
-	#helpModal > p > span
-	{
-		margin-top: 25px;
 	}
 	#startModal > button,
 	#helpModal > button
@@ -223,8 +219,18 @@ select
 	{
 		font-size: 14px;
 	}
+	#helpModal
+	{
+		height: 3700px;
+	}
 }
-@media (min-width: 1000px) {
+@media (min-width: 767px) {
+	#helpModal
+	{
+		height: 2475px;
+	}
+}
+@media (min-width: 992px) {
 	#snack-inactive
 	{
 		/*
@@ -254,14 +260,18 @@ select
 	}
 	#helpModal
 	{
-		height: 3490px;
+		font-size: 13px;
+		height: 3175px;
 	}
 }
 @media (min-width: 1200px) {
-	#startModal,
-	#helpModal
+	#startModal
 	{
 		font-size: 14px;
+	}
+	#helpModal
+	{
+		height: 2675px;
 	}
 }
 .centered
