@@ -25,9 +25,11 @@ cinemaTycoonApp.factory('gameData', function(){
 	game.miscData.ticketPrice = 10.00;					// Price of a movie ticket.
 	game.miscData.currentPromotionIndex = 0;			// Enum index for marketing promotion.
 	game.miscData.currentPromotion =
-		promos[game.miscData.currentPromotionIndex];		// Enum value for marketing promotion.
+		promos[game.miscData.currentPromotionIndex];	// Enum value for marketing promotion.
 	game.miscData.promotionMultiplier = 500;			// Multiplier for marketing promotions.
 	game.miscData.numOfLicenses = 1;					// Total number of movie licenses currently owned.
+	game.miscData.movieProductionModifier = 250000;		// Modifier for cost of film making.
+	game.miscData.moviesMade = 0;						// User made movies. Needed for the win.
 
 	game.salonData = {};
 	game.salonData.salonsOwned = [];					// Contains the actual salon objects.
