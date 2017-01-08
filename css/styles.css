@@ -196,13 +196,11 @@ select
 		border-radius: 10%;
 		color: #FFFFFF;
 		font-size: 12px;
-		height: 300px;
 		padding: 0px 10px;
 	}
 	#helpModal
 	{
 		border-radius: 1%;
-		height: 4100px;
 	}
 	#startModal > p:first-child
 	{
@@ -211,6 +209,7 @@ select
 	#startModal > button,
 	#helpModal > button
 	{
+		margin-bottom: 20px;
 		margin-top: 20px;
 	}
 }
@@ -219,15 +218,11 @@ select
 	{
 		font-size: 14px;
 	}
-	#helpModal
-	{
-		height: 3700px;
-	}
 }
 @media (min-width: 767px) {
 	#helpModal
 	{
-		height: 2475px;
+		font-size: 13px;
 	}
 }
 @media (min-width: 992px) {
@@ -258,20 +253,11 @@ select
 		/* Modified image from: https://openclipart.org/user-detail/Moini */
 		background: url("../images/blank-long.png") no-repeat center center;
 	}
-	#helpModal
-	{
-		font-size: 13px;
-		height: 3175px;
-	}
 }
 @media (min-width: 1200px) {
 	#startModal
 	{
 		font-size: 14px;
-	}
-	#helpModal
-	{
-		height: 2675px;
 	}
 }
 .centered
