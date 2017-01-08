@@ -1,8 +1,10 @@
 <div id="office-container" class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-controller="OfficeController as officeCtrl" ng-show="officeCtrl.state.isStarted && !officeCtrl.state.isHelp" entering="officeCtrl.entered()" exiting="officeCtrl.exited()">
 	<div id="office-inactive" ng-show="!officeCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
 	<div id="office-active" ng-show="officeCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-		<button type="button" class="btn btn-info" ng-click="officeCtrl.changePromo()">Change</br>Promotion</button>
-		<button type="button" class="btn btn-info" ng-click="officeCtrl.produceMovie()">Produce</br>Movie</button>
+		<p><u>Promotion</u></p>
+		<select id="office-select" ng-model="officeCtrl.state.selectedPromo" ng-change="officeCtrl.changePromo(value)">
+				<option id="office-option-{{$index + 1}}" ng-repeat="office in officeCtrl.promos" value="{{$index}}">{{officeCtrl.promos[$index]}}</option>
+			</select>
 		<p>Staff Total: {{officeCtrl.employeeData.numOfEmployees}} / {{officeCtrl.employeeData.maxEmployees}} ( {{officeCtrl.employeeData.employeeResult}} )</p>
 		<button type="button" class="btn btn-info" ng-click="officeCtrl.hireEmployee()">Hire</button>
 		<button type="button" class="btn btn-info" ng-click="officeCtrl.fireEmployee()">Fire</button>

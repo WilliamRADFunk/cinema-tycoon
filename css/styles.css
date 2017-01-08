@@ -70,22 +70,25 @@ select
 }
 #ticket-booth-inactive,
 #parking-inactive,
-#snack-inactive,
 #gameroom-inactive,
 #office-inactive,
-#salon-inactive
+#snack-inactive,
+#salon-inactive,
+#workshop-inactive
 {
-	height: 200px;
+	height: 320px;
 }
 #ticket-booth-active,
 #parking-active,
 #snack-active,
 #gameroom-active,
 #office-active,
-#salon-active
+#snack-active,
+#salon-active,
+#workshop-active
 {
-	height: 200px;
-	padding-top: 55px;
+	height: 320px;
+	padding-top: 100px;
 	text-align: center;
 }
 #ticket-booth-inactive
@@ -133,7 +136,13 @@ select
 {
 	/* Image from: https://openclipart.org/user-detail/Moini */
 	background: url("../images/blank.png") no-repeat center center;
-	padding-top: 45px;
+	padding-top: 75px;
+}
+#office-active > select
+{
+	margin-bottom: 30px;
+	text-align-last: center;
+	width: 175px;
 }
 #pause.btn,
 #play.btn,
@@ -169,11 +178,27 @@ select
 		*  && http://www.free-icons-download.net/images/coke-and-popcorn-icon-75211.png
 		*/
 		background: url("../images/snacks-small.png") no-repeat center center;
+		height: 320px;
 	}
 	#snack-active
 	{
 		/* Image from: https://openclipart.org/user-detail/Moini */
 		background: url("../images/blank.png") no-repeat center center;
+		height: 320px;
+		padding-top: 100px;
+	}
+	#workshop-inactive
+	{
+		/* Image from: https://openclipart.org/detail/141493/workshop-door-sign */
+		background: url("../images/workshop-small.png") no-repeat center center;
+		height: 320px;
+	}
+	#workshop-active
+	{
+		/* Image from: https://openclipart.org/user-detail/Moini */
+		background: url("../images/blank.png") no-repeat center center;
+		height: 320px;
+		padding-top: 100px;
 	}
 	#salon-inactive
 	{
@@ -182,11 +207,14 @@ select
 		*  && https://openclipart.org/detail/195943/film-reel
 		*/
 		background: url("../images/salon-small.png") no-repeat center center;
+		height: 320px;
 	}
 	#salon-active
 	{
 		/* Image from: https://openclipart.org/user-detail/Moini */
 		background: url("../images/blank.png") no-repeat center center;
+		height: 320px;
+		padding-top: 45px;
 	}
 	#startModal,
 	#helpModal
@@ -234,11 +262,27 @@ select
 		*  && http://www.free-icons-download.net/images/coke-and-popcorn-icon-75211.png
 		*/
 		background: url("../images/snacks.png") no-repeat center center;
+		height: 200px;
 	}
 	#snack-active
 	{
 		/* Modified image from: https://openclipart.org/user-detail/Moini */
 		background: url("../images/blank-long.png") no-repeat center center;
+		height: 200px;
+		padding-top: 55px;
+	}
+	#workshop-inactive
+	{
+		/* Image from: https://openclipart.org/detail/141493/workshop-door-sign */
+		background: url("../images/workshop.png") no-repeat center center;
+		height: 200px;
+	}
+	#workshop-active
+	{
+		/* Modified image from: https://openclipart.org/user-detail/Moini */
+		background: url("../images/blank-long.png") no-repeat center center;
+		height: 200px;
+		padding-top: 55px;
 	}
 	#salon-inactive
 	{
@@ -247,11 +291,13 @@ select
 		*  && https://openclipart.org/detail/195943/film-reel
 		*/
 		background: url("../images/salon.png") no-repeat center center;
+		height: 200px;
 	}
 	#salon-active
 	{
 		/* Modified image from: https://openclipart.org/user-detail/Moini */
 		background: url("../images/blank-long.png") no-repeat center center;
+		height: 200px;
 	}
 }
 @media (min-width: 1200px) {

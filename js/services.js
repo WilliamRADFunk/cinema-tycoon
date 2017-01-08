@@ -1,7 +1,7 @@
 cinemaTycoonApp.factory('gameData', function(){
 	var game = {};
 	var basicLeaseRent = 1000;
-	var promo = ["None"];
+	var promos = ["None", "Newspaper Ad", "Radio Commercial", "TV Commercial", "Celebrity Endorsement"];
 	var employ = ["Dismal", "Substandard", "Decent", "Friendly", "Super"];
 	var season = ["Winter", "Spring", "Summer", "Autumn"];
 	var weekTicketProfits = 0;
@@ -25,7 +25,7 @@ cinemaTycoonApp.factory('gameData', function(){
 	game.miscData.ticketPrice = 10.00;					// Price of a movie ticket.
 	game.miscData.currentPromotionIndex = 0;			// Enum index for marketing promotion.
 	game.miscData.currentPromotion =
-		promo[game.miscData.currentPromotionIndex];		// Enum value for marketing promotion.
+		promos[game.miscData.currentPromotionIndex];		// Enum value for marketing promotion.
 	game.miscData.promotionMultiplier = 500;			// Multiplier for marketing promotions.
 	game.miscData.numOfLicenses = 1;					// Total number of movie licenses currently owned.
 
@@ -168,6 +168,17 @@ cinemaTycoonApp.factory('gameData', function(){
 			}
 		}
 	};
+	// Returns the promotion array for display.
+	game.getPromos = function() {
+		return promos;
+	};
+	// Changes the chosen promotion.
+	game.changePromo = function(index) {
+		if(index < 0 || index >= promos.length) return; // In case someone sneaks a bad index through.
+		game.miscData.currentPromotionIndex = index;
+		game.miscData.currentPromotion = promos[game.miscData.currentPromotionIndex];
+		console.log("index: " + game.miscData.currentPromotionIndex);
+	};
 	// Adds a game iff player has the money.
 	game.addGame = function() {
 		if(game.gameroomData.numOfGames >= game.gameroomData.maxGames)
@@ -228,6 +239,8 @@ cinemaTycoonApp.factory('gameData', function(){
 		var dailyProfit = 0;
 		// Initial ticket sale modifier before pros and cons are weighed.
 		var dailyPatronModifier = (Math.random() + 0.01);
+		// Promotions encourage patronage.
+		dailyPatronModifier += game.miscData.currentPromotionIndex * 0.01;
 		// Additional parking encourages patronage.
 		dailyPatronModifier += game.parkingData.parkingLevels * 0.01;
 		// More employees means better service and cleaner establishment = more patrons.

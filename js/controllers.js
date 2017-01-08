@@ -78,6 +78,26 @@ cinemaTycoonApp.controller('SnackController', ['gameData', function(game) {
 		self.active = false;
 	};
 }]);
+// Main function is to purchase movie licenses and produce new films.
+cinemaTycoonApp.controller('WorkshopController', ['gameData', function(game) {
+	var self = this;
+
+	self.state = game.state;
+	self.miscData = game.miscData;
+	self.active = false;
+
+	self.produceMovie = function() {
+		window.alert("Making a movie!");
+	};
+
+	self.entered = function() {
+		self.active = true;
+	};
+
+	self.exited = function() {
+		self.active = false;
+	};
+}]);
 // Main function is to increase games offered.
 cinemaTycoonApp.controller('GameroomController', ['gameData', function(game) {
 	var self = this;
@@ -105,7 +125,13 @@ cinemaTycoonApp.controller('OfficeController', ['gameData', function(game) {
 	self.state = game.state;
 	self.miscData = game.miscData;
 	self.employeeData = game.employeeData;
+	self.promos = game.getPromos();
+	self.state.selectedPromo = '0';
 	self.active = false;
+
+	self.changePromo = function() {
+		game.changePromo(Number(self.state.selectedPromo));
+	};
 
 	self.hireEmployee = function() {
 		game.addEmployee();
