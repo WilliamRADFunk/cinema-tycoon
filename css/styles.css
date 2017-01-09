@@ -144,6 +144,11 @@ select
 	text-align-last: center;
 	width: 175px;
 }
+#salon-active > div > select
+{
+	text-align-last: center;
+	width: 64px;
+}
 #pause.btn,
 #play.btn,
 #help.btn
