@@ -144,10 +144,16 @@ select
 	text-align-last: center;
 	width: 175px;
 }
-#salon-active > div > select
+#salon-select
 {
 	text-align-last: center;
 	width: 64px;
+}
+#movie-select
+{
+	margin-bottom: 10px;
+	text-align-last: center;
+	width: 200px;
 }
 #pause.btn,
 #play.btn,
@@ -221,6 +227,10 @@ select
 		height: 320px;
 		padding-top: 45px;
 	}
+	#salon-select
+	{
+		margin-bottom: 10px;
+	}
 	#startModal,
 	#helpModal
 	{
@@ -252,7 +262,7 @@ select
 		font-size: 14px;
 	}
 }
-@media (min-width: 767px) {
+@media (min-width: 768px) {
 	#helpModal
 	{
 		font-size: 13px;
@@ -303,6 +313,10 @@ select
 		/* Modified image from: https://openclipart.org/user-detail/Moini */
 		background: url("../images/blank-long.png") no-repeat center center;
 		height: 200px;
+	}
+	#salon-select
+	{
+		margin-bottom: 0px;
 	}
 }
 @media (min-width: 1200px) {

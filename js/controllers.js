@@ -154,10 +154,12 @@ cinemaTycoonApp.controller('SalonController', ['gameData', function(game) {
 	var self = this;
 
 	self.state = game.state;
+	self.miscData = game.miscData;
 	self.salonData = game.salonData;
 	self.isSalonAvailable = (self.salonData.numOfSalons < self.salonData.maxSalons) ? true : false;
 	self.state.activeSalon = 0;
 	self.state.selectedSalon = self.state.activeSalon.toString();
+	self.state.selectedMovie = '0';
 	self.active = false;
 
 	self.buildSalon = function() {
@@ -165,13 +167,15 @@ cinemaTycoonApp.controller('SalonController', ['gameData', function(game) {
 		{
 			self.state.activeSalon = self.salonData.numOfSalons;
 			self.state.selectedSalon = self.state.activeSalon.toString();
+			self.state.selectedMovie = game.getMoviePlayingIndex(self.state.activeSalon - 1).toString();
 		}
 	};
 
-	self.changeSalon = function(value) {
-		if(value > 0 && value < self.salonData.numOfSalons)
+	self.changeSalon = function() {
+		if(Number(self.state.selectedSalon) > 0 && Number(self.state.selectedSalon) <= self.salonData.numOfSalons)
 		{
-			self.state.activeSalon = value;
+			self.state.activeSalon = Number(self.state.selectedSalon);
+			self.state.selectedMovie = game.getMoviePlayingIndex(self.state.activeSalon - 1).toString();
 		}
 	};
 
@@ -200,6 +204,14 @@ cinemaTycoonApp.controller('SalonController', ['gameData', function(game) {
 		{
 			game.buySeats(self.state.activeSalon-1, self.seatAmount);
 			self.seatAmount = 0;
+		}
+	};
+
+	self.changeMoviePlaying = function() {
+		if(self.state.activeSalon <= 0 || self.salonData.numOfSalons <= 0) return;
+		else
+		{
+			game.changeMoviePlaying((self.state.activeSalon-1), Number(self.state.selectedMovie));
 		}
 	};
 
