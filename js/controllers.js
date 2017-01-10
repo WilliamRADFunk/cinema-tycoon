@@ -198,6 +198,11 @@ cinemaTycoonApp.controller('SalonController', ['gameData', function(game) {
 		else return self.salonData.salonsOwned[self.state.activeSalon - 1].getMaxSeats();
 	};
 
+	self.getSeatCost = function() {
+		if(self.state.activeSalon <= 0 || self.salonData.numOfSalons <= 0 || self.seatAmount === undefined) return 0;
+		else return self.salonData.salonsOwned[self.state.activeSalon - 1].getSeatCost(self.seatAmount);
+	},
+
 	self.buySeats = function() {
 		if(self.state.activeSalon <= 0 || self.salonData.numOfSalons <= 0) return;
 		else
@@ -215,9 +220,19 @@ cinemaTycoonApp.controller('SalonController', ['gameData', function(game) {
 		}
 	};
 
-	self.getSeatCost = function() {
-		if(self.state.activeSalon <= 0 || self.salonData.numOfSalons <= 0 || self.seatAmount === undefined) return 0;
-		else return self.salonData.salonsOwned[self.state.activeSalon - 1].getSeatCost(self.seatAmount);
+	self.getProjectorUpgradeLevel = function() {
+		if(self.state.activeSalon <= 0 || self.salonData.numOfSalons <= 0) return 0;
+		else return self.salonData.salonsOwned[self.state.activeSalon - 1].getProjectorLevel();
+	},
+
+	self.getScreenUpgradeLevel = function() {
+		if(self.state.activeSalon <= 0 || self.salonData.numOfSalons <= 0) return 0;
+		else return self.salonData.salonsOwned[self.state.activeSalon - 1].getScreenLevel();
+	},
+
+	self.getSoundUpgradeLevel = function() {
+		if(self.state.activeSalon <= 0 || self.salonData.numOfSalons <= 0) return 0;
+		else return self.salonData.salonsOwned[self.state.activeSalon - 1].getSoundLevel();
 	},
 
 	self.entered = function() {

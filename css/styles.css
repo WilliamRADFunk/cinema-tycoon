@@ -231,6 +231,10 @@ select
 	{
 		margin-bottom: 10px;
 	}
+	#salon-upgrade-display
+	{
+		margin-top: 10px;
+	}
 	#startModal,
 	#helpModal
 	{
@@ -317,6 +321,10 @@ select
 	#salon-select
 	{
 		margin-bottom: 0px;
+	}
+	#salon-upgrade-display
+	{
+		margin-top: 0px;
 	}
 }
 @media (min-width: 1200px) {

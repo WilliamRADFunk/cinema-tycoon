@@ -17,6 +17,14 @@
 		<div class="col-lg-6 col-lg-offset-6 col-md-6 col-md-offset-6 col-sm-12 col-xs-12">
 			<button type="button" class="btn btn-info btn-flat" ng-click="salonCtrl.buySeats()">Buy</button> <input type="number" id="seat-amount" min="0" max="{{salonCtrl.getPossibleSeats()}}" step="1" ng-model="salonCtrl.seatAmount" ng-change="salonCtrl.getSeatCost(salonCtrl.seatAmount)" ng-init="salonCtrl.seatAmount = 0"/> <span class="col-xs-12">Seats ({{salonCtrl.getSeats()}}/{{salonCtrl.getMaxSeats()}}) {{salonCtrl.getSeatCost(salonCtrl.seatAmount) | currency}}</span>
 		</div>
+		<div id="salon-upgrade-display" class="col-lg-6 col-lg-offset-6 col-md-6 col-md-offset-6 col-sm-12 col-xs-12">
+			<p>Upgrades Levels: {{salonCtrl.getProjectorUpgradeLevel()}} : {{salonCtrl.getScreenUpgradeLevel()}} : {{salonCtrl.getSoundUpgradeLevel()}}</p>
+		</div>
+		<div class="col-lg-6 col-lg-offset-6 col-md-6 col-md-offset-6 col-sm-12 col-xs-12">
+			<button type="button" class="btn btn-info" ng-click="salonCtrl.buyProjectorUpgrade()"><span class="glyphicon glyphicon-facetime-video"></span></button>
+			<button type="button" class="btn btn-info" ng-click="salonCtrl.buyScreenUpgrade()"><span class="glyphicon glyphicon-blackboard"></span></button>
+			<button type="button" class="btn btn-info" ng-click="salonCtrl.buySoundUpdate()"><span class="glyphicon glyphicon-volume-up"></span></button>
+		</div>
 	</div>
 	<button type="button" class="btn btn-info col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-show="salonCtrl.state.isStarted && !salonCtrl.state.isHelp && salonCtrl.isSalonAvailable" ng-click="salonCtrl.buildSalon()">Build New Salon ({{(salonCtrl.salonData.numOfSalons + 1) * salonCtrl.salonData.newSalonPriceMultiplier | currency}})</button>
 </div>
