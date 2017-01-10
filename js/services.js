@@ -122,6 +122,17 @@ cinemaTycoonApp.factory('gameData', function(){
 			else if(game.timeData.day === 271) game.timeData.seasonIndex = 3;
 			game.timeData.season = season[game.timeData.seasonIndex];
 		}
+		// Checks to see if user has won or lost
+		if(game.miscData.balance >= 1000000 && game.miscData.moviesMade >= 3)
+		{
+			// TODO: Activate modal for user to enter name for top scores.
+			console.log("The game is won in " + (game.timeData.day * game.timeData.year) + " days!");
+		}
+		else if(game.miscData.balance < -10000)
+		{
+			// TODO: Activate modal for user endgame.
+			console.log("The game is lost in " + (game.timeData.day * game.timeData.year) + " days!");
+		}
 	};
 	// Updates the reduction of ticket price for entire game.
 	game.lowerTicketPrice = function() {
