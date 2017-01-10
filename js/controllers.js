@@ -235,6 +235,21 @@ cinemaTycoonApp.controller('SalonController', ['gameData', function(game) {
 		else return self.salonData.salonsOwned[self.state.activeSalon - 1].getSoundLevel();
 	},
 
+	self.buyProjectorUpgrade = function() {
+		if(self.state.activeSalon <= 0 || self.salonData.numOfSalons <= 0) return 0;
+		else return game.upgradeProjector(self.state.activeSalon - 1);
+	},
+
+	self.buyScreenUpgrade = function() {
+		if(self.state.activeSalon <= 0 || self.salonData.numOfSalons <= 0) return 0;
+		else return game.upgradeScreen(self.state.activeSalon - 1);
+	},
+
+	self.buySoundUpdate = function() {
+		if(self.state.activeSalon <= 0 || self.salonData.numOfSalons <= 0) return 0;
+		else return game.upgradeSound(self.state.activeSalon - 1);
+	},
+
 	self.entered = function() {
 		self.active = true;
 	};

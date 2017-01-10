@@ -160,6 +160,15 @@ cinemaTycoonApp.factory('gameData', function(){
 		game.miscData.balance = game.salonData.salonsOwned[salonNum].addSeats(quantity, game.miscData.balance);
 		game.salonData.totalSeats = calculateTotalSeats();
 	};
+	game.upgradeProjector = function(salonNum) {
+		game.miscData.balance = game.salonData.salonsOwned[salonNum].upgradeProjectorLevel(game.miscData.balance);
+	};
+	game.upgradeScreen = function(salonNum) {
+		game.miscData.balance = game.salonData.salonsOwned[salonNum].upgradeScreenLevel(game.miscData.balance);
+	};
+	game.upgradeSound = function(salonNum) {
+		game.miscData.balance = game.salonData.salonsOwned[salonNum].upgradeSoundLevel(game.miscData.balance);
+	};
 	game.getMoviePlayingIndex = function(salonNum) {
 		var movie = game.salonData.salonsOwned[salonNum].getMoviePlaying();
 		var title = "";

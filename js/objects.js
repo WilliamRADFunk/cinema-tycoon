@@ -60,21 +60,36 @@ var createSalon = function() {
 		},
 		upgradeProjectorLevel: function(balance) {
 			if(projectorLevel >= maxUpgradeLevel) projectorLevel = maxUpgradeLevel;
-			else if( (projectorLevel + 1) * upgradeMultiplier <= balance ) projectorLevel++;
+			else if( (projectorLevel + 1) * upgradeMultiplier <= balance )
+			{
+				balance -= (projectorLevel + 1) * upgradeMultiplier;
+				projectorLevel++;
+			}
+			return balance;
 		},
 		getScreenLevel: function() {
 			return screenLevel;
 		},
 		upgradeScreenLevel: function(balance) {
 			if(screenLevel >= maxUpgradeLevel) screenLevel = maxUpgradeLevel;
-			else if( (screenLevel + 1) * upgradeMultiplier <= balance ) screenLevel++;
+			else if( (screenLevel + 1) * upgradeMultiplier <= balance )
+			{
+				balance -= (screenLevel + 1) * upgradeMultiplier;
+				screenLevel++;
+			}
+			return balance;
 		},
 		getSoundLevel: function() {
 			return soundLevel;
 		},
 		upgradeSoundLevel: function(balance) {
 			if(soundLevel >= maxUpgradeLevel) soundLevel = maxUpgradeLevel;
-			else if( (soundLevel + 1) * upgradeMultiplier <= balance ) soundLevel++;
+			else if( (soundLevel + 1) * upgradeMultiplier <= balance )
+			{
+				balance -= (soundLevel + 1) * upgradeMultiplier;
+				soundLevel++;
+			}
+			return balance;
 		},
 		getUpgradeMultiplier: function() {
 			return upgradeMultiplier;

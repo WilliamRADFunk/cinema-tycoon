@@ -144,6 +144,10 @@ select
 	text-align-last: center;
 	width: 175px;
 }
+#salon-active > div > input[type='number']
+{
+	margin-top: 10px;
+}
 #salon-select
 {
 	text-align-last: center;
