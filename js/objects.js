@@ -136,7 +136,7 @@ var createSalon = function() {
 	}
 };
 
-var createMovie = function(title, synopsis, expectedPopularity, actualPopularity, optimalSeason, worstSeason, costLicense, licenseLength) {
+var createMovie = function(title, synopsis, expectedPopularity, actualPopularity, optimalSeason, worstSeason, costLicense, licenseLength, producedBy) {
 	var title = title;
 	var synopsis = synopsis;
 	var expectedPopularity = expectedPopularity;
@@ -145,6 +145,7 @@ var createMovie = function(title, synopsis, expectedPopularity, actualPopularity
 	var worstSeason = worstSeason;
 	var costLicense = costLicense;
 	var licenseLength = licenseLength;
+	var producedBy = producedBy;
 
 	if(title === undefined || title === null || title === "") title = "Untitled";
 	if(synopsis === undefined || synopsis === null || synopsis === "") synopsis = "No Description";
@@ -154,6 +155,7 @@ var createMovie = function(title, synopsis, expectedPopularity, actualPopularity
 	if(worstSeason === undefined || worstSeason === null || worstSeason < 0 || worstSeason > 3) worstSeason = 0;
 	if(costLicense === undefined || costLicense === null || costLicense <= 0) costLicense = 10000;
 	if(licenseLength === undefined || licenseLength === null || licenseLength <= 0) licenseLength = 12;
+	if(producedBy === undefined || producedBy === null || producedBy === "") producedBy = "Anonymous";
 
 	return {
 		getTitle: function() {
@@ -180,5 +182,8 @@ var createMovie = function(title, synopsis, expectedPopularity, actualPopularity
 		getLicenseLength: function() {
 			return licenseLength;
 		},
+		getProducedBy: function() {
+			return producedBy;
+		}
 	};
 };

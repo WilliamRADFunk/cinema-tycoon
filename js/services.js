@@ -1,4 +1,4 @@
-cinemaTycoonApp.factory('gameData', function(){
+cinemaTycoonApp.factory('gameData', ['httpMediator', function(httpMediator){
 	var game = {};
 	var basicLeaseRent = 1000;
 	var promos = ["None", "Newspaper Ad", "Radio Commercial", "TV Commercial", "Celebrity Endorsement"];
@@ -72,8 +72,9 @@ cinemaTycoonApp.factory('gameData', function(){
 	// Starts game
 	game.startGame = function(speed) {
 		game.state.isStarted = true;
-		var mov1 = createMovie("Movie1", "Test movie #1");
-		var mov2 = createMovie("Movie2", "Test movie #2");
+		getNewMovies();
+		var mov1 = createMovie("Movie1", "Test movie #1"); // TODO: Delete when done testing.
+		var mov2 = createMovie("Movie2", "Test movie #2"); // TODO: Delete when done testing.
 		game.miscData.moviesOwned.push(createMovie("None Playing"));
 		game.miscData.moviesOwned.push(mov1); // TODO: Delete when done testing.
 		game.miscData.moviesOwned.push(mov2); // TODO: Delete when done testing.
@@ -277,6 +278,15 @@ cinemaTycoonApp.factory('gameData', function(){
 			game.employeeData.employeeResult = employ[game.employeeData.numOfEmployees - 1];
 		}
 	};
+	// Adds a user created movie to the database iff balance available and content passes inspection.
+	game.produceMovie = function() {
+		if(game.miscData.balance < (game.miscData.moviesMade + 1) * game.miscData.movieProductionModifier) return;
+
+	};
+	// Gets three new movies from the db.
+	getNewMovies = function() {
+		game.miscData.moviesAvailable = httpMediator.getNewMovies();
+	};
 	calculateDailyProfits = function() {
 		var dailyProfit = 0;
 		// Initial ticket sale modifier before pros and cons are weighed.
@@ -357,4 +367,36 @@ cinemaTycoonApp.factory('gameData', function(){
 	};
 	// Pass one-way data to those dependent on the service.
 	return game;
-});
+}]);
+// $Http mediator service
+cinemaTycoonApp.factory('httpMediator', ['$http', function(http){
+	var movies = [];
+	var mediator = {};
+	
+	// Called at game start and at regular time intervals (~90 days)
+	// Gets three movies to refresh the "available for license purchase" array.
+	mediator.getNewMovies = function() {
+		/* TODO: Delete when $http connection version is setup. */
+		var movie1 = createMovie(	"Snow Fortress",
+									"With global warming fast on the rise, Jack Irons (Keeanu Forrester) must lead the remnants of human civilization to the one place cold enough to survive--Snow Fortress.",
+									0.6, 0.6, 1, 3, 200.00, 52, "Bob Johnson");
+		movies.push(movie1);
+		var movie2 = createMovie(	"Love and Laughter",
+									"In this romantic comedy, Jerimiah Weiss (Michael Stillborn) uses laughter to woo the one that almost got away. But, is his sense of humor really enough?",
+									0.8, 0.8, 1, 0, 400.00, 16, "Yo Mamma");
+		movies.push(movie2);
+		var movie3 = createMovie(	"Total Vengeance - 2 Angry",
+									"The law failed him. The universe failed him. It's time for John Steel (Ice-Cicle) to point the deadly finger of blame at everyone except himself for total Vengeance.",
+									0.8, 1.0, 2, 3, 500.00, 12, "Fingus Dinkleberry");
+		movies.push(movie3);
+		/* TODO: Delete when $http connection version is setup. */
+		return movies;
+	};
+	// Submits a new user-created movie into the database.
+	// Upon success, transfer movie into user's owned licenses.
+	mediator.addNewMovie = function() {
+
+	};
+
+	return mediator;
+}]);
