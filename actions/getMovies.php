@@ -12,8 +12,9 @@ if ($conn->connect_error)
 // Get number of rows in Movie table
 $sql = "SELECT COUNT(*) FROM `Movies`";
 $result = $conn->query($sql);
+$rows = $result->fetch_array(MYSQLI_ASSOC)["COUNT(*)"];
 
-if(!$result || $result->fetch_array(MYSQLI_ASSOC)["COUNT(*)"] < 3)
+if(!$result || $rows < 3)
 {
 	print '{"movies":[]}';
 }
@@ -24,20 +25,17 @@ else
 	$indexList = [];
 	do
 	{
-		$index = rand(1, $result->fetch_array(MYSQLI_ASSOC)["COUNT(*)"]);
+		$index = rand(1, $rows);
 		$sql = "SELECT `ID` FROM `Movies` WHERE `ID`=" . $index;
 		$res = $conn->query($sql);
 		$movIndex = $res->fetch_array(MYSQLI_ASSOC);
-		if($movIndex["ID"] > 0)
+		// Must be a unique, valid index number.
+		if($movIndex["ID"] > 0 && !in_array($index, $indexList))
 		{
 			array_push($indexList, $index);
 			$counter++;
 		}
-		else
-		{
-			break;
-		}
-	}while($counter < 3);
+	} while($counter < 3);
 
 	$sql = "SELECT * FROM Movies WHERE `ID`=" . $indexList[0] . " OR `ID`=" . $indexList[1] . " OR `ID`=" . $indexList[2];
 	$MovieResults = $conn->query($sql);
@@ -45,15 +43,16 @@ else
 	$movies = '{"movies":[';
 	while ( $db_row = $MovieResults->fetch_array(MYSQLI_ASSOC) )
 	{
-		$movies .=  '{"title":"' . $db_row['title'] .
-					'", "synopsis":' . $db_row['synopsis'] .
-					'", "expectedPopularity":' . $db_row['Expected Popularity'] .
-					'", "actualPopularity":' . $db_row['Actual Popularity'] .
-					'", "optimalSeason":' . $db_row['Optimal Season'] .
-					'", "worstSeason":' . $db_row['Worst Season'] .
-					'", "costLicense":' . $db_row['Cost License'] .
-					'", "licenseLength":' . $db_row['License Length'] .
-					'", "producedBy":' . $db_row['Produced By'] .
+		$movies .=  '{' .
+						'"title": "' . $db_row['Title'] . '", ' .
+						'"synopsis": "' . $db_row['Synopsis'] . '", ' . 
+						'"expectedPopularity": ' . $db_row['Expected Popularity'] . ', ' .
+						'"actualPopularity": ' . $db_row['Actual Popularity'] . ', ' .
+						'"optimalSeason": ' . $db_row['Optimal Season'] . ', ' .
+						'"worstSeason": ' . $db_row['Worst Season'] . ', ' .
+						'"costLicense": ' . $db_row['Cost License'] . ', ' .
+						'"licenseLength": ' . $db_row['License Length'] . ', ' .
+						'"producedBy": "' . $db_row['Produced By'] . '"' .
 					'},';
 	}
 	$movies = rtrim($movies, ",");
