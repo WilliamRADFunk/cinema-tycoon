@@ -88,9 +88,7 @@ cinemaTycoonApp.controller('WorkshopController', ['gameData', function(game) {
 
 	self.produceMovie = function() {
 		if(game.miscData.balance < (game.miscData.moviesMade + 1) * game.miscData.movieProductionModifier) window.alert("Not enough money!\n\nYou need $" + ((game.miscData.moviesMade + 1) * game.miscData.movieProductionModifier) + " and you only have $" + game.miscData.balance);
-		else
-		{
-		window.alert("Let's make a movie!")//game.produceMovie();
+		else window.alert("Let's make a movie!")//game.produceMovie();
 	};
 
 	self.entered = function() {
