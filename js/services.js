@@ -70,6 +70,12 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 		season[game.timeData.seasonIndex];				// The current season in enum value.
 	game.timeData.year = 1;								// Total years user has been playing.
 
+	// Submits a new user-created movie into the database.
+	// Upon success, transfer movie into user's owned licenses.
+	addNewMovie = function()
+	{
+
+	};
 	calculateDailyProfits = function()
 	{
 		var dailyProfit = 0;
@@ -439,19 +445,4 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 	}
 	// Pass one-way data to those dependent on the service.
 	return game;
-}]);
-// $Http mediator service
-cinemaTycoonApp.factory('httpMediator', ['$http', function($http)
-{
-	var movies = [];
-	var mediator = {};
-	
-	// Submits a new user-created movie into the database.
-	// Upon success, transfer movie into user's owned licenses.
-	mediator.addNewMovie = function()
-	{
-
-	};
-
-	return mediator;
 }]);
