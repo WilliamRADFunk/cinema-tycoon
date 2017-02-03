@@ -13,8 +13,8 @@ body
 	width: 100%;
 }
 button,
-select,
-input
+input,
+select
 {
 	color: #000000;
 }
@@ -68,51 +68,29 @@ select
 {
 	border: none;
 }
-#ticket-booth-inactive,
-#parking-inactive,
-#gameroom-inactive,
-#office-inactive,
-#snack-inactive,
-#salon-inactive,
-#workshop-inactive
-{
-	height: 320px;
-}
-#ticket-booth-active,
-#parking-active,
-#snack-active,
 #gameroom-active,
 #office-active,
-#snack-active,
+#parking-active,
 #salon-active,
+#snack-active,
+#ticket-booth-active,
 #workshop-active
 {
 	height: 320px;
 	padding-top: 100px;
 	text-align: center;
 }
-#ticket-booth-inactive
+#gameroom-inactive,
+#office-inactive,
+#parking-inactive,
+#salon-inactive,
+#snack-inactive,
+#ticket-booth-inactive,
+#workshop-inactive
 {
-	/*
-	*  Modified image from: https://openclipart.org/user-detail/Moini
-	*  && https://openclipart.org/detail/3190/ticket
-	*/
-	background: url("../images/ticket-booth.png") no-repeat center center;
+	height: 320px;
 }
-#ticket-booth-active
-{
-	/* Image from: https://openclipart.org/user-detail/Moini */
-	background: url("../images/blank.png") no-repeat center center;
-}
-#parking-inactive
-{
-	/*
-	*  Modified image from: https://openclipart.org/user-detail/Moini
-	*  && https://openclipart.org/detail/260680/car15
-	*/
-	background: url("../images/parking.png") no-repeat center center;
-}
-#parking-active
+#gameroom-active
 {
 	/* Image from: https://openclipart.org/user-detail/Moini */
 	background: url("../images/blank.png") no-repeat center center;
@@ -122,15 +100,25 @@ select
 	/* Modified image from: https://openclipart.org/user-detail/Moini */
 	background: url("../images/gameroom.png") no-repeat center center;
 }
-#gameroom-active
+#help.btn,
+#pause.btn,
+#play.btn
 {
-	/* Image from: https://openclipart.org/user-detail/Moini */
-	background: url("../images/blank.png") no-repeat center center;
+	height: 20px;
+	margin-bottom: -22px;
+	padding-top: 0px;
+	padding-bottom: 21px;
+	z-index: 2;
 }
-#office-inactive
+#helpModal > p > span.glyphicon
 {
-	/* Modified image from: https://openclipart.org/user-detail/Moini */
-	background: url("../images/office.png") no-repeat center center;
+	padding-top: 2px;
+}
+#movie-select
+{
+	margin-bottom: 10px;
+	text-align-last: center;
+	width: 200px;
 }
 #office-active
 {
@@ -144,6 +132,24 @@ select
 	text-align-last: center;
 	width: 175px;
 }
+#office-inactive
+{
+	/* Modified image from: https://openclipart.org/user-detail/Moini */
+	background: url("../images/office.png") no-repeat center center;
+}
+#parking-active
+{
+	/* Image from: https://openclipart.org/user-detail/Moini */
+	background: url("../images/blank.png") no-repeat center center;
+}
+#parking-inactive
+{
+	/*
+	*  Modified image from: https://openclipart.org/user-detail/Moini
+	*  && https://openclipart.org/detail/260680/car15
+	*/
+	background: url("../images/parking.png") no-repeat center center;
+}
 #salon-active > div > input[type='number']
 {
 	margin-top: 10px;
@@ -153,94 +159,49 @@ select
 	text-align-last: center;
 	width: 64px;
 }
-#movie-select
+#ticket-booth-active
 {
-	margin-bottom: 10px;
-	text-align-last: center;
-	width: 200px;
+	/* Image from: https://openclipart.org/user-detail/Moini */
+	background: url("../images/blank.png") no-repeat center center;
 }
-#pause.btn,
-#play.btn,
-#help.btn
+
+#ticket-booth-inactive
 {
-	height: 20px;
-	margin-bottom: -22px;
+	/*
+	*  Modified image from: https://openclipart.org/user-detail/Moini
+	*  && https://openclipart.org/detail/3190/ticket
+	*/
+	background: url("../images/ticket-booth.png") no-repeat center center;
+}
+.btn.btn-flat
+{
+	height: 26px;
+	margin-bottom: 3px;
+	padding-bottom: 0px;
 	padding-top: 0px;
-	padding-bottom: 21px;
-	z-index: 2;
 }
-#helpModal > p > span.glyphicon
+.centered
 {
-	padding-top: 2px;
+	text-align: center;
+}
+.left
+{
+	float: left;
+}
+.right
+{
+	float: right;
 }
 @media (min-width: 300px) {
+	#help.btn,
 	#pause.btn,
-	#play.btn,
-	#help.btn
+	#play.btn
 	{
 		padding-left: 0px;
 		padding-right: 0px;
 	}
-	#hud
-	{
-		font-size: 12px;
-	}
-	#snack-inactive
-	{
-		/*
-		*  Modified image from: https://openclipart.org/user-detail/Moini
-		*  && https://openclipart.org/detail/217027/office-services-icon-set
-		*  && http://www.free-icons-download.net/images/coke-and-popcorn-icon-75211.png
-		*/
-		background: url("../images/snacks-small.png") no-repeat center center;
-		height: 320px;
-	}
-	#snack-active
-	{
-		/* Image from: https://openclipart.org/user-detail/Moini */
-		background: url("../images/blank.png") no-repeat center center;
-		height: 320px;
-		padding-top: 100px;
-	}
-	#workshop-inactive
-	{
-		/* Image from: https://openclipart.org/detail/141493/workshop-door-sign */
-		background: url("../images/workshop-small.png") no-repeat center center;
-		height: 320px;
-	}
-	#workshop-active
-	{
-		/* Image from: https://openclipart.org/user-detail/Moini */
-		background: url("../images/blank.png") no-repeat center center;
-		height: 320px;
-		padding-top: 100px;
-	}
-	#salon-inactive
-	{
-		/*
-		*  Modified image from: https://openclipart.org/user-detail/Moini
-		*  && https://openclipart.org/detail/195943/film-reel
-		*/
-		background: url("../images/salon-small.png") no-repeat center center;
-		height: 320px;
-	}
-	#salon-active
-	{
-		/* Image from: https://openclipart.org/user-detail/Moini */
-		background: url("../images/blank.png") no-repeat center center;
-		height: 320px;
-		padding-top: 45px;
-	}
-	#salon-select
-	{
-		margin-bottom: 10px;
-	}
-	#salon-upgrade-display
-	{
-		margin-top: 10px;
-	}
-	#startModal,
-	#helpModal
+	#helpModal,
+	#startModal
 	{
 		background-color: rgb(25,74,112);
 		border: 3px solid #FFFFFF;
@@ -253,15 +214,73 @@ select
 	{
 		border-radius: 1%;
 	}
+	#helpModal > button,
+	#startModal > button
+	{
+		margin-bottom: 20px;
+		margin-top: 20px;
+	}
+	#hud
+	{
+		font-size: 12px;
+	}
+	#salon-active
+	{
+		/* Image from: https://openclipart.org/user-detail/Moini */
+		background: url("../images/blank.png") no-repeat center center;
+		height: 320px;
+		padding-top: 45px;
+	}
+	#salon-inactive
+	{
+		/*
+		*  Modified image from: https://openclipart.org/user-detail/Moini
+		*  && https://openclipart.org/detail/195943/film-reel
+		*/
+		background: url("../images/salon-small.png") no-repeat center center;
+		height: 320px;
+	}
+	#salon-select
+	{
+		margin-bottom: 10px;
+	}
+	#salon-upgrade-display
+	{
+		margin-top: 10px;
+	}
+	#snack-active
+	{
+		/* Image from: https://openclipart.org/user-detail/Moini */
+		background: url("../images/blank.png") no-repeat center center;
+		height: 320px;
+		padding-top: 100px;
+	}
+	#snack-inactive
+	{
+		/*
+		*  Modified image from: https://openclipart.org/user-detail/Moini
+		*  && https://openclipart.org/detail/217027/office-services-icon-set
+		*  && http://www.free-icons-download.net/images/coke-and-popcorn-icon-75211.png
+		*/
+		background: url("../images/snacks-small.png") no-repeat center center;
+		height: 320px;
+	}
 	#startModal > p:first-child
 	{
 		padding-top: 25px;
 	}
-	#startModal > button,
-	#helpModal > button
+	#workshop-active
 	{
-		margin-bottom: 20px;
-		margin-top: 20px;
+		/* Image from: https://openclipart.org/user-detail/Moini */
+		background: url("../images/blank.png") no-repeat center center;
+		height: 320px;
+		padding-top: 100px;
+	}
+	#workshop-inactive
+	{
+		/* Image from: https://openclipart.org/detail/141493/workshop-door-sign */
+		background: url("../images/workshop-small.png") no-repeat center center;
+		height: 320px;
 	}
 }
 @media (min-width: 500px) {
@@ -277,6 +296,36 @@ select
 	}
 }
 @media (min-width: 992px) {
+	#salon-active
+	{
+		/* Modified image from: https://openclipart.org/user-detail/Moini */
+		background: url("../images/blank-long.png") no-repeat center center;
+		height: 200px;
+	}
+	#salon-inactive
+	{
+		/*
+		*  Modified image from: https://openclipart.org/user-detail/Moini
+		*  && https://openclipart.org/detail/195943/film-reel
+		*/
+		background: url("../images/salon.png") no-repeat center center;
+		height: 200px;
+	}
+	#salon-select
+	{
+		margin-bottom: 0px;
+	}
+	#salon-upgrade-display
+	{
+		margin-top: 0px;
+	}
+	#snack-active
+	{
+		/* Modified image from: https://openclipart.org/user-detail/Moini */
+		background: url("../images/blank-long.png") no-repeat center center;
+		height: 200px;
+		padding-top: 55px;
+	}
 	#snack-inactive
 	{
 		/*
@@ -287,7 +336,7 @@ select
 		background: url("../images/snacks.png") no-repeat center center;
 		height: 200px;
 	}
-	#snack-active
+	#workshop-active
 	{
 		/* Modified image from: https://openclipart.org/user-detail/Moini */
 		background: url("../images/blank-long.png") no-repeat center center;
@@ -300,59 +349,10 @@ select
 		background: url("../images/workshop.png") no-repeat center center;
 		height: 200px;
 	}
-	#workshop-active
-	{
-		/* Modified image from: https://openclipart.org/user-detail/Moini */
-		background: url("../images/blank-long.png") no-repeat center center;
-		height: 200px;
-		padding-top: 55px;
-	}
-	#salon-inactive
-	{
-		/*
-		*  Modified image from: https://openclipart.org/user-detail/Moini
-		*  && https://openclipart.org/detail/195943/film-reel
-		*/
-		background: url("../images/salon.png") no-repeat center center;
-		height: 200px;
-	}
-	#salon-active
-	{
-		/* Modified image from: https://openclipart.org/user-detail/Moini */
-		background: url("../images/blank-long.png") no-repeat center center;
-		height: 200px;
-	}
-	#salon-select
-	{
-		margin-bottom: 0px;
-	}
-	#salon-upgrade-display
-	{
-		margin-top: 0px;
-	}
 }
 @media (min-width: 1200px) {
 	#startModal
 	{
 		font-size: 14px;
 	}
-}
-.centered
-{
-	text-align: center;
-}
-.left
-{
-	float: left;
-}
-.right
-{
-	float: right;
-}
-.btn.btn-flat
-{
-	height: 26px;
-	margin-bottom: 3px;
-	padding-bottom: 0px;
-	padding-top: 0px;
 }

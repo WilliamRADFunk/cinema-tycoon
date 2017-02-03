@@ -13,7 +13,7 @@ if ($conn->connect_error)
 $sql = "SELECT COUNT(*) FROM `Movies`";
 $result = $conn->query($sql);
 $rows = $result->fetch_array(MYSQLI_ASSOC)["COUNT(*)"];
-
+// Makes sure $results came back good, and that it had at least 3 rows.
 if(!$result || $rows < 3)
 {
 	print '{"movies":[]}';
@@ -36,29 +36,38 @@ else
 			$counter++;
 		}
 	} while($counter < 3);
-
+	// Get the three movies to which the index numbers, aka IDs, belong.
 	$sql = "SELECT * FROM Movies WHERE `ID`=" . $indexList[0] . " OR `ID`=" . $indexList[1] . " OR `ID`=" . $indexList[2];
 	$MovieResults = $conn->query($sql);
-
-	$movies = '{"movies":[';
-	while ( $db_row = $MovieResults->fetch_array(MYSQLI_ASSOC) )
+	// Makes sure the results come back properly before trying to use them.
+	if(!$MovieResults)
 	{
-		$movies .=  '{' .
-						'"title": "' . $db_row['Title'] . '", ' .
-						'"synopsis": "' . $db_row['Synopsis'] . '", ' . 
-						'"expectedPopularity": ' . $db_row['Expected Popularity'] . ', ' .
-						'"actualPopularity": ' . $db_row['Actual Popularity'] . ', ' .
-						'"optimalSeason": ' . $db_row['Optimal Season'] . ', ' .
-						'"worstSeason": ' . $db_row['Worst Season'] . ', ' .
-						'"costLicense": ' . $db_row['Cost License'] . ', ' .
-						'"licenseLength": ' . $db_row['License Length'] . ', ' .
-						'"producedBy": "' . $db_row['Produced By'] . '"' .
-					'},';
+		print '{"movies":[]}';
 	}
-	$movies = rtrim($movies, ",");
-	$movies .= ']}';
-	print $movies;
+	else
+	{
+		// Construct the json string with the content of the three movies retrieved.
+		$movies = '{"movies":[';
+		while ( $db_row = $MovieResults->fetch_array(MYSQLI_ASSOC) )
+		{
+			$movies .=  '{' .
+							'"title": "' . $db_row['Title'] . '", ' .
+							'"synopsis": "' . $db_row['Synopsis'] . '", ' . 
+							'"expectedPopularity": ' . $db_row['Expected Popularity'] . ', ' .
+							'"actualPopularity": ' . $db_row['Actual Popularity'] . ', ' .
+							'"optimalSeason": ' . $db_row['Optimal Season'] . ', ' .
+							'"worstSeason": ' . $db_row['Worst Season'] . ', ' .
+							'"costLicense": ' . $db_row['Cost License'] . ', ' .
+							'"licenseLength": ' . $db_row['License Length'] . ', ' .
+							'"producedBy": "' . $db_row['Produced By'] . '"' .
+						'},';
+		}
+		$movies = rtrim($movies, ",");
+		$movies .= ']}';
+		// Send the json back.
+		print $movies;
+	}
 }
-
+// Close the connection.
 $conn->close();
 ?>

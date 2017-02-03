@@ -306,6 +306,8 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 			weekSnackProfits = 0;
 			weekGamesProfits = 0;
 		}
+		// Every 90 days, refresh available licenses for purchase.
+		if(game.timeData.day % 90 === 0) getNewMovies();
 		// Updates the day, season, and year.
 		if(game.timeData.day === 365)
 		{
