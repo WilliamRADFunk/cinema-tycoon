@@ -10,9 +10,9 @@ if ($conn->connect_error)
     die("Connection failed: " . $conn->connect_error);
 }
 // Get number of rows in Movie table
-$sql = "SELECT COUNT(*) FROM `Movies`";
+$sql = "SELECT `ID` FROM `Movies` ORDER BY ID DESC LIMIT 1";
 $result = $conn->query($sql);
-$rows = $result->fetch_array(MYSQLI_ASSOC)["COUNT(*)"];
+$rows = $result->fetch_array(MYSQLI_ASSOC)["ID"];
 // Makes sure $results came back good, and that it had at least 3 rows.
 if(!$result || $rows < 3)
 {

@@ -26,11 +26,11 @@
 				</tr>
 				<tr>
 					<td>Optimal Season: </td>
-					<td><input type="number" onclick="event.stopPropagation();"/></td>
+					<td><input type="number" id="production-optimal-season" min="0" max="3" step="1" ng-model="workCtrl.optimalSeason" ng-init="workCtrl.optimalSeason = 0"  onclick="event.stopPropagation();"/></td>
 				</tr>
 				<tr>
 					<td>Worst Season: </td>
-					<td><input type="number" onclick="event.stopPropagation();"/></td>
+					<td><input type="number" id="production-worst-season" min="0" max="3" step="1" ng-model="workCtrl.worstSeason" ng-init="workCtrl.worstSeason = 0"  onclick="event.stopPropagation();"/></td>
 				</tr>
 				<tr>
 					<td>Producer (Your Name): </td>

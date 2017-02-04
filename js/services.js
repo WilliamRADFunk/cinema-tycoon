@@ -1,6 +1,6 @@
 cinemaTycoonApp.factory('gameData', ['$http', function($http)
 {
-	var balance = 10000000;
+	var balance = 1000000000000;
 	var basicLeaseRent = 1000;
 	var employ = ["Dismal", "Substandard", "Decent", "Friendly", "Super"];
 	var game = {};
