@@ -1,0 +1,33 @@
+<div id="film-vault-container" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-controller="FilmVaultController as fvCtrl" ng-show="fvCtrl.state.isStarted && !fvCtrl.state.isHelp" entering="fvCtrl.entered()" exiting="fvCtrl.exited()">
+	<div id="film-vault-inactive" ng-show="!fvCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
+	<div id="film-vault-active" ng-show="fvCtrl.active && !fvCtrl.state.isInspecting" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+			<p><u>Licenses Available</u></p>
+			<button type="button" class="btn btn-info" ng-click="fvCtrl.purchaseMovie()">Purchase</button>
+			<button type="button" class="btn btn-info" ng-click="fvCtrl.openInspector(0)">Inspect</button>
+			<p></p>
+			<select id="movie-select-license" ng-model="fvCtrl.state.selectedMovieLicense" ng-change="fvCtrl.changeMovieLicenseViewed(value)">
+				<option id="movie-option-{{$index + 1}}" ng-repeat="movie in fvCtrl.miscData.moviesAvailable" value="{{$index}}">{{fvCtrl.miscData.moviesAvailable[$index].getTitle()}}</option>
+			</select>
+		</div>
+		<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+			<p><u>Licenses Owned</u></p>
+			<select id="movie-select-owned" ng-model="fvCtrl.state.selectedMovieOwned" ng-change="fvCtrl.changeMovieOwnedViewed(value)">
+				<option id="movie-option-{{$index + 1}}" ng-repeat="movie in fvCtrl.miscData.moviesOwned" value="{{$index}}">{{fvCtrl.miscData.moviesOwned[$index].getTitle()}}</option>
+			</select>
+			<p></p>
+			<button type="button" class="btn btn-info" ng-click="fvCtrl.openInspector(1)">Inspect</button>
+		</div>
+	</div>
+	<div id="movie-modal" class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12" ng-show="fvCtrl.active && fvCtrl.state.isInspecting">
+		<p>Title: {{fvCtrl.state.selectedMovie.getTitle()}}</p>
+		<p>Synopsis: {{fvCtrl.state.selectedMovie.getSynopsis()}}</p>
+		<p>Licence Duration: {{fvCtrl.state.selectedMovie.getLicenseLength()}} weeks</p>
+		<p>Cost: {{fvCtrl.state.selectedMovie.getCostLicense() | currency}}</p>
+		<p>Predicted Popularity: {{fvCtrl.state.selectedMovie.getExpectedPopularity() * 100}}%</p>
+		<p>Optimal Season: {{fvCtrl.getSeason(fvCtrl.state.selectedMovie.getOptimalSeason())}}</p>
+		<p>Worst Season: {{fvCtrl.getSeason(fvCtrl.state.selectedMovie.getWorstSeason())}}</p>
+		<p>Producer: {{fvCtrl.state.selectedMovie.getProducedBy()}}</p>
+		<button type="button" class="btn btn-default col-lg-2 col-lg-offset-5 col-md-2 col-md-offset-5 col-sm-2 col-sm-offset-5 col-xs-4 col-xs-offset-4" ng-click="fvCtrl.closeInspector()">Close</button>
+	</div>
+</div>

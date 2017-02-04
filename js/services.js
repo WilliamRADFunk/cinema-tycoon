@@ -1,5 +1,6 @@
 cinemaTycoonApp.factory('gameData', ['$http', function($http)
 {
+	var balance = 10000;
 	var basicLeaseRent = 1000;
 	var employ = ["Dismal", "Substandard", "Decent", "Friendly", "Super"];
 	var game = {};
@@ -21,7 +22,6 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 	game.gameroomData.newGamePriceMultiplier = 1000;	// Multiplier for additional games.
 
 	game.miscData = {};
-	game.miscData.balance = 10000;						// Player's bank balance.
 	game.miscData.ticketPrice = 10.00;					// Price of a movie ticket.
 	game.miscData.currentPromotionIndex = 0;			// Enum index for marketing promotion.
 	game.miscData.currentPromotion =
@@ -180,10 +180,10 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 		else
 		{
 			var cost = (game.gameroomData.numOfGames + 1) * game.gameroomData.newGamePriceMultiplier;
-			if( cost <= game.miscData.balance)
+			if( cost <= balance)
 			{
 				game.gameroomData.numOfGames++;
-				game.miscData.balance -= cost;
+				balance -= cost;
 			}
 		}
 	};
@@ -197,10 +197,10 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 		else
 		{
 			var cost = (game.parkingData.parkingLevels + 1) * game.parkingData.parkingExpandCost;
-			if( cost <= game.miscData.balance)
+			if( cost <= balance)
 			{
 				game.parkingData.parkingLevels++;
-				game.miscData.balance -= cost;
+				balance -= cost;
 			}
 		}
 	};
@@ -215,13 +215,13 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 		else
 		{
 			var cost = (game.salonData.numOfSalons + 1) * game.salonData.newSalonPriceMultiplier;
-			if( cost <= game.miscData.balance)
+			if( cost <= balance)
 			{
 				var salon = createSalon();
 				game.salonData.salonsOwned.push(salon);
 				game.salonData.numOfSalons = game.salonData.salonsOwned.length;
 				game.salonData.totalSeats = calculateTotalSeats();
-				game.miscData.balance -= cost;
+				balance -= cost;
 				return true;
 			}
 			else return false;
@@ -237,17 +237,17 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 		else
 		{
 			var cost = (game.snackData.numOfSnacks + 1) * game.snackData.newSnackPriceMultiplier;
-			if( cost <= game.miscData.balance)
+			if( cost <= balance)
 			{
 				game.snackData.numOfSnacks++;
-				game.miscData.balance -= cost;
+				balance -= cost;
 			}
 		}
 	};
 	// Since salon object has seat quantity and balance checker, buy and adjust totalSeats.
 	game.buySeats = function(salonNum, quantity)
 	{
-		game.miscData.balance = game.salonData.salonsOwned[salonNum].addSeats(quantity, game.miscData.balance);
+		balance = game.salonData.salonsOwned[salonNum].addSeats(quantity, balance);
 		game.salonData.totalSeats = calculateTotalSeats();
 	};
 	// Changes the movie playing in this salon
@@ -263,6 +263,11 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 		if(index < 0 || index >= promos.length) return; // In case someone sneaks a bad index through.
 		game.miscData.currentPromotionIndex = index;
 		game.miscData.currentPromotion = promos[game.miscData.currentPromotionIndex];
+	};
+	// Gets player's bank balance.
+	game.getBalance = function()
+	{
+		return balance;
 	};
 	// Gets index number in moviesOwned for movie playing in this salon.
 	game.getMoviePlayingIndex = function(salonNum)
@@ -281,6 +286,11 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 	{
 		return promos;
 	};
+	// Gets the string season from index.
+	game.getSeason = function(index)
+	{
+		return season[index];
+	};
 	// Changes help mode
 	game.help = function(help)
 	{
@@ -297,13 +307,14 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 	{
 		// Calculates profits every day.
 		var profits = calculateDailyProfits();
-		game.miscData.balance += profits;
+		balance += profits;
 		// Calculates expenses every week, and modifies HUD for weekly expense & profit.
 		if(game.timeData.day % 7 === 0)
 		{
+			basicLeaseRent += 10;
 			var expenses = calculateWeeklyExpenses();
 			game.profitData.expenses = expenses;
-			game.miscData.balance -= expenses;
+			balance -= expenses;
 			game.profitData.profitTicketSales = weekTicketProfits;
 			game.profitData.profitSnackSales = weekSnackProfits;
 			game.profitData.profitGamesSales = weekGamesProfits;
@@ -331,12 +342,12 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 			game.timeData.season = season[game.timeData.seasonIndex];
 		}
 		// Checks to see if user has won or lost
-		if(game.miscData.balance >= 1000000 && game.miscData.moviesMade >= 3)
+		if(balance >= 1000000 && game.miscData.moviesMade >= 3)
 		{
 			// TODO: Activate modal for user to enter name for top scores.
 			console.log("The game is won in " + (game.timeData.day * game.timeData.year) + " days!");
 		}
-		else if(game.miscData.balance < -10000)
+		else if(balance < -10000)
 		{
 			// TODO: Activate modal for user endgame.
 			console.log("The game is lost in " + (game.timeData.day * game.timeData.year) + " days!");
@@ -347,6 +358,22 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 	{
 		game.state.isPaused = pause;
 	};
+	// Purchases this movie license, if user has the money.
+	// Removes from available after success.
+	game.purchaseLicense = function(index)
+	{
+		if(index !== 0)
+		{
+			if(game.miscData.moviesAvailable[index].getCostLicense() <= balance)
+			{
+				balance -= game.miscData.moviesAvailable[index].getCostLicense();
+				game.miscData.moviesOwned.push(game.miscData.moviesAvailable[index]);
+				game.miscData.moviesAvailable.splice(index, 1);
+				return true;
+			}
+			else return false;
+		}
+	};
 	// Updates the increase of ticket price for entire game.
 	game.raiseTicketPrice = function()
 	{
@@ -355,20 +382,20 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 	};
 	game.upgradeProjector = function(salonNum)
 	{
-		game.miscData.balance = game.salonData.salonsOwned[salonNum].upgradeProjectorLevel(game.miscData.balance);
+		balance = game.salonData.salonsOwned[salonNum].upgradeProjectorLevel(balance);
 	};
 	game.upgradeScreen = function(salonNum)
 	{
-		game.miscData.balance = game.salonData.salonsOwned[salonNum].upgradeScreenLevel(game.miscData.balance);
+		balance = game.salonData.salonsOwned[salonNum].upgradeScreenLevel(balance);
 	};
 	game.upgradeSound = function(salonNum)
 	{
-		game.miscData.balance = game.salonData.salonsOwned[salonNum].upgradeSoundLevel(game.miscData.balance);
+		balance = game.salonData.salonsOwned[salonNum].upgradeSoundLevel(balance);
 	};
 	// Adds a user created movie to the database iff balance available and content passes inspection.
 	game.produceMovie = function()
 	{
-		if(game.miscData.balance < (game.miscData.moviesMade + 1) * game.miscData.movieProductionModifier) return;
+		if(balance < (game.miscData.moviesMade + 1) * game.miscData.movieProductionModifier) return;
 	};
 	// Removes an employee from the cinema.
 	game.removeEmployee = function()
@@ -388,7 +415,7 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 	{
 		game.state.isStarted = true;
 		getNewMovies();
-		game.miscData.moviesOwned.push(createMovie("None Playing"));
+		game.miscData.moviesOwned.push(createMovie("No Movie Selected"));
 		game.miscData.numOfLicenses = game.miscData.moviesOwned.length - 1;
 	};
 	// Called at game start and at regular time intervals (~90 days)
@@ -402,6 +429,7 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 		}).then(function successCallback(response)
 		{
 			game.miscData.moviesAvailable = [];
+			game.miscData.moviesAvailable.push(createMovie("No Movie Selected"));
 			game.miscData.moviesAvailable.push(createMovie(	response.data.movies[0].title,
 														response.data.movies[0].synopsis,
 														response.data.movies[0].expectedPopularity,

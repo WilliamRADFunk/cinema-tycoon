@@ -68,6 +68,7 @@ select
 {
 	border: none;
 }
+#film-vault-active,
 #gameroom-active,
 #office-active,
 #parking-active,
@@ -80,6 +81,7 @@ select
 	padding-top: 100px;
 	text-align: center;
 }
+#film-vault-inactive,
 #gameroom-inactive,
 #office-inactive,
 #parking-inactive,
@@ -110,7 +112,7 @@ select
 	padding-bottom: 21px;
 	z-index: 2;
 }
-#helpModal > p > span.glyphicon
+#help-modal > p > span.glyphicon
 {
 	padding-top: 2px;
 }
@@ -125,6 +127,16 @@ select
 	/* Image from: https://openclipart.org/user-detail/Moini */
 	background: url("../images/blank.png") no-repeat center center;
 	padding-top: 75px;
+}
+#film-vault-active > div > select
+{
+	margin-bottom: 10px;
+	text-align-last: center;
+	width: 175px;
+}
+#film-vault-active > div > select:nth-child(2n)
+{
+	margin-bottom: 0px;
 }
 #office-active > select
 {
@@ -193,6 +205,19 @@ select
 	float: right;
 }
 @media (min-width: 300px) {
+	#film-vault-active
+	{
+		/* Image from: https://openclipart.org/user-detail/Moini */
+		background: url("../images/blank.png") no-repeat center center;
+		height: 320px;
+		padding-top: 50px;
+	}
+	#film-vault-inactive
+	{
+		/* Image from: https://openclipart.org/detail/141493/workshop-door-sign */
+		background: url("../images/workshop-small.png") no-repeat center center;
+		height: 320px;
+	}
 	#help.btn,
 	#pause.btn,
 	#play.btn
@@ -200,22 +225,26 @@ select
 		padding-left: 0px;
 		padding-right: 0px;
 	}
-	#helpModal,
-	#startModal
+	#help-modal,
+	#movie-modal,
+	#start-modal
 	{
 		background-color: rgb(25,74,112);
 		border: 3px solid #FFFFFF;
 		border-radius: 10%;
 		color: #FFFFFF;
 		font-size: 12px;
+		margin-bottom: 20px;
+		margin-top: 10px;
 		padding: 0px 10px;
 	}
-	#helpModal
+	#help-modal
 	{
 		border-radius: 1%;
 	}
-	#helpModal > button,
-	#startModal > button
+	#help-modal > button,
+	#movie-modal > button,
+	#start-modal > button
 	{
 		margin-bottom: 20px;
 		margin-top: 20px;
@@ -265,7 +294,8 @@ select
 		background: url("../images/snacks-small.png") no-repeat center center;
 		height: 320px;
 	}
-	#startModal > p:first-child
+	#movie-modal > p:first-child,
+	#start-modal > p:first-child
 	{
 		padding-top: 25px;
 	}
@@ -290,12 +320,25 @@ select
 	}
 }
 @media (min-width: 768px) {
-	#helpModal
+	#help-modal
 	{
 		font-size: 13px;
 	}
 }
 @media (min-width: 992px) {
+	#film-vault-active
+	{
+		/* Modified image from: https://openclipart.org/user-detail/Moini */
+		background: url("../images/blank-long.png") no-repeat center center;
+		height: 200px;
+		padding-top: 55px;
+	}
+	#film-vault-inactive
+	{
+		/* Image from: https://openclipart.org/detail/141493/workshop-door-sign */
+		background: url("../images/workshop.png") no-repeat center center;
+		height: 200px;
+	}
 	#salon-active
 	{
 		/* Modified image from: https://openclipart.org/user-detail/Moini */
@@ -351,7 +394,8 @@ select
 	}
 }
 @media (min-width: 1200px) {
-	#startModal
+	#movie-modal,
+	#start-modal
 	{
 		font-size: 14px;
 	}

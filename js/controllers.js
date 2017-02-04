@@ -1,3 +1,64 @@
+// Main function is to purchase movie licenses and view movie details.
+cinemaTycoonApp.controller('FilmVaultController', ['gameData', function(game)
+{
+	var self = this;
+
+	self.active = false;
+	self.miscData = game.miscData;
+	self.state = game.state;
+	self.state.isInspecting = false;
+	self.state.selectedMovieLicense = '0';
+	self.state.selectedMovieOwned = '0';
+	self.state.selectedMovie = game.miscData.moviesAvailable[0];
+
+	// self.changeMovieLicenseViewed = function()
+	// {
+	// 	if(Number(self.state.selectedMovieLicense) <= 0 || self.salonData.numOfSalons <= 0) return;
+	// 	else
+	// 	{
+	// 		game.changeMoviePlaying((self.state.activeSalon-1), Number(self.state.selectedMovie));
+	// 	}
+	// };
+	self.closeInspector = function()
+	{
+		self.state.isInspecting = false;
+	};
+	self.entered = function()
+	{
+		self.active = true;
+	};
+	self.exited = function()
+	{
+		self.active = false;
+	};
+	self.getSeason = function(index)
+	{
+		return game.getSeason(index);
+	};
+	self.openInspector = function(mode)
+	{
+		if(mode === 0 && self.state.selectedMovieLicense !== '0')
+		{
+			self.state.selectedMovie = game.miscData.moviesAvailable[Number(self.state.selectedMovieLicense)];
+			self.state.isInspecting = true;
+		}
+		else if(mode === 1 && self.state.selectedMovieOwned !== '0')
+		{
+			self.state.selectedMovie = game.miscData.moviesOwned[Number(self.state.selectedMovieOwned)];
+			self.state.isInspecting = true;
+		}
+	};
+	self.purchaseMovie = function()
+	{
+		var success = false;
+		if(self.state.selectedMovieLicense !== '0') success = game.purchaseLicense(Number(self.state.selectedMovieLicense));
+		if(success)
+		{
+			self.state.selectedMovieLicense = '0';
+			self.state.selectedMovie = null;
+		}
+	};
+}]);
 // Main function is to adjust ticket price.
 // Shows how much people like/dislike the price.
 cinemaTycoonApp.controller('FrontDoorController', ['gameData', function(game) {
@@ -295,7 +356,7 @@ cinemaTycoonApp.controller('WorkshopController', ['gameData', function(game) {
 	};
 
 	self.produceMovie = function() {
-		if(game.miscData.balance < (game.miscData.moviesMade + 1) * game.miscData.movieProductionModifier) window.alert("Not enough money!\n\nYou need $" + ((game.miscData.moviesMade + 1) * game.miscData.movieProductionModifier) + " and you only have $" + game.miscData.balance);
+		if(game.getBalance() < (game.miscData.moviesMade + 1) * game.miscData.movieProductionModifier) window.alert("Not enough money!\n\nYou need $" + ((game.miscData.moviesMade + 1) * game.miscData.movieProductionModifier) + " and you only have $" + game.getBalance());
 		else window.alert("Let's make a movie!")//game.produceMovie();
 	};
 }]);

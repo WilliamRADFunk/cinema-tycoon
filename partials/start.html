@@ -1,12 +1,12 @@
 <div ng-controller="StartController as startCtrl">
-	<div id="startModal"class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12" ng-show="!startCtrl.state.isStarted">
+	<div id="start-modal" class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12" ng-show="!startCtrl.state.isStarted">
 		<p>Welcome to Cinema Tycoon!</p>
 		<p>As an up-and-coming entrepreneur and aficionado of the silver screen, you've recently leased a chunk of mall real-estate for the purpose of running a movie theater.</p>
 		<p>One day, if you play your cards right, you could even produce your <i>own</i> films.</p>
 		<p>Whether you play it fast and loose, or cautiously slow, your ultimate goal is to turn your seed money into a million dollars. Do that, and you've won. Drop more than $1,000 in debt and the landowner will pull your lease.</p>
 		<button type="button" class="btn btn-default col-lg-2 col-lg-offset-5 col-md-2 col-md-offset-5 col-sm-2 col-sm-offset-5 col-xs-4 col-xs-offset-4" ng-click="startCtrl.activateTime(3)">Start</button>
 	</div>
-	<div id="helpModal" class="container col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12" ng-show="startCtrl.state.isHelp">
+	<div id="help-modal" class="container col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12" ng-show="startCtrl.state.isHelp">
 		<h3 class="centered">Help?</h3>
 		<hr class="col-lg-11 col-md-11 col-sm-11 col-xs-11"/>
 		<div class="row"><span class="glyphicon glyphicon-asterisk col-lg-1 col-md-1 col-sm-1 col-xs-2"></span><span class="col-lg-2 col-md-2 col-sm-2 col-xs-3">WIN: </span><span class="col-lg-9 col-md-9 col-sm-9 col-xs-7">Ultimate goal is earn enough money to call yourself a millionaire movie maker. If you have $1,000,000 in the bank at the end of a given business week, and have produced at least three films, then you have won the game. But, beware: You must accomplish this goal before the conclusion of your third year.</span></div>
