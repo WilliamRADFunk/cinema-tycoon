@@ -1,6 +1,6 @@
 cinemaTycoonApp.factory('gameData', ['$http', function($http)
 {
-	var balance = 10000;
+	var balance = 10000000;
 	var basicLeaseRent = 1000;
 	var employ = ["Dismal", "Substandard", "Decent", "Friendly", "Super"];
 	var game = {};
@@ -63,12 +63,15 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 	game.state.isPaused = false;						// Tracks whether player has paused game.
 	game.state.isHelp = false;							// Tracks whether player is in help modal.
 
-	game.timeData = {}
+	game.timeData = {};
 	game.timeData.day = 1;								// Tracks the day of the year.
 	game.timeData.seasonIndex = 0;						// Enum index for season. (relevant for movie effectiveness)
 	game.timeData.season =
 		season[game.timeData.seasonIndex];				// The current season in enum value.
 	game.timeData.year = 1;								// Total years user has been playing.
+
+	game.workshop = {};
+	game.workshop.warningText = "";						// Unique warning text for the workshop module (async failures).
 
 	// Submits a new user-created movie into the database.
 	// Upon success, transfer movie into user's owned licenses.
@@ -394,9 +397,69 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 		balance = game.salonData.salonsOwned[salonNum].upgradeSoundLevel(balance);
 	};
 	// Adds a user created movie to the database iff balance available and content passes inspection.
-	game.produceMovie = function()
+	game.produceMovie = function(title, synopsis, optimalSeason, worstSeason, cost, licenseDuration, producer)
 	{
-		if(balance < (game.miscData.moviesMade + 1) * game.miscData.movieProductionModifier) return;
+		if(balance < (game.miscData.moviesMade + 1) * game.miscData.movieProductionModifier) game.workshop.warningText = "Movie production failed. You need more money!";
+		else
+		{
+			// Randomly select popularity.
+			var actualPopularity = Math.floor(Math.random() * 10 + 1) / 10.0;
+			var expectedPopularity = Math.floor(Math.random() * 10 + 1) / 10.0;
+			// Validate cost input.
+			if(cost < 1000) cost = 1000;
+			else if(cost > 100000) cost = 100000;
+			// Validate license duration input.
+			if(licenseDuration < 12) licenseDuration = 12;
+			else if(licenseDuration > 52) licenseDuration = 52;
+			// Validate Optimal Season input.
+			if(optimalSeason < 0) optimalSeason = 0;
+			else if(optimalSeason > 3) optimalSeason = 3;
+			// Validate Worst Season input.
+			if(worstSeason < 0) worstSeason = 0;
+			else if(worstSeason > 3) worstSeason = 3;
+			// Validate title input.
+			if(title === "" || title === null || title === undefined) title = "Untitled";
+			// Validate synopsis input.
+			if(synopsis === "" || synopsis === null || synopsis === undefined) synopsis = "No synopsis given.";
+			// Validate producer input.
+			if(producer === "" || producer === null || producer === undefined) producer = "Anonymous";
+			$http(
+			{
+				method: 'POST',
+				url: './actions/createMovie.php',
+				data:
+				{
+					actualPopularity: actualPopularity,
+					costLicense: cost,
+					expectedPopularity: expectedPopularity,
+					licenseLength: licenseDuration,
+					optimalSeason: optimalSeason,
+					producedBy: producer,
+					synopsis: synopsis,
+					title: title,
+					worstSeason: worstSeason
+				}
+			}).then(function successCallback(response)
+			{
+				response.data.licenseLength = 5200;
+				game.miscData.moviesOwned.push(createMovie(	response.data.title,
+															response.data.synopsis,
+															response.data.expectedPopularity,
+															response.data.actualPopularity,
+															response.data.optimalSeason,
+															response.data.worstSeason,
+															response.data.costLicense,
+															response.data.licenseLength,
+															response.data.producedBy
+				));
+				game.miscData.moviesMade++;
+				game.workshop.warningText = "";
+			}, function errorCallback(response)
+			{
+				console.log(response);
+				game.workshop.warningText = "Movie production failed. Connection Problems?";
+			});
+		}
 	};
 	// Removes an employee from the cinema.
 	game.removeEmployee = function()
@@ -418,6 +481,11 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 		getNewMovies();
 		game.miscData.moviesOwned.push(createMovie("No Movie Selected"));
 		game.miscData.numOfLicenses = game.miscData.moviesOwned.length - 1;
+	};
+	// Allows controller to update warning text without losing track of service warning text.
+	game.updateWarningText = function(module, msg)
+	{
+		game[module].warningText = msg;
 	};
 	// Called at game start and at regular time intervals (~90 days)
 	// Gets three movies to refresh the "available for license purchase" array.

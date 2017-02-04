@@ -360,9 +360,22 @@ cinemaTycoonApp.controller('WorkshopController', ['gameData', function(game)
 	var self = this;
 
 	self.active = false;
+	self.cost = 1000;
+	self.licenseDuration = 0;
 	self.miscData = game.miscData;
+	self.optimalSeason = 0;
+	self.producer = "Anonymous";
 	self.state = game.state;
+	self.state.isProducing = false;
+	self.synopsis = "No synopsis given.";
+	self.title = "Untitled";
+	self.warningText = game.workshop.warningText;
+	self.worstSeason = 0;
 
+	self.closeProduction = function()
+	{
+		self.state.isProducing = false;
+	};
 	self.entered = function()
 	{
 		self.active = true;
@@ -370,10 +383,19 @@ cinemaTycoonApp.controller('WorkshopController', ['gameData', function(game)
 	self.exited = function()
 	{
 		self.active = false;
+		self.warningText = "";
 	};
 	self.produceMovie = function()
 	{
-		if(game.getBalance() < (game.miscData.moviesMade + 1) * game.miscData.movieProductionModifier) window.alert("Not enough money!\n\nYou need $" + ((game.miscData.moviesMade + 1) * game.miscData.movieProductionModifier) + " and you only have $" + game.getBalance());
-		else window.alert("Let's make a movie!")//game.produceMovie();
+		if(game.getBalance() < (game.miscData.moviesMade + 1) * game.miscData.movieProductionModifier) game.updateWarningText("workshop", "Not enough money!\n\nYou need $" + ((game.miscData.moviesMade + 1) * game.miscData.movieProductionModifier) + " and you only have $" + game.getBalance());
+		else
+		{
+			self.state.isProducing = true;
+		}
+	};
+	self.submitProduction = function()
+	{
+		game.produceMovie(self.title, self.synopsis, self.optimalSeason, self.worstSeason, self.cost, self.licenseDuration, self.producer);
+		self.state.isProducing = false;
 	};
 }]);

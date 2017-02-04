@@ -22,6 +22,10 @@ input[type='number']
 {
 	text-align: center;
 }
+p.warning
+{
+	color: #FF0000;
+}
 select
 {
 	height: 26px;
@@ -233,6 +237,7 @@ select
 	}
 	#help-modal,
 	#movie-modal,
+	#production-modal,
 	#start-modal
 	{
 		background-color: rgb(25,74,112);
@@ -250,6 +255,7 @@ select
 	}
 	#help-modal > button,
 	#movie-modal > button,
+	#production-modal > button,
 	#start-modal > button
 	{
 		margin-bottom: 20px;
@@ -301,6 +307,7 @@ select
 		height: 320px;
 	}
 	#movie-modal > p:first-child,
+	#production-modal > p:first-child,
 	#start-modal > p:first-child
 	{
 		padding-top: 25px;
@@ -407,6 +414,7 @@ select
 }
 @media (min-width: 1200px) {
 	#movie-modal,
+	#production-modal,
 	#start-modal
 	{
 		font-size: 14px;

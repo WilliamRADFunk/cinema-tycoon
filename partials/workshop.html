@@ -1,7 +1,44 @@
 <div id="workshop-container" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-controller="WorkshopController as workCtrl" ng-show="workCtrl.state.isStarted && !workCtrl.state.isHelp" entering="workCtrl.entered()" exiting="workCtrl.exited()" active="false" flipping>
 	<div id="workshop-inactive" ng-show="!workCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
-	<div id="workshop-active" ng-show="workCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+	<div id="workshop-active" ng-show="workCtrl.active && !workCtrl.state.isInspecting" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 		<p>Movies Made: {{workCtrl.miscData.moviesMade}}</p>
 		<button type="button" class="btn btn-info" ng-click="workCtrl.produceMovie()" onclick="event.stopPropagation();">Produce Movie<br/>({{(workCtrl.miscData.moviesMade + 1) * workCtrl.miscData.movieProductionModifier | currency}})</button>
+		<p class="warning">{{workCtrl.warningText}}</p>
+	</div>
+	<div id="production-modal" class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12" ng-show="workCtrl.active && workCtrl.state.isProducing">
+		<div class="table-responsive col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<table class="table">
+				<tr>
+					<td>Title: </td>
+					<td><input type="text" id="production-title" ng-model="workCtrl.title" ng-init="workCtrl.title = 'Untitled'" onclick="event.stopPropagation();"/></td>
+				</tr>
+				<tr>
+					<td>Synopsis: </td>
+					<td><input type="text" id="production-synopsis" ng-model="workCtrl.synopsis" ng-init="workCtrl.synopsis = 'No synopsis given.'" onclick="event.stopPropagation();"/></td>
+				</tr>
+				<tr>
+					<td>Licence Duration (min = 12 weeks, max = 52 weeks): </td>
+					<td><input type="number" id="production-license-duration" min="12" max="52" step="1" ng-model="workCtrl.licenseDuration" ng-init="workCtrl.licenseDuration = 12" onclick="event.stopPropagation();"/></td>
+				</tr>
+				<tr>
+					<td>Cost (min = $1,000, max = $100,000): </td>
+					<td><input type="number" id="production-cost" min="1000" max="100000" step="1" ng-model="workCtrl.cost" ng-init="workCtrl.cost = 1000" onclick="event.stopPropagation();"/></td>
+				</tr>
+				<tr>
+					<td>Optimal Season: </td>
+					<td><input type="number" onclick="event.stopPropagation();"/></td>
+				</tr>
+				<tr>
+					<td>Worst Season: </td>
+					<td><input type="number" onclick="event.stopPropagation();"/></td>
+				</tr>
+				<tr>
+					<td>Producer (Your Name): </td>
+					<td><input type="text" id="production-producer" ng-model="workCtrl.producer" ng-init="workCtrl.producer = 'Anonymous'" onclick="event.stopPropagation();"/></td>
+				</tr>
+			</table>
+		</div>
+		<button type="button" class="btn btn-default col-lg-2 col-lg-offset-4 col-md-2 col-md-offset-4 col-sm-2 col-sm-offset-4 col-xs-4 col-xs-offset-2" ng-click="workCtrl.closeProduction()" onclick="event.stopPropagation();">Close</button>
+		<button type="button" class="btn btn-default col-lg-2 col-md-2 col-sm-2 col-xs-4" ng-click="workCtrl.submitProduction()" onclick="event.stopPropagation();">Submit</button>
 	</div>
 </div>
