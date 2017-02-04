@@ -1,7 +1,7 @@
-<div id="workshop-container" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-controller="WorkshopController as workCtrl" ng-show="workCtrl.state.isStarted && !workCtrl.state.isHelp" entering="workCtrl.entered()" exiting="workCtrl.exited()">
+<div id="workshop-container" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-controller="WorkshopController as workCtrl" ng-show="workCtrl.state.isStarted && !workCtrl.state.isHelp" entering="workCtrl.entered()" exiting="workCtrl.exited()" active="false" flipping>
 	<div id="workshop-inactive" ng-show="!workCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
 	<div id="workshop-active" ng-show="workCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 		<p>Movies Made: {{workCtrl.miscData.moviesMade}}</p>
-		<button type="button" class="btn btn-info" ng-click="workCtrl.produceMovie()">Produce Movie<br/>({{(workCtrl.miscData.moviesMade + 1) * workCtrl.miscData.movieProductionModifier | currency}})</button>
+		<button type="button" class="btn btn-info" ng-click="workCtrl.produceMovie()" onclick="event.stopPropagation();">Produce Movie<br/>({{(workCtrl.miscData.moviesMade + 1) * workCtrl.miscData.movieProductionModifier | currency}})</button>
 	</div>
 </div>

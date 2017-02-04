@@ -1,19 +1,22 @@
-cinemaTycoonApp.directive("entering", function() {
-	return function(scope, element, attrs) {
-		element.bind("mouseenter", function() {
-			scope.$apply(function() {
-				scope.$eval(attrs.entering);
+cinemaTycoonApp.directive("flipping", function()
+{
+	return function(scope, element, attrs)
+	{
+		element.bind("click", function(event)
+		{
+			scope.$apply(function()
+			{
+				if(attrs["active"] === "false")
+				{
+					attrs.$set("active", "true");
+					scope.$eval(attrs.entering);
+				}
+				else if(attrs["active"] === "true")
+				{
+					attrs.$set("active", "false");
+ 					scope.$eval(attrs.exiting);
+				}
 			});
-		})
-	}
-});
-
-cinemaTycoonApp.directive("exiting", function() {
-	return function(scope, element, attrs) {
-		element.bind("mouseleave", function() {
-			scope.$apply(function() {
-				scope.$eval(attrs.exiting);
-			});
-		})
+		});
 	}
 });

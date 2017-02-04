@@ -21,31 +21,44 @@ var createMovie = function(title, synopsis, expectedPopularity, actualPopularity
 	if(worstSeason === undefined || worstSeason === null || worstSeason < 0 || worstSeason > 3) worstSeason = 0;
 
 	return {
-		getActualPopularity: function() {
+		decrementLicense: function()
+		{
+			licenseLength--;
+		},
+		getActualPopularity: function()
+		{
 			return actualPopularity;
 		},
-		getCostLicense: function() {
+		getCostLicense: function()
+		{
 			return costLicense;
 		},
-		getExpectedPopularity: function() {
+		getExpectedPopularity: function()
+		{
 			return expectedPopularity;
 		},
-		getLicenseLength: function() {
+		getLicenseLength: function()
+		{
 			return licenseLength;
 		},
-		getOptimalSeason: function() {
+		getOptimalSeason: function()
+		{
 			return optimalSeason;
 		},
-		getProducedBy: function() {
+		getProducedBy: function()
+		{
 			return producedBy;
 		},
-		getSynopsis: function() {
+		getSynopsis: function()
+		{
 			return synopsis;
 		},
-		getTitle: function() {
+		getTitle: function()
+		{
 			return title;
 		},
-		getWorstSeason: function() {
+		getWorstSeason: function()
+		{
 			return worstSeason;
 		}
 	};
@@ -65,7 +78,8 @@ var createSalon = function()
 	var upgradeMultiplier = 300;	
 
 	return {
-		addSeats: function(quantity, balance) {
+		addSeats: function(quantity, balance)
+		{
 			if(balance < (seatCost * quantity)) return balance;
 			else if (quantity <= (maxSeats - seats))
 			{
@@ -81,34 +95,44 @@ var createSalon = function()
 				return balance;
 			}
 		},
-		getMaxSeats: function() {
+		getMaxSeats: function()
+		{
 			return maxSeats;
 		},
-		getMaxUpgradeLevel: function() {
+		getMaxUpgradeLevel: function()
+		{
 			return maxUpgradeLevel;
 		},
-		getMoviePlaying: function() {
+		getMoviePlaying: function()
+		{
 			return moviePlaying;
 		},
-		getProjectorLevel: function() {
+		getProjectorLevel: function()
+		{
 			return projectorLevel;
 		},
-		getScreenLevel: function() {
+		getScreenLevel: function()
+		{
 			return screenLevel;
 		},
-		getSeatCost: function() {
+		getSeatCost: function()
+		{
 			return seatCost;
 		},
-		getSeatCost: function(quantity) {
+		getSeatCost: function(quantity)
+		{
 			return (seatCost * quantity);
 		},
-		getSeats: function() {
+		getSeats: function()
+		{
 			return seats;
 		},
-		getSoundLevel: function() {
+		getSoundLevel: function()
+		{
 			return soundLevel;
 		},
-		getTicketsSold: function(modifier, season) {
+		getTicketsSold: function(modifier, season)
+		{
 			if(!isMoviePlaying) return 0;
 			else
 			{
@@ -122,13 +146,16 @@ var createSalon = function()
 				else return seatsFilled;
 			}
 		},
-		getUpgradeMultiplier: function() {
+		getUpgradeMultiplier: function()
+		{
 			return upgradeMultiplier;
 		},
-		isMoviePlaying: function() {
+		isMoviePlaying: function()
+		{
 			return isMoviePlaying;
 		},
-		setMoviePlaying: function(movie) {
+		setMoviePlaying: function(movie)
+		{
 			if(movie === undefined || movie === null) return;
 			// This is how we set no movie to play.
 			if(movie === 0)
@@ -158,7 +185,8 @@ var createSalon = function()
 			moviePlaying = movie;
 			isMoviePlaying = true;
 		},
-		upgradeProjectorLevel: function(balance) {
+		upgradeProjectorLevel: function(balance)
+		{
 			if(projectorLevel >= maxUpgradeLevel) projectorLevel = maxUpgradeLevel;
 			else if( (projectorLevel + 1) * upgradeMultiplier <= balance )
 			{
@@ -167,7 +195,8 @@ var createSalon = function()
 			}
 			return balance;
 		},
-		upgradeScreenLevel: function(balance) {
+		upgradeScreenLevel: function(balance)
+		{
 			if(screenLevel >= maxUpgradeLevel) screenLevel = maxUpgradeLevel;
 			else if( (screenLevel + 1) * upgradeMultiplier <= balance )
 			{
@@ -176,7 +205,8 @@ var createSalon = function()
 			}
 			return balance;
 		},
-		upgradeSoundLevel: function(balance) {
+		upgradeSoundLevel: function(balance)
+		{
 			if(soundLevel >= maxUpgradeLevel) soundLevel = maxUpgradeLevel;
 			else if( (soundLevel + 1) * upgradeMultiplier <= balance )
 			{

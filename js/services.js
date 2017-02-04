@@ -322,6 +322,7 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 			weekTicketProfits = 0;
 			weekSnackProfits = 0;
 			weekGamesProfits = 0;
+			removeExpiredLicenses();
 		}
 		// Every 90 days, refresh available licenses for purchase.
 		if(game.timeData.day % 90 === 0) getNewMovies();
@@ -466,11 +467,15 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 			getNewMovies();
 		});
 	};
-	// Callback function used to receive asyncronous server call (mediator.getNewMovies) for moviesAvailable
-	setMoviesAvailable = function(movies)
+	// Decrements all licenses by one, and removes those with 0 weeks remaining.
+	removeExpiredLicenses = function()
 	{
-
-	}
+		for(var i = 1; i < game.miscData.moviesOwned.length; i++)
+		{
+			game.miscData.moviesOwned[i].decrementLicense();
+			if(game.miscData.moviesOwned[i].getLicenseLength() <= 0) game.miscData.moviesOwned.splice(i, 1);
+		}
+	};
 	// Pass one-way data to those dependent on the service.
 	return game;
 }]);

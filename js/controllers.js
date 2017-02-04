@@ -11,14 +11,6 @@ cinemaTycoonApp.controller('FilmVaultController', ['gameData', function(game)
 	self.state.selectedMovieOwned = '0';
 	self.state.selectedMovie = game.miscData.moviesAvailable[0];
 
-	// self.changeMovieLicenseViewed = function()
-	// {
-	// 	if(Number(self.state.selectedMovieLicense) <= 0 || self.salonData.numOfSalons <= 0) return;
-	// 	else
-	// 	{
-	// 		game.changeMoviePlaying((self.state.activeSalon-1), Number(self.state.selectedMovie));
-	// 	}
-	// };
 	self.closeInspector = function()
 	{
 		self.state.isInspecting = false;
@@ -30,6 +22,8 @@ cinemaTycoonApp.controller('FilmVaultController', ['gameData', function(game)
 	self.exited = function()
 	{
 		self.active = false;
+		self.state.selectedMovieLicense = '0';
+		self.state.selectedMovieOwned = '0';
 	};
 	self.getSeason = function(index)
 	{
@@ -61,52 +55,57 @@ cinemaTycoonApp.controller('FilmVaultController', ['gameData', function(game)
 }]);
 // Main function is to adjust ticket price.
 // Shows how much people like/dislike the price.
-cinemaTycoonApp.controller('FrontDoorController', ['gameData', function(game) {
+cinemaTycoonApp.controller('FrontDoorController', ['gameData', function(game)
+{
 	var self = this;
 
 	self.active = false;
 	self.miscData = game.miscData;
 	self.state = game.state;
 
-	self.entered = function() {
+	self.entered = function()
+	{
 		self.active = true;
 	};
-
-	self.exited = function() {
+	self.exited = function()
+	{
 		self.active = false;
 	};
-
-	self.lowerTicketPrice = function() {
+	self.lowerTicketPrice = function()
+	{
 		game.lowerTicketPrice();
 	};
-
-	self.raiseTicketPrice = function() {
+	self.raiseTicketPrice = function()
+	{
 		game.raiseTicketPrice();
 	};
 }]);
 // Main function is to increase games offered.
-cinemaTycoonApp.controller('GameroomController', ['gameData', function(game) {
+cinemaTycoonApp.controller('GameroomController', ['gameData', function(game)
+{
 	var self = this;
 
 	self.active = false;
 	self.gameroomData = game.gameroomData;
 	self.state = game.state;
 
-	self.entered = function() {
+	self.entered = function()
+	{
 		self.active = true;
 	};
-
-	self.exited = function() {
+	self.exited = function()
+	{
 		self.active = false;
 	};
-
-	self.increaseGames = function() {
+	self.increaseGames = function()
+	{
 		game.addGame();
 	};
 }]);
 // Main function is to display cinema data.
 // Additional functions will include save, load, produce movies.
-cinemaTycoonApp.controller('HUDController', ['gameData', function(game) {
+cinemaTycoonApp.controller('HUDController', ['gameData', function(game)
+{
 	var self = this;
 
 	self.employeeData = game.employeeData;
@@ -118,9 +117,15 @@ cinemaTycoonApp.controller('HUDController', ['gameData', function(game) {
 	self.snackData = game.snackData;
 	self.state = game.state;
 	self.timeData = game.timeData;
+
+	self.getBalance = function()
+	{
+		return game.getBalance();
+	};
 }]);
 // Main function is to handle employees, choose promotions, or make a movie.
-cinemaTycoonApp.controller('OfficeController', ['gameData', function(game) {
+cinemaTycoonApp.controller('OfficeController', ['gameData', function(game)
+{
 	var self = this;
 
 	self.active = false;
@@ -130,48 +135,53 @@ cinemaTycoonApp.controller('OfficeController', ['gameData', function(game) {
 	self.state = game.state;
 	self.state.selectedPromo = '0';
 
-	self.changePromo = function() {
+	self.changePromo = function()
+	{
 		game.changePromo(Number(self.state.selectedPromo));
 	};
 
-	self.entered = function() {
+	self.entered = function()
+	{
 		self.active = true;
 	};
-
-	self.exited = function() {
+	self.exited = function()
+	{
 		self.active = false;
 	};
-
-	self.fireEmployee = function() {
+	self.fireEmployee = function()
+	{
 		game.removeEmployee();
 	};
-
-	self.hireEmployee = function() {
+	self.hireEmployee = function()
+	{
 		game.addEmployee();
 	};
 }]);
 // Main function is to increase parking capacity.
-cinemaTycoonApp.controller('ParkingLotController', ['gameData', function(game) {
+cinemaTycoonApp.controller('ParkingLotController', ['gameData', function(game)
+{
 	var self = this;
 
 	self.active = false;
 	self.parkingData = game.parkingData;
 	self.state = game.state;
 
-	self.entered = function() {
+	self.entered = function()
+	{
 		self.active = true;
 	};
-
-	self.exited = function() {
+	self.exited = function()
+	{
 		self.active = false;
 	};
-
-	self.expandParking = function() {
+	self.expandParking = function()
+	{
 		game.addParking();
 	};
 }]);
 // Main function is to handle salon details (buy seats, upgrade screen, change movie).
-cinemaTycoonApp.controller('SalonController', ['gameData', function(game) {
+cinemaTycoonApp.controller('SalonController', ['gameData', function(game)
+{
 	var self = this;
 
 	self.active = false;
@@ -183,7 +193,8 @@ cinemaTycoonApp.controller('SalonController', ['gameData', function(game) {
 	self.state.selectedMovie = '0';
 	self.state.selectedSalon = self.state.activeSalon.toString();
 
-	self.buildSalon = function() {
+	self.buildSalon = function()
+	{
 		if(game.addSalon())
 		{
 			self.state.activeSalon = self.salonData.numOfSalons;
@@ -191,18 +202,18 @@ cinemaTycoonApp.controller('SalonController', ['gameData', function(game) {
 			self.state.selectedMovie = game.getMoviePlayingIndex(self.state.activeSalon - 1).toString();
 		}
 	};
-
-	self.buyProjectorUpgrade = function() {
+	self.buyProjectorUpgrade = function()
+	{
 		if(self.state.activeSalon <= 0 || self.salonData.numOfSalons <= 0) return 0;
 		else return game.upgradeProjector(self.state.activeSalon - 1);
 	};
-
-	self.buyScreenUpgrade = function() {
+	self.buyScreenUpgrade = function()
+	{
 		if(self.state.activeSalon <= 0 || self.salonData.numOfSalons <= 0) return 0;
 		else return game.upgradeScreen(self.state.activeSalon - 1);
 	};
-
-	self.buySeats = function() {
+	self.buySeats = function()
+	{
 		if(self.state.activeSalon <= 0 || self.salonData.numOfSalons <= 0) return;
 		else
 		{
@@ -210,42 +221,42 @@ cinemaTycoonApp.controller('SalonController', ['gameData', function(game) {
 			self.seatAmount = 0;
 		}
 	};
-
-	self.buySoundUpdate = function() {
+	self.buySoundUpdate = function()
+	{
 		if(self.state.activeSalon <= 0 || self.salonData.numOfSalons <= 0) return 0;
 		else return game.upgradeSound(self.state.activeSalon - 1);
 	};
-
-	self.changeMoviePlaying = function() {
+	self.changeMoviePlaying = function()
+	{
 		if(self.state.activeSalon <= 0 || self.salonData.numOfSalons <= 0) return;
 		else
 		{
 			game.changeMoviePlaying((self.state.activeSalon-1), Number(self.state.selectedMovie));
 		}
 	};
-
-	self.changeSalon = function() {
+	self.changeSalon = function()
+	{
 		if(Number(self.state.selectedSalon) > 0 && Number(self.state.selectedSalon) <= self.salonData.numOfSalons)
 		{
 			self.state.activeSalon = Number(self.state.selectedSalon);
 			self.state.selectedMovie = game.getMoviePlayingIndex(self.state.activeSalon - 1).toString();
 		}
 	};
-
-	self.entered = function() {
+	self.entered = function()
+	{
 		self.active = true;
 	};
-
-	self.exited = function() {
+	self.exited = function()
+	{
 		self.active = false;
 	};
-
-	self.getMaxSeats = function() {
+	self.getMaxSeats = function()
+	{
 		if(self.state.activeSalon <= 0 || self.salonData.numOfSalons <= 0) return 0;
 		else return self.salonData.salonsOwned[self.state.activeSalon - 1].getMaxSeats();
 	};
-
-	self.getPossibleSeats = function() {
+	self.getPossibleSeats = function()
+	{
 		if(self.state.activeSalon <= 0 || self.salonData.numOfSalons <= 0) return 0;
 		else
 		{
@@ -253,77 +264,81 @@ cinemaTycoonApp.controller('SalonController', ['gameData', function(game) {
 					self.salonData.salonsOwned[self.state.activeSalon - 1].getSeats());
 		}
 	};
-
-	self.getProjectorUpgradeLevel = function() {
+	self.getProjectorUpgradeLevel = function()
+	{
 		if(self.state.activeSalon <= 0 || self.salonData.numOfSalons <= 0) return 0;
 		else return self.salonData.salonsOwned[self.state.activeSalon - 1].getProjectorLevel();
 	};
-
-	self.getScreenUpgradeLevel = function() {
+	self.getScreenUpgradeLevel = function()
+	{
 		if(self.state.activeSalon <= 0 || self.salonData.numOfSalons <= 0) return 0;
 		else return self.salonData.salonsOwned[self.state.activeSalon - 1].getScreenLevel();
 	};
-
-	self.getSeats = function() {
+	self.getSeats = function()
+	{
 		if(self.state.activeSalon <= 0 || self.salonData.numOfSalons <= 0) return 0;
 		else return self.salonData.salonsOwned[self.state.activeSalon - 1].getSeats();
 	};
-
-	self.getSeatCost = function() {
+	self.getSeatCost = function()
+	{
 		if(self.state.activeSalon <= 0 || self.salonData.numOfSalons <= 0 || self.seatAmount === undefined) return 0;
 		else return self.salonData.salonsOwned[self.state.activeSalon - 1].getSeatCost(self.seatAmount);
 	};
-
-	self.getSoundUpgradeLevel = function() {
+	self.getSoundUpgradeLevel = function()
+	{
 		if(self.state.activeSalon <= 0 || self.salonData.numOfSalons <= 0) return 0;
 		else return self.salonData.salonsOwned[self.state.activeSalon - 1].getSoundLevel();
 	};
 }]);
 // Main function is to increase snacks offered.
-cinemaTycoonApp.controller('SnackController', ['gameData', function(game) {
+cinemaTycoonApp.controller('SnackController', ['gameData', function(game)
+{
 	var self = this;
 
 	self.active = false;
 	self.snackData = game.snackData;
 	self.state = game.state;
 
-	self.entered = function() {
+	self.entered = function()
+	{
 		self.active = true;
 	};
-
-	self.exited = function() {
+	self.exited = function()
+	{
 		self.active = false;
 	};
-
-	self.increaseSnacks = function() {
+	self.increaseSnacks = function()
+	{
 		game.addSnack();
 	};
 }]);
 // Main function is to instigate the game timer.
-cinemaTycoonApp.controller('StartController', ['gameData', '$interval', function(game, $interval) {
+cinemaTycoonApp.controller('StartController', ['gameData', '$interval', function(game, $interval)
+{
 	var self = this;
 
 	self.intervalPromise;
 	self.speed;
 	self.state = game.state;
 
-	self.activateTime = function(speed) {
+	self.activateTime = function(speed)
+	{
 		game.startGame();
 		self.speed = speed;
 		self.intervalPromise = $interval(game.newDay, (1000 * self.speed));
 	};
-
-	self.exitHelp = function() {
+	self.exitHelp = function()
+	{
 		game.help(false);
 		self.unpauseTime();
 	};
-
-	self.needHelp = function() {
+	self.needHelp = function()
+	{
 		game.help(true);
 		self.pauseTime();
 	};
-
-	self.pauseTime = function() {
+	self.pauseTime = function()
+	{
 		if(self.state.isPaused) return;
 		game.pause(true);
 		var cancelSucceeded = false;
@@ -332,30 +347,32 @@ cinemaTycoonApp.controller('StartController', ['gameData', '$interval', function
 			cancelSucceeded = $interval.cancel(self.intervalPromise);
 		} while(!cancelSucceeded);
 	};
-
-	self.unpauseTime = function() {
+	self.unpauseTime = function()
+	{
 		if(!self.state.isPaused) return;
 		game.pause(false);
 		self.intervalPromise = $interval(game.newDay, (1000 * self.speed));
 	};
 }]);
 // Main function is to purchase movie licenses and produce new films.
-cinemaTycoonApp.controller('WorkshopController', ['gameData', function(game) {
+cinemaTycoonApp.controller('WorkshopController', ['gameData', function(game)
+{
 	var self = this;
 
 	self.active = false;
 	self.miscData = game.miscData;
 	self.state = game.state;
 
-	self.entered = function() {
+	self.entered = function()
+	{
 		self.active = true;
 	};
-
-	self.exited = function() {
+	self.exited = function()
+	{
 		self.active = false;
 	};
-
-	self.produceMovie = function() {
+	self.produceMovie = function()
+	{
 		if(game.getBalance() < (game.miscData.moviesMade + 1) * game.miscData.movieProductionModifier) window.alert("Not enough money!\n\nYou need $" + ((game.miscData.moviesMade + 1) * game.miscData.movieProductionModifier) + " and you only have $" + game.getBalance());
 		else window.alert("Let's make a movie!")//game.produceMovie();
 	};
