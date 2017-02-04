@@ -207,15 +207,21 @@ select
 @media (min-width: 300px) {
 	#film-vault-active
 	{
-		/* Image from: https://openclipart.org/user-detail/Moini */
+		/*
+		** Image from: https://openclipart.org/user-detail/Moini 
+		** && https://openclipart.org/detail/217250/acme-safe
+		*/
 		background: url("../images/blank.png") no-repeat center center;
 		height: 320px;
 		padding-top: 50px;
 	}
 	#film-vault-inactive
 	{
-		/* Image from: https://openclipart.org/detail/141493/workshop-door-sign */
-		background: url("../images/workshop-small.png") no-repeat center center;
+		/*
+		** Image from: https://openclipart.org/user-detail/Moini 
+		** && https://openclipart.org/detail/217250/acme-safe
+		*/
+		background: url("../images/film-vault-small.png") no-repeat center center;
 		height: 320px;
 	}
 	#help.btn,
@@ -328,15 +334,21 @@ select
 @media (min-width: 992px) {
 	#film-vault-active
 	{
-		/* Modified image from: https://openclipart.org/user-detail/Moini */
+		/*
+		** Image from: https://openclipart.org/user-detail/Moini 
+		** && https://openclipart.org/detail/217250/acme-safe
+		*/
 		background: url("../images/blank-long.png") no-repeat center center;
 		height: 200px;
 		padding-top: 55px;
 	}
 	#film-vault-inactive
 	{
-		/* Image from: https://openclipart.org/detail/141493/workshop-door-sign */
-		background: url("../images/workshop.png") no-repeat center center;
+		/*
+		** Image from: https://openclipart.org/user-detail/Moini 
+		** && https://openclipart.org/detail/217250/acme-safe
+		*/
+		background: url("../images/film-vault.png") no-repeat center center;
 		height: 200px;
 	}
 	#salon-active
