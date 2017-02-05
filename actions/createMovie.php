@@ -89,17 +89,17 @@ else $licenseLength = 0;
 
 $date = date('Y-m-d H:i:s');
 
-$sql = 'INSERT INTO Movies (	Title, ' .
-								'Synopsis, ' .
-								'Expected Popularity, ' .
-								'Actual Popularity, ' .
-								'Optimal Season, ' .
-								'Worst Season, ' .
-								'Cost License, ' .
-								'License Length, ' .
-								'Produced By, ' .
-								'Date Created, ' .
-								'Date Modified) ' .
+$sql = 'INSERT INTO Movies (`Title`, ' .
+								'`Synopsis`, ' .
+								'`Expected Popularity`, ' .
+								'`Actual Popularity`, ' .
+								'`Optimal Season`, ' .
+								'`Worst Season`, ' .
+								'`Cost License`, ' .
+								'`License Length`, ' .
+								'`Produced By`, ' .
+								'`Date Created`, ' .
+								'`Date Modified`) ' .
 					'VALUES ("' . $title . '", "' .
 									$synopsis . '", ' .
 									$expectedPopularity . ', ' .
@@ -107,7 +107,7 @@ $sql = 'INSERT INTO Movies (	Title, ' .
 									$optimalSeason . ', ' .
 									$worstSeason . ', ' .
 									$costlicense . ', ' .
-									$licenseLength . ', ' .
+									$licenseLength . ', "' .
 									$producedBy . '", "' .
 									$date . '", "' .
 									$date . '")';
