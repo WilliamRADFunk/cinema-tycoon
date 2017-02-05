@@ -62,6 +62,9 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 	game.state.isStarted = false;						// Tracks whether player has started or not.
 	game.state.isPaused = false;						// Tracks whether player has paused game.
 	game.state.isHelp = false;							// Tracks whether player is in help modal.
+	game.state.isGameOver = false;						// Tracks whether player is in the end game modal.
+	game.state.endGameMsg = "";							// Message displayed to user at end of game.
+	game.state.isWin = "";								// Displays 'Win' or 'Lose' at end game.
 
 	game.timeData = {};
 	game.timeData.day = 1;								// Tracks the day of the year.
@@ -73,12 +76,6 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 	game.workshop = {};
 	game.workshop.warningText = "";						// Unique warning text for the workshop module (async failures).
 
-	// Submits a new user-created movie into the database.
-	// Upon success, transfer movie into user's owned licenses.
-	addNewMovie = function()
-	{
-
-	};
 	calculateDailyProfits = function()
 	{
 		var dailyProfit = 0;
@@ -346,15 +343,21 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 			game.timeData.season = season[game.timeData.seasonIndex];
 		}
 		// Checks to see if user has won or lost
+		console.log(balance, " ", game.miscData.moviesMade);
 		if(balance >= 1000000 && game.miscData.moviesMade >= 3)
 		{
 			// TODO: Activate modal for user to enter name for top scores.
-			console.log("The game is won in " + (game.timeData.day * game.timeData.year) + " days!");
+			console.log("Here");
+			game.state.isGameOver = true;
+			game.state.isWin = "Win";
+			game.state.endGameMsg = "The game is won in " + (game.timeData.day * game.timeData.year) + " days!";
 		}
 		else if(balance < -10000)
 		{
 			// TODO: Activate modal for user endgame.
-			console.log("The game is lost in " + (game.timeData.day * game.timeData.year) + " days!");
+			game.state.isGameOver = true;
+			game.state.isWin = "Lose";
+			game.state.endGameMsg = "The game is lost in " + (game.timeData.day * game.timeData.year) + " days!";
 		}
 	};
 	// Pauses and unpauses game
@@ -397,6 +400,7 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 		balance = game.salonData.salonsOwned[salonNum].upgradeSoundLevel(balance);
 	};
 	// Adds a user created movie to the database iff balance available and content passes inspection.
+	// Upon success, transfer movie into user's owned licenses.
 	game.produceMovie = function(title, synopsis, optimalSeason, worstSeason, cost, licenseDuration, producer)
 	{
 		if(balance < (game.miscData.moviesMade + 1) * game.miscData.movieProductionModifier) game.workshop.warningText = "Movie production failed. You need more money!";

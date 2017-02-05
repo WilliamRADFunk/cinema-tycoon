@@ -235,6 +235,7 @@ select
 		padding-left: 0px;
 		padding-right: 0px;
 	}
+	#game-over-modal,
 	#help-modal,
 	#movie-modal,
 	#production-modal,
@@ -253,6 +254,7 @@ select
 	{
 		border-radius: 1%;
 	}
+	#game-over-modal > button,
 	#help-modal > button,
 	#movie-modal > button,
 	#production-modal > button,
@@ -306,6 +308,7 @@ select
 		background: url("../images/snacks-small.png") no-repeat center center;
 		height: 320px;
 	}
+	#game-over-modal > p:first-child,
 	#movie-modal > p:first-child,
 	#production-modal > p:first-child,
 	#start-modal > p:first-child
@@ -413,6 +416,7 @@ select
 	}
 }
 @media (min-width: 1200px) {
+	#game-over-modal,
 	#movie-modal,
 	#production-modal,
 	#start-modal
