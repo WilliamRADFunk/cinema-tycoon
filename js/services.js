@@ -441,19 +441,23 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 				}
 			}).then(function successCallback(response)
 			{
-				response.data.licenseLength = 5200;
-				game.miscData.moviesOwned.push(createMovie(	response.data.title,
-															response.data.synopsis,
-															response.data.expectedPopularity,
-															response.data.actualPopularity,
-															response.data.optimalSeason,
-															response.data.worstSeason,
-															response.data.costLicense,
-															response.data.licenseLength,
-															response.data.producedBy
-				));
-				game.miscData.moviesMade++;
-				game.workshop.warningText = "";
+				if(response.data.title === undefined) game.workshop.warningText = "Movie production failed. Connection Problems?";
+				else
+				{
+					response.data.licenseLength = 5200;
+					game.miscData.moviesOwned.push(createMovie(	response.data.title,
+																response.data.synopsis,
+																response.data.expectedPopularity,
+																response.data.actualPopularity,
+																response.data.optimalSeason,
+																response.data.worstSeason,
+																response.data.costLicense,
+																response.data.licenseLength,
+																response.data.producedBy
+					));
+					game.miscData.moviesMade++;
+					game.workshop.warningText = "";
+				}
 			}, function errorCallback(response)
 			{
 				console.log(response);

@@ -87,28 +87,30 @@ if($licenseLength)
 }
 else $licenseLength = 0;
 
-$sql = "INSERT INTO `Movies` (	`Title`, " .
-								"`Synopsis`, " .
-								"`Expected Popularity`, " .
-								"`Actual Popularity`, " .
-								"`Optimal Season`, " .
-								"`Worst Season`, " .
-								"`Cost License`, " .
-								"`License Length`, " .
-								"`Produced By`, " .
-								"`Date Created`, " .
-								"`Date Modified`) " .
-					"VALUES ('" .	$title . "', '" .
-									$synopsis . "', " . 
-									$expectedPopularity . ", " . 
-									$actualPopularity . ", " . 
-									$optimalSeason . ", " . 
-									$worstSeason . ", " . 
-									$costlicense . ", " . 
-									$licenseLength . ", " . 
-									$producedBy . "', '" . 
-									date('Y-m-d H:i:s') . "', '" . 
-									date('Y-m-d H:i:s') . "')";
+$date = date('Y-m-d H:i:s');
+
+$sql = 'INSERT INTO Movies (	Title, ' .
+								'Synopsis, ' .
+								'Expected Popularity, ' .
+								'Actual Popularity, ' .
+								'Optimal Season, ' .
+								'Worst Season, ' .
+								'Cost License, ' .
+								'License Length, ' .
+								'Produced By, ' .
+								'Date Created, ' .
+								'Date Modified) ' .
+					'VALUES ("' . $title . '", "' .
+									$synopsis . '", ' .
+									$expectedPopularity . ', ' .
+									$actualPopularity . ', ' .
+									$optimalSeason . ', ' .
+									$worstSeason . ', ' .
+									$costlicense . ', ' .
+									$licenseLength . ', ' .
+									$producedBy . '", "' .
+									$date . '", "' .
+									$date . '")';
 
 $res = $conn->query($sql);
 
@@ -129,7 +131,7 @@ if($res === TRUE)
 }
 else
 {
-	echo "\nMovie creation failed. '" . $res . "'";
+	echo "{}";
 }
 
 $conn->close();
