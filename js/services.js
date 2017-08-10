@@ -1,6 +1,6 @@
 cinemaTycoonApp.factory('gameData', ['$http', function($http)
 {
-	var balance = 1000000000000;
+	var balance = 10000;
 	var basicLeaseRent = 1000;
 	var employ = ["Dismal", "Substandard", "Decent", "Friendly", "Super"];
 	var game = {};
@@ -343,11 +343,9 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 			game.timeData.season = season[game.timeData.seasonIndex];
 		}
 		// Checks to see if user has won or lost
-		console.log(balance, " ", game.miscData.moviesMade);
 		if(balance >= 1000000 && game.miscData.moviesMade >= 3)
 		{
 			// TODO: Activate modal for user to enter name for top scores.
-			console.log("Here");
 			game.state.isGameOver = true;
 			game.state.isWin = "Win";
 			game.state.endGameMsg = "The game is won in " + (game.timeData.day * game.timeData.year) + " days!";
@@ -405,7 +403,7 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 	{
 		if(balance < (game.miscData.moviesMade + 1) * game.miscData.movieProductionModifier) game.workshop.warningText = "Movie production failed. You need more money!";
 		else
-		{
+		{	
 			// Randomly select popularity.
 			var actualPopularity = Math.floor(Math.random() * 10 + 1) / 10.0;
 			var expectedPopularity = Math.floor(Math.random() * 10 + 1) / 10.0;
@@ -430,7 +428,7 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 			$http(
 			{
 				method: 'POST',
-				url: './actions/createMovie.php',
+				url: 'https://tenaciousteal.com/games/cinema-tycoon/actions/createMovie.php',
 				data:
 				{
 					actualPopularity: actualPopularity,
@@ -502,7 +500,7 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 		$http(
 		{
 			method: 'GET',
-			url: './actions/getMovies.php'
+			url: 'https://tenaciousteal.com/games/cinema-tycoon/actions/getMovies.php'
 		}).then(function successCallback(response)
 		{
 			game.miscData.moviesAvailable = [];
@@ -539,7 +537,7 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 														));
 		}, function errorCallback(response)
 		{
-			console.log(response.statusText);
+			console.log(response);
 			getNewMovies();
 		});
 	};

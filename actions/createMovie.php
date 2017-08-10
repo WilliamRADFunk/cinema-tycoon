@@ -1,6 +1,6 @@
 <?php
 header("content-type:application/json");
-include_once "config.php";
+include_once "config2.php";
 
 $data = json_decode(file_get_contents("php://input"));
 
@@ -10,7 +10,7 @@ $expectedPopularity = $data->expectedPopularity;
 $actualPopularity = $data->actualPopularity;
 $optimalSeason = $data->optimalSeason;
 $worstSeason = $data->worstSeason;
-$costlicense = $data->costlicense;
+$costLicense = $data->costLicense;
 $licenseLength = $data->licenseLength;
 $producedBy = $data->producedBy;
 
@@ -21,7 +21,7 @@ $producedBy = $data->producedBy;
 // 				'"actualPopularity": "' . $actualPopularity . '",' .
 // 				'"optimalSeason": "' . $optimalSeason . '",' .
 // 				'"worstSeason": "' . $worstSeason . '",' .
-// 				'"costLicense": "' . $costlicense . '",' .
+// 				'"costLicense": "' . $costLicense . '",' .
 // 				'"licenseLength": "' . $licenseLength . '",' .
 // 				'"producedBy": "' . $producedBy . '"' .
 // 			 ' }';
@@ -62,12 +62,12 @@ if($actualPopularity)
 	if($actualPopularity > 1) $actualPopularity = 1.0;
 }
 else $actualPopularity = 0.1;
-if($costlicense)
+if($costLicense)
 {
-	if($costlicense < 1000) $costlicense = 1000;
-	if($costlicense > 100000) $costlicense = 100000;
+	if($costLicense < 1000) $costLicense = 1000;
+	if($costLicense > 100000) $costLicense = 100000;
 }
-else $costlicense = 1000;
+else $costLicense = 1000;
 if($optimalSeason)
 {
 	if($optimalSeason < 0) $optimalSeason = 0;
@@ -106,7 +106,7 @@ $sql = 'INSERT INTO Movies (`Title`, ' .
 									$actualPopularity . ', ' .
 									$optimalSeason . ', ' .
 									$worstSeason . ', ' .
-									$costlicense . ', ' .
+									$costLicense . ', ' .
 									$licenseLength . ', "' .
 									$producedBy . '", "' .
 									$date . '", "' .
@@ -123,7 +123,7 @@ if($res === TRUE)
 				'"actualPopularity": ' . $actualPopularity . ',' .
 				'"optimalSeason": ' . $optimalSeason . ',' .
 				'"worstSeason": ' . $worstSeason . ',' .
-				'"costLicense": ' . $costlicense . ',' .
+				'"costLicense": ' . $costLicense . ',' .
 				'"licenseLength": ' . $licenseLength . ',' .
 				'"producedBy": "' . $producedBy . '"' .
 			 ' }';

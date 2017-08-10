@@ -1,6 +1,6 @@
 <?php
 header("content-type:application/json");
-include_once "config.php";
+include_once "config2.php";
 
 // Create connection
 $conn = new mysqli($hostnameMain, $usernameMain, $passwordMain, $dbnameMain);
