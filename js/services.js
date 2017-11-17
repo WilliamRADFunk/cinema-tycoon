@@ -1,6 +1,6 @@
 cinemaTycoonApp.factory('gameData', ['$http', function($http)
 {
-	var balance = 10000;
+	var balance = 10000000;
 	var basicLeaseRent = 1000;
 	var employ = ["Dismal", "Substandard", "Decent", "Friendly", "Super"];
 	var game = {};
@@ -425,9 +425,13 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 			if(synopsis === "" || synopsis === null || synopsis === undefined) synopsis = "No synopsis given.";
 			// Validate producer input.
 			if(producer === "" || producer === null || producer === undefined) producer = "Anonymous";
+
 			$http(
 			{
 				method: 'POST',
+				dataType:'json',
+				crossDomain: true,
+				async: true,
 				url: 'https://tenaciousteal.com/games/cinema-tycoon/actions/createMovie.php',
 				data:
 				{
@@ -500,6 +504,9 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 		$http(
 		{
 			method: 'GET',
+			dataType:'json',
+			crossDomain: true,
+			async: true,
 			url: 'https://tenaciousteal.com/games/cinema-tycoon/actions/getMovies.php'
 		}).then(function successCallback(response)
 		{
@@ -538,7 +545,7 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 		}, function errorCallback(response)
 		{
 			console.log(response);
-			getNewMovies();
+			setTimeout(getNewMovies(), 3000);
 		});
 	};
 	// Decrements all licenses by one, and removes those with 0 weeks remaining.
