@@ -15,19 +15,6 @@ $costLicense = $data->costLicense;
 $licenseLength = $data->licenseLength;
 $producedBy = $data->producedBy;
 
-// $movie = '{ ' .
-// 				'"title": "' . $title . '",' .
-// 				'"synopsis": "' . $synopsis . '",' .
-// 				'"expectedPopularity": "' . $expectedPopularity . '",' .
-// 				'"actualPopularity": "' . $actualPopularity . '",' .
-// 				'"optimalSeason": "' . $optimalSeason . '",' .
-// 				'"worstSeason": "' . $worstSeason . '",' .
-// 				'"costLicense": "' . $costLicense . '",' .
-// 				'"licenseLength": "' . $licenseLength . '",' .
-// 				'"producedBy": "' . $producedBy . '"' .
-// 			 ' }';
-// 	print $movie;
-
 // Create connection
 $conn = new mysqli($hostnameMain, $usernameMain, $passwordMain, $dbnameMain);
 // Check connection

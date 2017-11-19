@@ -348,14 +348,14 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 			// TODO: Activate modal for user to enter name for top scores.
 			game.state.isGameOver = true;
 			game.state.isWin = "Win";
-			game.state.endGameMsg = "The game is won in " + (game.timeData.day * game.timeData.year) + " days!";
+			game.state.endGameMsg = "The game was won in " + (game.timeData.day * game.timeData.year) + " days!";
 		}
-		else if(balance < -10000)
+		else if(balance < -10000 || game.timeData.year >= 4)
 		{
 			// TODO: Activate modal for user endgame.
 			game.state.isGameOver = true;
 			game.state.isWin = "Lose";
-			game.state.endGameMsg = "The game is lost in " + (game.timeData.day * game.timeData.year) + " days!";
+			game.state.endGameMsg = "The game was lost in " + (game.timeData.day * game.timeData.year) + " days!";
 		}
 	};
 	// Pauses and unpauses game
@@ -403,7 +403,7 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 	{
 		if(balance < (game.miscData.moviesMade + 1) * game.miscData.movieProductionModifier) game.workshop.warningText = "Movie production failed. You need more money!";
 		else
-		{	
+		{
 			// Randomly select popularity.
 			var actualPopularity = Math.floor(Math.random() * 10 + 1) / 10.0;
 			var expectedPopularity = Math.floor(Math.random() * 10 + 1) / 10.0;
@@ -429,7 +429,9 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 			$http(
 			{
 				method: 'POST',
-				dataType:'json',
+				headers: {
+	              'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
+				},
 				crossDomain: true,
 				async: true,
 				url: 'https://tenaciousteal.com/games/cinema-tycoon/actions/createMovie.php',
