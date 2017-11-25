@@ -1,11 +1,17 @@
 // Main function is to purchase movie licenses and view movie details.
-cinemaTycoonApp.controller('FilmVaultController', ['gameData', '$scope', function(game, $scope)
+cinemaTycoonApp.controller('FilmVaultController', ['gameData', '$rootScope', '$scope', function(game, $rootScope, $scope)
 {
 	var self = this;
 
 	$scope.$on('restart', function()
 	{
 		self.setup();
+	});
+	$scope.$on('sectionEntered', function(msg, args)
+	{
+		if(args.section !== 'vault') {
+			self.exited();
+		}
 	});
 
 	self.closeInspector = function()
@@ -15,6 +21,7 @@ cinemaTycoonApp.controller('FilmVaultController', ['gameData', '$scope', functio
 	self.entered = function()
 	{
 		self.active = true;
+		$rootScope.$broadcast('sectionEntered', { section: 'vault' });
 	};
 	self.exited = function()
 	{
@@ -64,7 +71,7 @@ cinemaTycoonApp.controller('FilmVaultController', ['gameData', '$scope', functio
 }]);
 // Main function is to adjust ticket price.
 // Shows how much people like/dislike the price.
-cinemaTycoonApp.controller('FrontDoorController', ['gameData', '$scope', function(game, $scope)
+cinemaTycoonApp.controller('FrontDoorController', ['gameData', '$rootScope', '$scope', function(game, $rootScope, $scope)
 {
 	var self = this;
 
@@ -72,10 +79,17 @@ cinemaTycoonApp.controller('FrontDoorController', ['gameData', '$scope', functio
 	{
 		self.setup();
 	});
+	$scope.$on('sectionEntered', function(msg, args)
+	{
+		if(args.section !== 'ticket') {
+			self.exited();
+		}
+	});
 
 	self.entered = function()
 	{
 		self.active = true;
+		$rootScope.$broadcast('sectionEntered', { section: 'ticket' });
 	};
 	self.exited = function()
 	{
@@ -99,7 +113,7 @@ cinemaTycoonApp.controller('FrontDoorController', ['gameData', '$scope', functio
 	self.setup();
 }]);
 // Main function is to increase games offered.
-cinemaTycoonApp.controller('GameroomController', ['gameData', '$scope', function(game, $scope)
+cinemaTycoonApp.controller('GameroomController', ['gameData', '$rootScope', '$scope', function(game, $rootScope, $scope)
 {
 	var self = this;
 
@@ -107,10 +121,17 @@ cinemaTycoonApp.controller('GameroomController', ['gameData', '$scope', function
 	{
 		self.setup();
 	});
+	$scope.$on('sectionEntered', function(msg, args)
+	{
+		if(args.section !== 'games') {
+			self.exited();
+		}
+	});
 
 	self.entered = function()
 	{
 		self.active = true;
+		$rootScope.$broadcast('sectionEntered', { section: 'games' });
 	};
 	self.exited = function()
 	{
@@ -160,13 +181,19 @@ cinemaTycoonApp.controller('HUDController', ['gameData', '$scope', function(game
 	self.setup();
 }]);
 // Main function is to handle employees, choose promotions, or make a movie.
-cinemaTycoonApp.controller('OfficeController', ['gameData', '$scope', function(game, $scope)
+cinemaTycoonApp.controller('OfficeController', ['gameData', '$rootScope', '$scope', function(game, $rootScope, $scope)
 {
 	var self = this;
 
 	$scope.$on('restart', function()
 	{
 		self.setup();
+	});
+	$scope.$on('sectionEntered', function(msg, args)
+	{
+		if(args.section !== 'office') {
+			self.exited();
+		}
 	});
 
 	self.changePromo = function()
@@ -177,6 +204,7 @@ cinemaTycoonApp.controller('OfficeController', ['gameData', '$scope', function(g
 	self.entered = function()
 	{
 		self.active = true;
+		$rootScope.$broadcast('sectionEntered', { section: 'office' });
 	};
 	self.exited = function()
 	{
@@ -203,7 +231,7 @@ cinemaTycoonApp.controller('OfficeController', ['gameData', '$scope', function(g
 	self.setup();
 }]);
 // Main function is to increase parking capacity.
-cinemaTycoonApp.controller('ParkingLotController', ['gameData', '$scope', function(game, $scope)
+cinemaTycoonApp.controller('ParkingLotController', ['gameData', '$rootScope', '$scope', function(game, $rootScope, $scope)
 {
 	var self = this;
 
@@ -211,10 +239,17 @@ cinemaTycoonApp.controller('ParkingLotController', ['gameData', '$scope', functi
 	{
 		self.setup();
 	});
+	$scope.$on('sectionEntered', function(msg, args)
+	{
+		if(args.section !== 'parking') {
+			self.exited();
+		}
+	});
 
 	self.entered = function()
 	{
 		self.active = true;
+		$rootScope.$broadcast('sectionEntered', { section: 'parking' });
 	};
 	self.exited = function()
 	{
@@ -234,13 +269,19 @@ cinemaTycoonApp.controller('ParkingLotController', ['gameData', '$scope', functi
 	self.setup();
 }]);
 // Main function is to handle salon details (buy seats, upgrade screen, change movie).
-cinemaTycoonApp.controller('SalonController', ['gameData', '$scope', function(game, $scope)
+cinemaTycoonApp.controller('SalonController', ['gameData', '$rootScope', '$scope', function(game, $rootScope, $scope)
 {
 	var self = this;
 
 	$scope.$on('restart', function()
 	{
 		self.setup();
+	});
+	$scope.$on('sectionEntered', function(msg, args)
+	{
+		if(args.section !== 'salon') {
+			self.exited();
+		}
 	});
 
 	self.buildSalon = function()
@@ -295,6 +336,7 @@ cinemaTycoonApp.controller('SalonController', ['gameData', '$scope', function(ga
 	self.entered = function()
 	{
 		self.active = true;
+		$rootScope.$broadcast('sectionEntered', { section: 'salon' });
 	};
 	self.exited = function()
 	{
@@ -354,7 +396,7 @@ cinemaTycoonApp.controller('SalonController', ['gameData', '$scope', function(ga
 	self.setup();
 }]);
 // Main function is to increase snacks offered.
-cinemaTycoonApp.controller('SnackController', ['gameData', '$scope', function(game, $scope)
+cinemaTycoonApp.controller('SnackController', ['gameData', '$rootScope', '$scope', function(game, $rootScope, $scope)
 {
 	var self = this;
 
@@ -362,10 +404,17 @@ cinemaTycoonApp.controller('SnackController', ['gameData', '$scope', function(ga
 	{
 		self.setup();
 	});
+	$scope.$on('sectionEntered', function(msg, args)
+	{
+		if(args.section !== 'snack') {
+			self.exited();
+		}
+	});
 
 	self.entered = function()
 	{
 		self.active = true;
+		$rootScope.$broadcast('sectionEntered', { section: 'snack' });
 	};
 	self.exited = function()
 	{
@@ -434,13 +483,19 @@ cinemaTycoonApp.controller('StartController', ['gameData', '$interval', '$rootSc
 	};
 }]);
 // Main function is to purchase movie licenses and produce new films.
-cinemaTycoonApp.controller('WorkshopController', ['gameData', '$scope', function(game, $scope)
+cinemaTycoonApp.controller('WorkshopController', ['gameData', '$rootScope', '$scope', function(game, $rootScope, $scope)
 {
 	var self = this;
 
 	$scope.$on('restart', function()
 	{
 		self.setup();
+	});
+	$scope.$on('sectionEntered', function(msg, args)
+	{
+		if(args.section !== 'workshop') {
+			self.exited();
+		}
 	});
 
 	self.closeProduction = function()
@@ -449,7 +504,9 @@ cinemaTycoonApp.controller('WorkshopController', ['gameData', '$scope', function
 	};
 	self.entered = function()
 	{
+		console.log('Here');
 		self.active = true;
+		$rootScope.$broadcast('sectionEntered', { section: 'workshop' });
 	};
 	self.exited = function()
 	{

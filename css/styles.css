@@ -6,8 +6,10 @@ Author: William R.A.D. Funk - http://WilliamRobertFunk.com
 body
 {
 	background-color: #000000;
-	color: #FFFFFF;
+	color: #FF01CD;
+	font-family: 'Trebuchet MS';
 	height: 100%;
+	letter-spacing: 1px;
 	margin: 0;
 	padding: 0;
 	width: 100%;
@@ -16,7 +18,13 @@ button,
 input,
 select
 {
-	color: #000000;
+	color: #FF01CD;
+}
+button.btn.btn-info:not(.controls)
+{
+	color: #FFFFFF;
+	font-family: 'georgia';
+	letter-spacing: 1px;
 }
 input[type='number']
 {
@@ -61,6 +69,7 @@ select
 #hud
 {
 	border: 1px solid #00441C;
+	margin-bottom: 25px;
 	padding-top: 20px;
 }
 #hud > div:first-child
