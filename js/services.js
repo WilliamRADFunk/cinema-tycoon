@@ -248,7 +248,7 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 		else
 		{
 			var cost = (game.gameroomData.numOfGames + 1) * game.gameroomData.newGamePriceMultiplier;
-			if( cost <= (balance + 10000))
+			if( cost <= (balance + 9990))
 			{
 				game.gameroomData.numOfGames++;
 				balance -= cost;
@@ -265,7 +265,7 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 		else
 		{
 			var cost = (game.parkingData.parkingLevels + 1) * game.parkingData.parkingExpandCost;
-			if( cost <= (balance + 10000))
+			if( cost <= (balance + 9990))
 			{
 				game.parkingData.parkingLevels++;
 				balance -= cost;
@@ -283,7 +283,7 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 		else
 		{
 			var cost = (game.salonData.numOfSalons + 1) * game.salonData.newSalonPriceMultiplier;
-			if( cost <= (balance + 10000))
+			if( cost <= (balance + 9990))
 			{
 				var salon = createSalon();
 				game.salonData.salonsOwned.push(salon);
@@ -305,7 +305,7 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 		else
 		{
 			var cost = (game.snackData.numOfSnacks + 1) * game.snackData.newSnackPriceMultiplier;
-			if( cost <= (balance + 10000))
+			if( cost <= (balance + 9990))
 			{
 				game.snackData.numOfSnacks++;
 				balance -= cost;
@@ -315,7 +315,7 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 	// Since salon object has seat quantity and balance checker, buy and adjust totalSeats.
 	game.buySeats = function(salonNum, quantity)
 	{
-		balance = game.salonData.salonsOwned[salonNum].addSeats(quantity, (balance + 10000));
+		balance = game.salonData.salonsOwned[salonNum].addSeats(quantity, (balance + 9990));
 		game.salonData.totalSeats = calculateTotalSeats();
 	};
 	// Changes the movie playing in this salon
@@ -442,7 +442,7 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 	{
 		if(index !== 0)
 		{
-			if(game.miscData.moviesAvailable[index].getCostLicense() <= (balance + 10000))
+			if(game.miscData.moviesAvailable[index].getCostLicense() <= (balance + 9990))
 			{
 				balance -= game.miscData.moviesAvailable[index].getCostLicense();
 				game.miscData.moviesOwned.push(game.miscData.moviesAvailable[index]);
@@ -460,21 +460,21 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 	};
 	game.upgradeProjector = function(salonNum)
 	{
-		balance = game.salonData.salonsOwned[salonNum].upgradeProjectorLevel((balance + 10000));
+		balance = game.salonData.salonsOwned[salonNum].upgradeProjectorLevel((balance + 9990));
 	};
 	game.upgradeScreen = function(salonNum)
 	{
-		balance = game.salonData.salonsOwned[salonNum].upgradeScreenLevel((balance + 10000));
+		balance = game.salonData.salonsOwned[salonNum].upgradeScreenLevel((balance + 9990));
 	};
 	game.upgradeSound = function(salonNum)
 	{
-		balance = game.salonData.salonsOwned[salonNum].upgradeSoundLevel((balance + 10000));
+		balance = game.salonData.salonsOwned[salonNum].upgradeSoundLevel((balance + 9990));
 	};
 	// Adds a user created movie to the database iff balance available and content passes inspection.
 	// Upon success, transfer movie into user's owned licenses.
 	game.produceMovie = function(title, synopsis, optimalSeason, worstSeason, cost, licenseDuration, producer)
 	{
-		if((balance + 10000) < (game.miscData.moviesMade + 1) * game.miscData.movieProductionModifier) game.workshop.warningText = "Movie production failed. You need more money!";
+		if((balance + 9990) < (game.miscData.moviesMade + 1) * game.miscData.movieProductionModifier) game.workshop.warningText = "Movie production failed. You need more money!";
 		else
 		{
 			// Randomly select popularity.
