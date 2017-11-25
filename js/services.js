@@ -1,80 +1,14 @@
 cinemaTycoonApp.factory('gameData', ['$http', function($http)
 {
-	var balance = 10000000;
-	var basicLeaseRent = 1000;
+	var balance;
+	var basicLeaseRent;
 	var employ = ["Dismal", "Substandard", "Decent", "Friendly", "Super"];
 	var game = {};
 	var promos = ["None", "Newspaper Ad", "Radio Commercial", "TV Commercial", "Celebrity Endorsement"];
 	var season = ["Winter", "Spring", "Summer", "Autumn"];
-	var weekTicketProfits = 0;
-	var weekSnackProfits = 0;
-	var weekGamesProfits = 0;
-
-	game.employeeData = {};
-	game.employeeData.numOfEmployees = 1;				// Player's current number of employed workers.
-	game.employeeData.maxEmployees = 5;					// Maximum number of employees possible.
-	game.employeeData.employeeResult = employ[0];		// Description of employee amount.
-	game.employeeData.employeeCostMultiplier = 500;		// Multiplier for employees on payday.
-
-	game.gameroomData = {};
-	game.gameroomData.numOfGames = 0;					// Player's total existing game choices.
-	game.gameroomData.maxGames = 5;						// Maximum number of games possible.
-	game.gameroomData.newGamePriceMultiplier = 1000;	// Multiplier for additional games.
-
-	game.miscData = {};
-	game.miscData.ticketPrice = 10.00;					// Price of a movie ticket.
-	game.miscData.currentPromotionIndex = 0;			// Enum index for marketing promotion.
-	game.miscData.currentPromotion =
-		promos[game.miscData.currentPromotionIndex];	// Enum value for marketing promotion.
-	game.miscData.promotionMultiplier = 500;			// Multiplier for marketing promotions.
-	game.miscData.numOfLicenses = 0;					// Total number of movie licenses currently owned.
-	game.miscData.moviesOwned = [];						// List of movie objects player currently owns.
-	game.miscData.moviesAvailable = [];					// Periodically changed. Movies for license purchase.
-	game.miscData.movieProductionModifier = 250000;		// Modifier for cost of film making.
-	game.miscData.moviesMade = 0;						// User made movies. Needed for the win.
-	
-	game.parkingData = {};
-	game.parkingData.parkingLevels = 0;					// Current parking lot capacity level.
-	game.parkingData.maxParkingLevels = 10;				// Maximum number of parking levels possible.
-	game.parkingData.parkingExpandCost = 2000			// Cost multiplier to expand local parking space.
-
-	game.profitData = {};
-	game.profitData.profitTicketSales = 0.0;			// Tally of total ticket's sold at cost in last period.
-	game.profitData.profitSnackSales = 0.0;				// Tally of total snacks sold at cost in last period.
-	game.profitData.profitGamesSales = 0.0;				// Tally of total games sold at cost in last period.
-	game.profitData.expenses = 0.0;						// Total cost of running cinema in last period.
-	game.profitData.netProfit = 0.0;					// Total profit/loss for the last period.
-
-	game.salonData = {};
-	game.salonData.salonsOwned = [];					// Contains the actual salon objects.
-	game.salonData.numOfSalons =
-		game.salonData.salonsOwned.length;				// Player's total existing salons.
-	game.salonData.maxSalons = 10;						// Maximum number of salons possible.
-	game.salonData.newSalonPriceMultiplier = 1000;		// Multiplier for additional salons.
-	game.salonData.totalSeats = 0;						// Total seats (possible tickets) cinema has.	
-
-	game.snackData = {};
-	game.snackData.numOfSnacks = 0;						// Player's total existing snack choices.
-	game.snackData.maxSnacks = 5;						// Maximum number of snacks possible.
-	game.snackData.newSnackPriceMultiplier = 500;		// Multiplier for additional snacks.
-
-	game.state = {};
-	game.state.isStarted = false;						// Tracks whether player has started or not.
-	game.state.isPaused = false;						// Tracks whether player has paused game.
-	game.state.isHelp = false;							// Tracks whether player is in help modal.
-	game.state.isGameOver = false;						// Tracks whether player is in the end game modal.
-	game.state.endGameMsg = "";							// Message displayed to user at end of game.
-	game.state.isWin = "";								// Displays 'Win' or 'Lose' at end game.
-
-	game.timeData = {};
-	game.timeData.day = 1;								// Tracks the day of the year.
-	game.timeData.seasonIndex = 0;						// Enum index for season. (relevant for movie effectiveness)
-	game.timeData.season =
-		season[game.timeData.seasonIndex];				// The current season in enum value.
-	game.timeData.year = 1;								// Total years user has been playing.
-
-	game.workshop = {};
-	game.workshop.warningText = "";						// Unique warning text for the workshop module (async failures).
+	var weekTicketProfits;
+	var weekSnackProfits;
+	var weekGamesProfits;
 
 	calculateDailyProfits = function()
 	{
@@ -157,6 +91,140 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 				(game.parkingData.parkingLevels * (0.25 * game.parkingData.parkingExpandCost)) +
 				(game.miscData.currentPromotionIndex * game.miscData.promotionMultiplier) );
 	};
+	// Called at game start and at regular time intervals (~90 days)
+	// Gets three movies to refresh the "available for license purchase" array.
+	getNewMovies = function()
+	{
+		$http(
+		{
+			method: 'GET',
+			dataType:'json',
+			crossDomain: true,
+			async: true,
+			url: 'https://tenaciousteal.com/games/cinema-tycoon/actions/getMovies.php'
+		}).then(function successCallback(response)
+		{
+			game.miscData.moviesAvailable = [];
+			game.miscData.moviesAvailable.push(createMovie("No Movie Selected"));
+			game.miscData.moviesAvailable.push(createMovie(	response.data.movies[0].title,
+														response.data.movies[0].synopsis,
+														response.data.movies[0].expectedPopularity,
+														response.data.movies[0].actualPopularity,
+														response.data.movies[0].optimalSeason,
+														response.data.movies[0].worstSeason,
+														response.data.movies[0].costLicense,
+														response.data.movies[0].licenseLength,
+														response.data.movies[0].producedBy
+														));
+			game.miscData.moviesAvailable.push(createMovie(	response.data.movies[1].title,
+														response.data.movies[1].synopsis,
+														response.data.movies[1].expectedPopularity,
+														response.data.movies[1].actualPopularity,
+														response.data.movies[1].optimalSeason,
+														response.data.movies[1].worstSeason,
+														response.data.movies[1].costLicense,
+														response.data.movies[1].licenseLength,
+														response.data.movies[1].producedBy
+														));
+			game.miscData.moviesAvailable.push(createMovie(	response.data.movies[2].title,
+														response.data.movies[2].synopsis,
+														response.data.movies[2].expectedPopularity,
+														response.data.movies[2].actualPopularity,
+														response.data.movies[2].optimalSeason,
+														response.data.movies[2].worstSeason,
+														response.data.movies[2].costLicense,
+														response.data.movies[2].licenseLength,
+														response.data.movies[2].producedBy
+														));
+		}, function errorCallback(response)
+		{
+			console.log(response);
+			setTimeout(getNewMovies(), 3000);
+		});
+	};
+	// Decrements all licenses by one, and removes those with 0 weeks remaining.
+	removeExpiredLicenses = function()
+	{
+		for(var i = 1; i < game.miscData.moviesOwned.length; i++)
+		{
+			game.miscData.moviesOwned[i].decrementLicense();
+			if(game.miscData.moviesOwned[i].getLicenseLength() <= 0) game.miscData.moviesOwned.splice(i, 1);
+		}
+	};
+	setup = function()
+	{
+		balance = 10000;
+		basicLeaseRent = 1000;
+		weekTicketProfits = 0;
+		weekSnackProfits = 0;
+		weekGamesProfits = 0;
+
+		game.employeeData = {};
+		game.employeeData.numOfEmployees = 1;				// Player's current number of employed workers.
+		game.employeeData.maxEmployees = 5;					// Maximum number of employees possible.
+		game.employeeData.employeeResult = employ[0];		// Description of employee amount.
+		game.employeeData.employeeCostMultiplier = 500;		// Multiplier for employees on payday.
+
+		game.gameroomData = {};
+		game.gameroomData.numOfGames = 0;					// Player's total existing game choices.
+		game.gameroomData.maxGames = 5;						// Maximum number of games possible.
+		game.gameroomData.newGamePriceMultiplier = 1000;	// Multiplier for additional games.
+
+		game.miscData = {};
+		game.miscData.ticketPrice = 10.00;					// Price of a movie ticket.
+		game.miscData.currentPromotionIndex = 0;			// Enum index for marketing promotion.
+		game.miscData.currentPromotion =
+			promos[game.miscData.currentPromotionIndex];	// Enum value for marketing promotion.
+		game.miscData.promotionMultiplier = 500;			// Multiplier for marketing promotions.
+		game.miscData.numOfLicenses = 0;					// Total number of movie licenses currently owned.
+		game.miscData.moviesOwned = [];						// List of movie objects player currently owns.
+		game.miscData.moviesAvailable = [];					// Periodically changed. Movies for license purchase.
+		game.miscData.movieProductionModifier = 250000;		// Modifier for cost of film making.
+		game.miscData.moviesMade = 0;						// User made movies. Needed for the win.
+		
+		game.parkingData = {};
+		game.parkingData.parkingLevels = 0;					// Current parking lot capacity level.
+		game.parkingData.maxParkingLevels = 10;				// Maximum number of parking levels possible.
+		game.parkingData.parkingExpandCost = 2000			// Cost multiplier to expand local parking space.
+
+		game.profitData = {};
+		game.profitData.profitTicketSales = 0.0;			// Tally of total ticket's sold at cost in last period.
+		game.profitData.profitSnackSales = 0.0;				// Tally of total snacks sold at cost in last period.
+		game.profitData.profitGamesSales = 0.0;				// Tally of total games sold at cost in last period.
+		game.profitData.expenses = 0.0;						// Total cost of running cinema in last period.
+		game.profitData.netProfit = 0.0;					// Total profit/loss for the last period.
+
+		game.salonData = {};
+		game.salonData.salonsOwned = [];					// Contains the actual salon objects.
+		game.salonData.numOfSalons =
+			game.salonData.salonsOwned.length;				// Player's total existing salons.
+		game.salonData.maxSalons = 10;						// Maximum number of salons possible.
+		game.salonData.newSalonPriceMultiplier = 1000;		// Multiplier for additional salons.
+		game.salonData.totalSeats = 0;						// Total seats (possible tickets) cinema has.	
+
+		game.snackData = {};
+		game.snackData.numOfSnacks = 0;						// Player's total existing snack choices.
+		game.snackData.maxSnacks = 5;						// Maximum number of snacks possible.
+		game.snackData.newSnackPriceMultiplier = 500;		// Multiplier for additional snacks.
+
+		game.state = {};
+		game.state.isStarted = false;						// Tracks whether player has started or not.
+		game.state.isPaused = false;						// Tracks whether player has paused game.
+		game.state.isHelp = false;							// Tracks whether player is in help modal.
+		game.state.isGameOver = false;						// Tracks whether player is in the end game modal.
+		game.state.endGameMsg = "";							// Message displayed to user at end of game.
+		game.state.isWin = "";								// Displays 'Win' or 'Lose' at end game.
+
+		game.timeData = {};
+		game.timeData.day = 1;								// Tracks the day of the year.
+		game.timeData.seasonIndex = 0;						// Enum index for season. (relevant for movie effectiveness)
+		game.timeData.season =
+			season[game.timeData.seasonIndex];				// The current season in enum value.
+		game.timeData.year = 1;								// Total years user has been playing.
+
+		game.workshop = {};
+		game.workshop.warningText = "";						// Unique warning text for the workshop module (async failures).
+	};
 	// Adds an extra employee to the cinema.
 	game.addEmployee = function()
 	{
@@ -180,7 +248,7 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 		else
 		{
 			var cost = (game.gameroomData.numOfGames + 1) * game.gameroomData.newGamePriceMultiplier;
-			if( cost <= balance)
+			if( cost <= (balance + 10000))
 			{
 				game.gameroomData.numOfGames++;
 				balance -= cost;
@@ -197,7 +265,7 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 		else
 		{
 			var cost = (game.parkingData.parkingLevels + 1) * game.parkingData.parkingExpandCost;
-			if( cost <= balance)
+			if( cost <= (balance + 10000))
 			{
 				game.parkingData.parkingLevels++;
 				balance -= cost;
@@ -215,7 +283,7 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 		else
 		{
 			var cost = (game.salonData.numOfSalons + 1) * game.salonData.newSalonPriceMultiplier;
-			if( cost <= balance)
+			if( cost <= (balance + 10000))
 			{
 				var salon = createSalon();
 				game.salonData.salonsOwned.push(salon);
@@ -237,7 +305,7 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 		else
 		{
 			var cost = (game.snackData.numOfSnacks + 1) * game.snackData.newSnackPriceMultiplier;
-			if( cost <= balance)
+			if( cost <= (balance + 10000))
 			{
 				game.snackData.numOfSnacks++;
 				balance -= cost;
@@ -247,7 +315,7 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 	// Since salon object has seat quantity and balance checker, buy and adjust totalSeats.
 	game.buySeats = function(salonNum, quantity)
 	{
-		balance = game.salonData.salonsOwned[salonNum].addSeats(quantity, balance);
+		balance = game.salonData.salonsOwned[salonNum].addSeats(quantity, (balance + 10000));
 		game.salonData.totalSeats = calculateTotalSeats();
 	};
 	// Changes the movie playing in this salon
@@ -305,6 +373,11 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 	// Main time-keeping function that serves as a simple game loop.
 	game.newDay = function()
 	{
+		// Only happens if game isn't over
+		if(game.state.isGameOver)
+		{
+			return;
+		}
 		// Calculates profits every day.
 		var profits = calculateDailyProfits();
 		balance += profits;
@@ -348,14 +421,14 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 			// TODO: Activate modal for user to enter name for top scores.
 			game.state.isGameOver = true;
 			game.state.isWin = "Win";
-			game.state.endGameMsg = "The game was won in " + (game.timeData.day * game.timeData.year) + " days!";
+			game.state.endGameMsg = "The game was won in " + (game.timeData.day + (365 * (game.timeData.year - 1))) + " days!";
 		}
 		else if(balance < -10000 || game.timeData.year >= 4)
 		{
 			// TODO: Activate modal for user endgame.
 			game.state.isGameOver = true;
 			game.state.isWin = "Lose";
-			game.state.endGameMsg = "The game was lost in " + (game.timeData.day * game.timeData.year) + " days!";
+			game.state.endGameMsg = "The game was lost in " + (game.timeData.day + (365 * (game.timeData.year - 1))) + " days!";
 		}
 	};
 	// Pauses and unpauses game
@@ -369,7 +442,7 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 	{
 		if(index !== 0)
 		{
-			if(game.miscData.moviesAvailable[index].getCostLicense() <= balance)
+			if(game.miscData.moviesAvailable[index].getCostLicense() <= (balance + 10000))
 			{
 				balance -= game.miscData.moviesAvailable[index].getCostLicense();
 				game.miscData.moviesOwned.push(game.miscData.moviesAvailable[index]);
@@ -387,21 +460,21 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 	};
 	game.upgradeProjector = function(salonNum)
 	{
-		balance = game.salonData.salonsOwned[salonNum].upgradeProjectorLevel(balance);
+		balance = game.salonData.salonsOwned[salonNum].upgradeProjectorLevel((balance + 10000));
 	};
 	game.upgradeScreen = function(salonNum)
 	{
-		balance = game.salonData.salonsOwned[salonNum].upgradeScreenLevel(balance);
+		balance = game.salonData.salonsOwned[salonNum].upgradeScreenLevel((balance + 10000));
 	};
 	game.upgradeSound = function(salonNum)
 	{
-		balance = game.salonData.salonsOwned[salonNum].upgradeSoundLevel(balance);
+		balance = game.salonData.salonsOwned[salonNum].upgradeSoundLevel((balance + 10000));
 	};
 	// Adds a user created movie to the database iff balance available and content passes inspection.
 	// Upon success, transfer movie into user's owned licenses.
 	game.produceMovie = function(title, synopsis, optimalSeason, worstSeason, cost, licenseDuration, producer)
 	{
-		if(balance < (game.miscData.moviesMade + 1) * game.miscData.movieProductionModifier) game.workshop.warningText = "Movie production failed. You need more money!";
+		if((balance + 10000) < (game.miscData.moviesMade + 1) * game.miscData.movieProductionModifier) game.workshop.warningText = "Movie production failed. You need more money!";
 		else
 		{
 			// Randomly select popularity.
@@ -486,6 +559,12 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 			game.employeeData.employeeResult = employ[game.employeeData.numOfEmployees - 1];
 		}
 	};
+	// Resets all of game's variables to brand new conditions.
+	game.restartGame = function()
+	{
+		setup();
+		return game;
+	};
 	// Starts game
 	game.startGame = function(speed)
 	{
@@ -499,66 +578,8 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 	{
 		game[module].warningText = msg;
 	};
-	// Called at game start and at regular time intervals (~90 days)
-	// Gets three movies to refresh the "available for license purchase" array.
-	getNewMovies = function()
-	{
-		$http(
-		{
-			method: 'GET',
-			dataType:'json',
-			crossDomain: true,
-			async: true,
-			url: 'https://tenaciousteal.com/games/cinema-tycoon/actions/getMovies.php'
-		}).then(function successCallback(response)
-		{
-			game.miscData.moviesAvailable = [];
-			game.miscData.moviesAvailable.push(createMovie("No Movie Selected"));
-			game.miscData.moviesAvailable.push(createMovie(	response.data.movies[0].title,
-														response.data.movies[0].synopsis,
-														response.data.movies[0].expectedPopularity,
-														response.data.movies[0].actualPopularity,
-														response.data.movies[0].optimalSeason,
-														response.data.movies[0].worstSeason,
-														response.data.movies[0].costLicense,
-														response.data.movies[0].licenseLength,
-														response.data.movies[0].producedBy
-														));
-			game.miscData.moviesAvailable.push(createMovie(	response.data.movies[1].title,
-														response.data.movies[1].synopsis,
-														response.data.movies[1].expectedPopularity,
-														response.data.movies[1].actualPopularity,
-														response.data.movies[1].optimalSeason,
-														response.data.movies[1].worstSeason,
-														response.data.movies[1].costLicense,
-														response.data.movies[1].licenseLength,
-														response.data.movies[1].producedBy
-														));
-			game.miscData.moviesAvailable.push(createMovie(	response.data.movies[2].title,
-														response.data.movies[2].synopsis,
-														response.data.movies[2].expectedPopularity,
-														response.data.movies[2].actualPopularity,
-														response.data.movies[2].optimalSeason,
-														response.data.movies[2].worstSeason,
-														response.data.movies[2].costLicense,
-														response.data.movies[2].licenseLength,
-														response.data.movies[2].producedBy
-														));
-		}, function errorCallback(response)
-		{
-			console.log(response);
-			setTimeout(getNewMovies(), 3000);
-		});
-	};
-	// Decrements all licenses by one, and removes those with 0 weeks remaining.
-	removeExpiredLicenses = function()
-	{
-		for(var i = 1; i < game.miscData.moviesOwned.length; i++)
-		{
-			game.miscData.moviesOwned[i].decrementLicense();
-			if(game.miscData.moviesOwned[i].getLicenseLength() <= 0) game.miscData.moviesOwned.splice(i, 1);
-		}
-	};
+
+	setup();
 	// Pass one-way data to those dependent on the service.
 	return game;
 }]);

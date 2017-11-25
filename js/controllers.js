@@ -1,15 +1,12 @@
 // Main function is to purchase movie licenses and view movie details.
-cinemaTycoonApp.controller('FilmVaultController', ['gameData', function(game)
+cinemaTycoonApp.controller('FilmVaultController', ['gameData', '$scope', function(game, $scope)
 {
 	var self = this;
 
-	self.active = false;
-	self.miscData = game.miscData;
-	self.state = game.state;
-	self.state.isInspecting = false;
-	self.state.selectedMovieLicense = '0';
-	self.state.selectedMovieOwned = '0';
-	self.state.selectedMovie = game.miscData.moviesAvailable[0];
+	$scope.$on('restart', function()
+	{
+		self.setup();
+	});
 
 	self.closeInspector = function()
 	{
@@ -52,16 +49,29 @@ cinemaTycoonApp.controller('FilmVaultController', ['gameData', function(game)
 			self.state.selectedMovie = null;
 		}
 	};
+	self.setup = function()
+	{
+		self.active = false;
+		self.miscData = game.miscData;
+		self.state = game.state;
+		self.state.isInspecting = false;
+		self.state.selectedMovieLicense = '0';
+		self.state.selectedMovieOwned = '0';
+		self.state.selectedMovie = game.miscData.moviesAvailable[0];
+	};
+
+	self.setup();
 }]);
 // Main function is to adjust ticket price.
 // Shows how much people like/dislike the price.
-cinemaTycoonApp.controller('FrontDoorController', ['gameData', function(game)
+cinemaTycoonApp.controller('FrontDoorController', ['gameData', '$scope', function(game, $scope)
 {
 	var self = this;
 
-	self.active = false;
-	self.miscData = game.miscData;
-	self.state = game.state;
+	$scope.$on('restart', function()
+	{
+		self.setup();
+	});
 
 	self.entered = function()
 	{
@@ -79,15 +89,24 @@ cinemaTycoonApp.controller('FrontDoorController', ['gameData', function(game)
 	{
 		game.raiseTicketPrice();
 	};
+	self.setup = function()
+	{
+		self.active = false;
+		self.miscData = game.miscData;
+		self.state = game.state;
+	};
+
+	self.setup();
 }]);
 // Main function is to increase games offered.
-cinemaTycoonApp.controller('GameroomController', ['gameData', function(game)
+cinemaTycoonApp.controller('GameroomController', ['gameData', '$scope', function(game, $scope)
 {
 	var self = this;
 
-	self.active = false;
-	self.gameroomData = game.gameroomData;
-	self.state = game.state;
+	$scope.$on('restart', function()
+	{
+		self.setup();
+	});
 
 	self.entered = function()
 	{
@@ -101,39 +120,54 @@ cinemaTycoonApp.controller('GameroomController', ['gameData', function(game)
 	{
 		game.addGame();
 	};
+	self.setup = function()
+	{
+		self.active = false;
+		self.gameroomData = game.gameroomData;
+		self.state = game.state;
+	};
+
+	self.setup();
 }]);
 // Main function is to display cinema data.
 // Additional functions will include save, load, produce movies.
-cinemaTycoonApp.controller('HUDController', ['gameData', function(game)
+cinemaTycoonApp.controller('HUDController', ['gameData', '$scope', function(game, $scope)
 {
 	var self = this;
 
-	self.employeeData = game.employeeData;
-	self.gameroomData = game.gameroomData;
-	self.miscData = game.miscData;
-	self.parkingData = game.parkingData;
-	self.profitData = game.profitData;
-	self.salonData = game.salonData;
-	self.snackData = game.snackData;
-	self.state = game.state;
-	self.timeData = game.timeData;
+	$scope.$on('restart', function()
+	{
+		self.setup();
+	});
 
 	self.getBalance = function()
 	{
 		return game.getBalance();
 	};
+	self.setup = function()
+	{
+		self.employeeData = game.employeeData;
+		self.gameroomData = game.gameroomData;
+		self.miscData = game.miscData;
+		self.parkingData = game.parkingData;
+		self.profitData = game.profitData;
+		self.salonData = game.salonData;
+		self.snackData = game.snackData;
+		self.state = game.state;
+		self.timeData = game.timeData;
+	};
+
+	self.setup();
 }]);
 // Main function is to handle employees, choose promotions, or make a movie.
-cinemaTycoonApp.controller('OfficeController', ['gameData', function(game)
+cinemaTycoonApp.controller('OfficeController', ['gameData', '$scope', function(game, $scope)
 {
 	var self = this;
 
-	self.active = false;
-	self.employeeData = game.employeeData;
-	self.miscData = game.miscData;
-	self.promos = game.getPromos();
-	self.state = game.state;
-	self.state.selectedPromo = '0';
+	$scope.$on('restart', function()
+	{
+		self.setup();
+	});
 
 	self.changePromo = function()
 	{
@@ -156,15 +190,27 @@ cinemaTycoonApp.controller('OfficeController', ['gameData', function(game)
 	{
 		game.addEmployee();
 	};
+	self.setup = function()
+	{
+		self.active = false;
+		self.employeeData = game.employeeData;
+		self.miscData = game.miscData;
+		self.promos = game.getPromos();
+		self.state = game.state;
+		self.state.selectedPromo = '0';
+	};
+
+	self.setup();
 }]);
 // Main function is to increase parking capacity.
-cinemaTycoonApp.controller('ParkingLotController', ['gameData', function(game)
+cinemaTycoonApp.controller('ParkingLotController', ['gameData', '$scope', function(game, $scope)
 {
 	var self = this;
 
-	self.active = false;
-	self.parkingData = game.parkingData;
-	self.state = game.state;
+	$scope.$on('restart', function()
+	{
+		self.setup();
+	});
 
 	self.entered = function()
 	{
@@ -178,20 +224,24 @@ cinemaTycoonApp.controller('ParkingLotController', ['gameData', function(game)
 	{
 		game.addParking();
 	};
+	self.setup = function()
+	{
+		self.active = false;
+		self.parkingData = game.parkingData;
+		self.state = game.state;
+	};
+
+	self.setup();
 }]);
 // Main function is to handle salon details (buy seats, upgrade screen, change movie).
-cinemaTycoonApp.controller('SalonController', ['gameData', function(game)
+cinemaTycoonApp.controller('SalonController', ['gameData', '$scope', function(game, $scope)
 {
 	var self = this;
 
-	self.active = false;
-	self.miscData = game.miscData;
-	self.salonData = game.salonData;
-	self.isSalonAvailable = (self.salonData.numOfSalons < self.salonData.maxSalons) ? true : false;
-	self.state = game.state;
-	self.state.activeSalon = 0;
-	self.state.selectedMovie = '0';
-	self.state.selectedSalon = self.state.activeSalon.toString();
+	$scope.$on('restart', function()
+	{
+		self.setup();
+	});
 
 	self.buildSalon = function()
 	{
@@ -289,15 +339,29 @@ cinemaTycoonApp.controller('SalonController', ['gameData', function(game)
 		if(self.state.activeSalon <= 0 || self.salonData.numOfSalons <= 0) return 0;
 		else return self.salonData.salonsOwned[self.state.activeSalon - 1].getSoundLevel();
 	};
+	self.setup = function()
+	{
+		self.active = false;
+		self.miscData = game.miscData;
+		self.salonData = game.salonData;
+		self.isSalonAvailable = (self.salonData.numOfSalons < self.salonData.maxSalons) ? true : false;
+		self.state = game.state;
+		self.state.activeSalon = 0;
+		self.state.selectedMovie = '0';
+		self.state.selectedSalon = self.state.activeSalon.toString();
+	};
+
+	self.setup();
 }]);
 // Main function is to increase snacks offered.
-cinemaTycoonApp.controller('SnackController', ['gameData', function(game)
+cinemaTycoonApp.controller('SnackController', ['gameData', '$scope', function(game, $scope)
 {
 	var self = this;
 
-	self.active = false;
-	self.snackData = game.snackData;
-	self.state = game.state;
+	$scope.$on('restart', function()
+	{
+		self.setup();
+	});
 
 	self.entered = function()
 	{
@@ -311,9 +375,17 @@ cinemaTycoonApp.controller('SnackController', ['gameData', function(game)
 	{
 		game.addSnack();
 	};
+	self.setup = function()
+	{
+		self.active = false;
+		self.snackData = game.snackData;
+		self.state = game.state;
+	};
+
+	self.setup();
 }]);
 // Main function is to instigate the game timer.
-cinemaTycoonApp.controller('StartController', ['gameData', '$interval', function(game, $interval)
+cinemaTycoonApp.controller('StartController', ['gameData', '$interval', '$rootScope', function(game, $interval, $rootScope)
 {
 	var self = this;
 
@@ -347,6 +419,13 @@ cinemaTycoonApp.controller('StartController', ['gameData', '$interval', function
 			cancelSucceeded = $interval.cancel(self.intervalPromise);
 		} while(!cancelSucceeded);
 	};
+	self.restartGame = function(speed)
+	{
+		self.pauseTime();
+		game = game.restartGame();
+		self.state = game.state;
+		$rootScope.$broadcast('restart');
+	};
 	self.unpauseTime = function()
 	{
 		if(!self.state.isPaused) return;
@@ -355,22 +434,14 @@ cinemaTycoonApp.controller('StartController', ['gameData', '$interval', function
 	};
 }]);
 // Main function is to purchase movie licenses and produce new films.
-cinemaTycoonApp.controller('WorkshopController', ['gameData', function(game)
+cinemaTycoonApp.controller('WorkshopController', ['gameData', '$scope', function(game, $scope)
 {
 	var self = this;
 
-	self.active = false;
-	self.cost = 1000;
-	self.licenseDuration = 0;
-	self.miscData = game.miscData;
-	self.optimalSeason = 0;
-	self.producer = "Anonymous";
-	self.state = game.state;
-	self.state.isProducing = false;
-	self.synopsis = "No synopsis given.";
-	self.title = "Untitled";
-	self.warningText = game.workshop.warningText;
-	self.worstSeason = 0;
+	$scope.$on('restart', function()
+	{
+		self.setup();
+	});
 
 	self.closeProduction = function()
 	{
@@ -393,9 +464,26 @@ cinemaTycoonApp.controller('WorkshopController', ['gameData', function(game)
 			self.state.isProducing = true;
 		}
 	};
+	self.setup = function()
+	{
+		self.active = false;
+		self.cost = 1000;
+		self.licenseDuration = 0;
+		self.miscData = game.miscData;
+		self.optimalSeason = 0;
+		self.producer = "Anonymous";
+		self.state = game.state;
+		self.state.isProducing = false;
+		self.synopsis = "No synopsis given.";
+		self.title = "Untitled";
+		self.warningText = game.workshop.warningText;
+		self.worstSeason = 0;
+	};
 	self.submitProduction = function()
 	{
 		game.produceMovie(self.title, self.synopsis, self.optimalSeason, self.worstSeason, self.cost, self.licenseDuration, self.producer);
 		self.state.isProducing = false;
 	};
+
+	self.setup();
 }]);
