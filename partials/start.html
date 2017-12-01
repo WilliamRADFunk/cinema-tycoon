@@ -60,40 +60,40 @@
 		<button id="help" type="button" class="btn btn-info controls glyphicon glyphicon-question-sign col-lg-1 col-lg-offset-2 col-md-1 col-md-offset-2 col-sm-1 col-sm-offset-2 col-xs-1 col-xs-offset-2" ng-show="startCtrl.state.isStarted && !startCtrl.state.isHelp" ng-click="startCtrl.needHelp()"></button>
 	</div>
 	<div id="events-modal" class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12" ng-show="startCtrl.state.isStarted && !startCtrl.state.isHelp && !startCtrl.state.isGameOver && startCtrl.state.isEvent">
-		<h2>Event - {{startCtrl.events.eventTitle}}</h2>
+		<h2>Event - {{startCtrl.currentEvent.eventTitle}}</h2>
 		<hr>
-		<p>{{startCtrl.events.eventMsg}}</p>
-		<div ng-show="!startCtrl.events.selectedOption">
+		<p>{{startCtrl.currentEvent.eventMsg}}</p>
+		<div ng-show="!startCtrl.currentEvent.selectedResult">
 			<div style="margin-top: 25px;">
-				<input type="radio" ng-model="startCtrl.events.choice" value="{{startCtrl.events.eventChoice1}}"/>
+				<input type="radio" ng-model="startCtrl.currentEvent.choice" value="{{startCtrl.currentEvent.eventChoiceA}}"/>
 				<div>
-					{{startCtrl.events.eventOpt1}}
+					{{startCtrl.currentEvent.eventOptA}}
 				</div>
 			</div>
 			<div>
-				<input type="radio" ng-model="startCtrl.events.choice" value="{{startCtrl.events.eventChoice2}}"/>
+				<input type="radio" ng-model="startCtrl.currentEvent.choice" value="{{startCtrl.currentEvent.eventChoiceB}}"/>
 				<div>
-					{{startCtrl.events.eventOpt2}}
+					{{startCtrl.currentEvent.eventOptB}}
 				</div>
 			</div>
 			<div>
-				<input type="radio" ng-model="startCtrl.events.choice" value="{{startCtrl.events.eventChoice3}}"/>
+				<input type="radio" ng-model="startCtrl.currentEvent.choice" value="{{startCtrl.currentEvent.eventChoiceC}}"/>
 				<div>
-					{{startCtrl.events.eventOpt3}}
+					{{startCtrl.currentEvent.eventOptC}}
 				</div>
 			</div>
 			<div style="margin-bottom: 25px;">
-				<input type="radio" ng-model="startCtrl.events.choice" value="{{startCtrl.events.eventChoice4}}"/>
+				<input type="radio" ng-model="startCtrl.currentEvent.choice" value="{{startCtrl.currentEvent.eventChoiceD}}"/>
 				<div>
-					{{startCtrl.events.eventOpt4}}
+					{{startCtrl.currentEvent.eventOptD}}
 				</div>
 			</div>
 			<button type="button" class="btn btn-info col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4 col-xs-4 col-xs-offset-4" ng-click="startCtrl.submitEventChoice()" style="margin-bottom: 15px;">Commit Action</button>
 		</div>
-		<div ng-show="startCtrl.events.selectedOption">
-			<p>{{startCtrl.events.selectionOption}}</p>
-			<p>{{startCtrl.events.selectedResult}}</p>
-			<button type="button" class="btn btn-info col-lg-2 col-lg-offset-5 col-md-2 col-md-offset-5 col-sm-2 col-sm-offset-5 col-xs-4 col-xs-offset-4" ng-click="startCtrl.exitModal()">Back to Game</button>
+		<div ng-show="startCtrl.currentEvent.selectedResult">
+			<p>YOUR CHOICE: {{startCtrl.currentEvent.selectedOption}}</p>
+			<p>THE RESULT: {{startCtrl.currentEvent.selectedResult}}</p>
+			<button type="button" class="btn btn-info col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4 col-xs-4 col-xs-offset-4" ng-click="startCtrl.exitModal()">Back to Game</button>
 		</div>
 	</div>
 </div>

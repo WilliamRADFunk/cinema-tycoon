@@ -441,7 +441,7 @@ cinemaTycoonApp.controller('StartController', ['gameData', '$interval', '$rootSc
 	self.intervalPromise;
 	self.speed;
 	self.state = game.state;
-	self.events = game.events;
+	self.currentEvent = game.currentEvent;
 
 	self.activateTime = function(speed)
 	{
@@ -457,6 +457,7 @@ cinemaTycoonApp.controller('StartController', ['gameData', '$interval', '$rootSc
 	self.exitModal = function()
 	{
 		game.event(false);
+		self.currentEvent.selectedResult = null;
 		self.unpauseTime();
 	};
 	self.needHelp = function()
@@ -483,7 +484,8 @@ cinemaTycoonApp.controller('StartController', ['gameData', '$interval', '$rootSc
 	};
 	self.submitEventChoice = function()
 	{
-		console.log('choice: ', self.events.choice);
+		self.currentEvent.selectedOption = self.currentEvent['eventOpt' + self.currentEvent.choice];
+		self.currentEvent.selectedResult = game.getEventResult(self.currentEvent.choice);
 	};
 	self.unpauseTime = function()
 	{
@@ -492,7 +494,7 @@ cinemaTycoonApp.controller('StartController', ['gameData', '$interval', '$rootSc
 		self.intervalPromise = $interval(game.newDay, (1000 * self.speed));
 	};
 
-	self.events.choice = self.events.eventChoice1;
+	self.currentEvent.choice = self.currentEvent.eventChoiceA;
 }]);
 // Main function is to purchase movie licenses and produce new films.
 cinemaTycoonApp.controller('WorkshopController', ['gameData', '$rootScope', '$scope', function(game, $rootScope, $scope)

@@ -265,7 +265,7 @@ select
 	{
 		border-radius: 1%;
 	}
-	#events-modal > button,
+	#events-modal > div > button,
 	#game-over-modal > button,
 	#help-modal > button,
 	#movie-modal > button,

@@ -216,18 +216,30 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 		game.state.isWin = "";								// Displays 'Win' or 'Lose' at end game.
 		game.state.isEvent = true;							// Tracks whether a random event is active on screen.
 
-		game.events = {
-			eventTitle: 'Mutiny',
-			eventMsg: 'Your employees feel underappreciated. There has been talk about unionizing. If you don\'t do something quick they may strike and cut into your profits.',
-			eventOpt1: 'Fire the malcontents and bring in some new blood.',
-			eventOpt2: 'Give each employee a number of free tickets for their friends and families.',
-			eventOpt3: 'Cut their pay across the board, so that they know what underappreciation really feels like.',
-			eventOpt4: 'Add a fat bonus into everybody\'s check this month.',
-			eventChoice1: 'FactorChoiceA',
-			eventChoice2: 'FactorChoiceB',
-			eventChoice3: 'FactorChoiceC',
-			eventChoice4: 'FactorChoiceD',
-		};
+		game.events = [
+			{
+				base: 1000,
+				eventTitle: 'Mutiny',
+				eventMsg: 'Your employees feel underappreciated. There has been talk about unionizing. If you don\'t do something quick they may strike and cut into your profits.',
+				eventOptA: 'Fire the malcontents and bring in some new blood.',
+				eventOptB: 'Give each employee a number of free tickets for their friends and families.',
+				eventOptC: 'Cut their pay across the board, so that they know what underappreciation really feels like.',
+				eventOptD: 'Add a fat bonus into everybody\'s check this month.',
+				eventChoiceA: 'A',
+				eventChoiceB: 'B',
+				eventChoiceC: 'C',
+				eventChoiceD: 'D',
+				eventAnswerA: 'You fired those you believed to be the ringleaders, but it\'s too late. They\'re striking. When the dust settles you\'re out a total of',
+				eventAnswerB: 'Though giving away tickets technically costs you some profit, your employees seem somewhat mullified. You neither gain, nor lose, netting',
+				eventAnswerC: 'This heavy handed tactic only fuels the dissatisfaction your employees have been feeling. They go on strike. You\'ve lost',
+				eventAnswerD: 'It was a costly move, but it\'s evident you\'re a good boss. The improved morale and performance does boost your customers\' experience and mitigates the expense. You only lose',
+				modifierA: -2,
+				modifierB: -0,
+				modifierC: -4,
+				modifierD: -1
+			}
+		];
+		game.currentEvent = game.events[0];
 
 		game.timeData = {};
 		game.timeData.day = 1;								// Tracks the day of the year.
@@ -355,6 +367,23 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 	game.getBalance = function()
 	{
 		return balance;
+	};
+	// Picks the result matching player's decision to a random event notification.
+	game.getEventResult = function(choice)
+	{
+		var gainOrLossAmount = (game.currentEvent['modifier' + choice] * game.currentEvent['base']);
+		// Event record can handle the positive or negative change to bank.
+		balance += gainOrLossAmount;
+		if(gainOrLossAmount < 0)
+		{
+			gainOrLossAmount = ' -$ ' + Math.abs(gainOrLossAmount);
+		}
+		else
+		{
+			gainOrLossAmount = ' $ ' + gainOrLossAmount;
+		}
+		return game.currentEvent.selectedResult =
+			game.currentEvent['eventAnswer' + choice] + gainOrLossAmount;
 	};
 	// Gets index number in moviesOwned for movie playing in this salon.
 	game.getMoviePlayingIndex = function(salonNum)
