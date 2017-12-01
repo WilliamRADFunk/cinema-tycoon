@@ -284,6 +284,8 @@ select
 	#events-modal > div > div > div
 	{
 		float: left;
+		margin-left: 10px;
+		padding-top: 3px;
 		width: 95%;
 	}
 	#events-modal > div > div > input[type=radio]

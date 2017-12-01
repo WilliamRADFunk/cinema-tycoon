@@ -10,7 +10,7 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 	var weekSnackProfits;
 	var weekGamesProfits;
 
-	calculateDailyProfits = function()
+	var calculateDailyProfits = function()
 	{
 		var dailyProfit = 0;
 		// Initial ticket sale modifier before pros and cons are weighed.
@@ -72,7 +72,7 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 
 		return dailyProfit;
 	};
-	calculateTotalSeats = function()
+	var calculateTotalSeats = function()
 	{
 		var totalSeats = 0;
 		for(var i = 0; i < game.salonData.salonsOwned.length; i++)
@@ -81,7 +81,7 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 		}
 		return totalSeats;
 	};
-	calculateWeeklyExpenses = function()
+	var calculateWeeklyExpenses = function()
 	{
 		return  ( basicLeaseRent +
 				(game.salonData.numOfSalons * (0.75 * game.salonData.newSalonPriceMultiplier)) +
@@ -93,7 +93,7 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 	};
 	// Called at game start and at regular time intervals (~90 days)
 	// Gets three movies to refresh the "available for license purchase" array.
-	getNewMovies = function()
+	var getNewMovies = function()
 	{
 		$http(
 		{
@@ -142,8 +142,40 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 			setTimeout(getNewMovies(), 3000);
 		});
 	};
+	// Decides whether to spawn a random event. If so, if picks one from the list.
+	var randomEventSpawn = function()
+	{
+		if(Math.random() <= 0.1 && !game.state.isEvent && game.timeData.day >= 6) {
+			game.pause(true);
+			var i = 0;
+			do
+			{
+				i = Math.floor(Math.random() * game.events.length);
+				if(game.currentEvent.eventTitle !== game.events[i].eventTitle) {
+					game.currentEvent.base = game.events[i].base;
+					game.currentEvent.eventTitle = game.events[i].eventTitle;
+					game.currentEvent.modifierA = game.events[i].modifierA;
+					game.currentEvent.modifierB = game.events[i].modifierB;
+					game.currentEvent.modifierC = game.events[i].modifierC;
+					game.currentEvent.modifierD = game.events[i].modifierD;
+					game.currentEvent.eventMsg = game.events[i].eventMsg;
+					game.currentEvent.eventOptA = game.events[i].eventOptA;
+					game.currentEvent.eventOptB = game.events[i].eventOptB;
+					game.currentEvent.eventOptC = game.events[i].eventOptC;
+					game.currentEvent.eventOptD = game.events[i].eventOptD;
+					game.currentEvent.eventAnswerA = game.events[i].eventAnswerA;
+					game.currentEvent.eventAnswerB = game.events[i].eventAnswerB;
+					game.currentEvent.eventAnswerC = game.events[i].eventAnswerC;
+					game.currentEvent.eventAnswerD = game.events[i].eventAnswerD;
+					game.currentEvent.choice = 'A';
+					game.state.isEvent = true;
+					break;
+				}
+			} while(true);
+		}
+	};
 	// Decrements all licenses by one, and removes those with 0 weeks remaining.
-	removeExpiredLicenses = function()
+	var removeExpiredLicenses = function()
 	{
 		for(var i = 1; i < game.miscData.moviesOwned.length; i++)
 		{
@@ -151,7 +183,7 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 			if(game.miscData.moviesOwned[i].getLicenseLength() <= 0) game.miscData.moviesOwned.splice(i, 1);
 		}
 	};
-	setup = function()
+	var setup = function()
 	{
 		balance = 10000;
 		basicLeaseRent = 1000;
@@ -208,13 +240,13 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 		game.snackData.newSnackPriceMultiplier = 500;		// Multiplier for additional snacks.
 
 		game.state = {};
-		game.state.isStarted = true;						// Tracks whether player has started or not.
+		game.state.isStarted = false;						// Tracks whether player has started or not.
 		game.state.isPaused = false;						// Tracks whether player has paused game.
 		game.state.isHelp = false;							// Tracks whether player is in help modal.
 		game.state.isGameOver = false;						// Tracks whether player is in the end game modal.
 		game.state.endGameMsg = "";							// Message displayed to user at end of game.
 		game.state.isWin = "";								// Displays 'Win' or 'Lose' at end game.
-		game.state.isEvent = true;							// Tracks whether a random event is active on screen.
+		game.state.isEvent = false;							// Tracks whether a random event is active on screen.
 
 		game.events = [
 			{
@@ -249,10 +281,11 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 				eventAnswerA: 'People love an underdog. Moved by your tale, they flock in greater numbers. Ticket sales boom for a net gain of',
 				eventAnswerB: 'Nobody likes the greedy guy, especially when he boasts. The article, however, brings more attention to your theater. There\'s a net gain of',
 				eventAnswerC: 'The town comes out en masse to support a staple of their community. As a result, your profits rise by',
-				eventAnswerD: 'Such an odd response has spawned much gossip. Intrgued by your question, more people gravitate toward your establishment, earning you an extra',
+				eventAnswerD: 'Such an odd response has spawned much gossip. Intrgued by your question, more people gravitate toward your establishment, earning you an extra'
 			},
 			{
-				MonetaryBase: 4000,
+				base: 4000,
+				eventTitle: 'Leaky Pipe',
 				modifierA: -3,
 				modifierB: -1,
 				modifierC: -2,
@@ -265,10 +298,11 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 				eventAnswerA: 'Procrastination rarely leads to positive results. The leak soaked through the floor, ruining part of the foundation. Repairs to renovate cost you',
 				eventAnswerB: 'Sometimes the simple solutions are best. The employee peridocially dumps the water out of the bucket. Next day, at regular rates, the plumber fixes your pipe. You only spend',
 				eventAnswerC: 'An emergency plumber is pricey. Peace of mind is priceless. The bill sets you back',
-				eventAnswerD: 'Not the brightest bulb in the box, your employee lacked the necessary know-how and finesse to fix the pipe. Instead, he turned the leak into a rupture, flooding the cinema. You lost',
+				eventAnswerD: 'Not the brightest bulb in the box, your employee lacked the necessary know-how and finesse to fix the pipe. Instead, he turned the leak into a rupture, flooding the cinema. You lost'
 			},
 			{
-				MonetaryBase: 4000,
+				base: 4000,
+				eventTitle: 'Good Samaritan',
 				modifierA: 1,
 				modifierB: 1,
 				modifierC: 4,
@@ -281,10 +315,11 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 				eventAnswerA: 'Your pockets are now heavy...like your conscience. You\'ve gained',
 				eventAnswerB: 'You appease your noisy conscience with the notion that the stranger\'s license and credit cards found there way home. You\'ve gained',
 				eventAnswerC: 'Holy smokes! Turns out the owner of the wallet owns the local radio station. Impressed with your honesty, he becomes your cinema\'s voice over the airwaves. Ticket sales skyrocket, for a gain of',
-				eventAnswerD: 'Rumors spread amongst your patrons to keep one hand on their wallets at all times. Meanwhile, your employees love you. The net difference is',
+				eventAnswerD: 'Rumors spread amongst your patrons to keep one hand on their wallets at all times. Meanwhile, your employees love you. The net difference is'
 			},
 			{
-				MonetaryBase: 2000,
+				base: 2000,
+				eventTitle: 'Under The Counter',
 				modifierA: -2,
 				modifierB: -4,
 				modifierC: -1,
@@ -297,10 +332,11 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 				eventAnswerA: 'Your patrons buy your act, but so do you employees. You notice a distinct drop in efficiency as your hirelings have lost their trust in you. There\'s a net loss of',
 				eventAnswerB: 'Gag orders descend on anyone who knows anything about anything. The story dies fast, but the lawyers\' bill blooms. You pay',
 				eventAnswerC: 'Not bad. Your patrons like the new kid better than their shifty-eyed predecessor. It takes less time for you patrons to come back. The net loss is only',
-				eventAnswerD: 'Though your employees appreciate that you\'ve got their back, your customers think maybe those drugs were merely another item on YOUR menu. It takes a while to regain their trust. It costs you a net',
+				eventAnswerD: 'Though your employees appreciate that you\'ve got their back, your customers think maybe those drugs were merely another item on YOUR menu. It takes a while to regain their trust. It costs you a net'
 			},
 			{
-				MonetaryBase: 3000,
+				base: 3000,
+				eventTitle: 'All in a Name',
 				modifierA: 0,
 				modifierB: 3,
 				modifierC: 0,
@@ -313,10 +349,11 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 				eventAnswerA: 'Ehhh! Wrong! Keeanu Forrester was the lead actor in the film. Your winnings were',
 				eventAnswerB: 'Nice catch! Hyperthermia is a condition involving an EXCESS of body temperature. Hypothermia was present in the movie. You won the grand prize of',
 				eventAnswerC: 'Ehhh! Wrong! Global Warming was the catalyst for humanities flight through the frozen wasteland. Your winnings were',
-				eventAnswerD: 'Ehhh! Wrong! It\'s the title of the movie. Of course there was a snow fortress. The CGI was mind-blowing. Your winnings were',
+				eventAnswerD: 'Ehhh! Wrong! It\'s the title of the movie. Of course there was a snow fortress. The CGI was mind-blowing. Your winnings were'
 			},
 			{
-				MonetaryBase: 3000,
+				base: 3000,
+				eventTitle: '...and Cut!',
 				modifierA: -2,
 				modifierB: -0,
 				modifierC: -1,
@@ -329,10 +366,11 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 				eventAnswerA: 'People don\'t like to wait around, especially in a dark room surrounded by strangers. This experience decreases tickets sales for a net loss of',
 				eventAnswerB: 'Still inconvenienced, your customers at least don\'t feel cheated out of their money. The net loss is',
 				eventAnswerC: 'Bellies full, people barely noticed time pass. With the exception of the prizes you handed out, little was lost. Out of pocket expense was',
-				eventAnswerD: 'Jaded. Angry. Cheated. It will be awhile before those folks come back. Your decreased ticket sales end up costing you',
+				eventAnswerD: 'Jaded. Angry. Cheated. It will be awhile before those folks come back. Your decreased ticket sales end up costing you'
 			},
 			{
-				MonetaryBase: 5000,
+				base: 5000,
+				eventTitle: 'Rainy Day',
 				modifierA: 0,
 				modifierB: 3,
 				modifierC: 2,
@@ -345,10 +383,11 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 				eventAnswerA: 'Whew! Saved yourself a lot of extra cleanup time. Of course, you didn\'t sell any extra tickets, earning you',
 				eventAnswerB: 'You had to turn people away they wanted in so bad. You earned an extra',
 				eventAnswerC: 'Not the best method to getting the word out there, but you did increase ticket sales a little for a total of',
-				eventAnswerD: 'Unfortunately, the heavy rain made your lights hard to see. Only those who thought of it on their own swung by, earning you an extra',
+				eventAnswerD: 'Unfortunately, the heavy rain made your lights hard to see. Only those who thought of it on their own swung by, earning you an extra'
 			},
 			{
-				MonetaryBase: 5000,
+				base: 5000,
+				eventTitle: 'Oh Snap!',
 				modifierA: -3,
 				modifierB: -1,
 				modifierC: -2,
@@ -361,10 +400,11 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 				eventAnswerA: 'You\'ve made it go from bad to worse. She had no intention of suing...until now. Legal fees cost you',
 				eventAnswerB: 'Touched by your concern, she won\'t be suing you. Your customers, however, question the safety of your theaters. Ticket sales take a hit for',
 				eventAnswerC: 'Settlement accepted! Sadly, the insurance didn\'t cover it. You paid out of pocket at total of',
-				eventAnswerD: 'Unfortunate circumstances have transformed into an enjoyable event. People\'s concerns for your theaters safety are negated by the festivities. You lose',
+				eventAnswerD: 'Unfortunate circumstances have transformed into an enjoyable event. People\'s concerns for your theaters safety are negated by the festivities. You lose'
 			},
 			{
-				MonetaryBase: 1000,
+				base: 1000,
+				eventTitle: 'Tithes',
 				modifierA: 0,
 				modifierB: 2,
 				modifierC: 4,
@@ -377,10 +417,197 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 				eventAnswerA: 'Forgetting that the local church is a place of worship for many of your usual patrons, you lose out on a valuable opportunity. Neither win, nor lose, you get',
 				eventAnswerB: 'They were a hit with the crowd. Calculating the lose of the tickets themselves, you gained an extra',
 				eventAnswerC: 'You sneaky devil. Not only did you get them to buy more tickets, they still had to partially pay for the snacks. You gained',
-				eventAnswerD: 'The church\'s representatives weren\'t exactly impressed with you donation, but they accepted it. After taking into account the cost of the shirts, you gained',
+				eventAnswerD: 'The church\'s representatives weren\'t exactly impressed with you donation, but they accepted it. After taking into account the cost of the shirts, you gained'
 			},
+			{
+				base: 1000,
+				eventTitle: 'Frisky Business',
+				modifierA: -2,
+				modifierB: -4,
+				modifierC: -3,
+				modifierD: -0,
+				eventMsg: 'The local newspaper ran a story on how the teenagers in your community use the cinema as a place to get frisky. Great for selling tickets to teenagers. Not so much to adults.',
+				eventOptA: 'Lower the lighting yet further, catering to your new crowd.',
+				eventOptB: 'Increase the presence of ushers, checking the back rows with flashlights to halt any hanky panky before it starts.',
+				eventOptC: 'Sue the newspaper for slander.',
+				eventOptD: 'Adjust the seat arrangements to make the back rows more visibile, discouraging any sordid behavior.',
+				eventAnswerA: 'You manage to the numbers of your younger audience, while ostrasizing some of the older folks. The net in ticket sales costs you',
+				eventAnswerB: 'There\'s less wandering hands now, but people are annoyed by the constant interruption by your employees. Ticket sales take a hit for',
+				eventAnswerC: 'Story redacted. The reputation of your establishment is again along the straight and narrow. Attorney fees cost you',
+				eventAnswerD: 'Well played. Unable to get away with the really kinky stuff, those pesky teenagers will have to settle for making out. You net'
+			},
+			{
+				base: 2000,
+				eventTitle: 'Papparazzi',
+				modifierA: 1,
+				modifierB: 3,
+				modifierC: 4,
+				modifierD: 2,
+				eventMsg: 'A supporting actor from one of the flicks you\'re playing swings by, incognito, with a date, to see a movie.',
+				eventOptA: 'Play it cool. Actors are people, too. They deserve to have a night out without being pestered.',
+				eventOptB: 'Make a big spectacle out of their presence. Make sure people know just who it is that thinks so highly of your establishment.',
+				eventOptC: 'Secretly take pictures, and post them online. Let people know celebrities choose your business, without letting the actor know you papparazzied them.',
+				eventOptD: 'Have your employees cater to this actor every step of the way. Give them the VIP treatment, but don\'t blabber to anyone about who they are.',
+				eventAnswerA: 'You don\'t get a crowd of people trying to catch famous people at the movies, but the actor did slip you a sizeable tip for your discretion. You got',
+				eventAnswerB: 'Ticket sales that night went through the roof. You gained an extra',
+				eventAnswerC: 'Subtlety is often the best method. You didn\'t burn any bridges, and yet people swarm to your cinema frequently, hoping to catch a glimpse of famous people. Ticket sale climb high for an extra',
+				eventAnswerD: 'Ticket sales don\'t explode, but the actor spreads the words to friends and family that you run a tight ship. That increased revenue comes to'
+			},
+			{
+				base: 2000,
+				eventTitle: 'Lights Out',
+				modifierA: -1,
+				modifierB: -2,
+				modifierC: -3,
+				modifierD: -4,
+				eventMsg: 'Bad news! There was a major blackout. Power is out for the entire block.',
+				eventOptA: 'Refund everyone\'s money. Surely they can see that matters were out of your control.',
+				eventOptB: 'Assure everyone the power will come back shortly. Offer free snacks to those who wait.',
+				eventOptC: 'Send an employee to the local hardware store to purchase portable generators.',
+				eventOptD: 'Bride a city official to get your power restored first.',
+				eventAnswerA: 'Good thinking. The power didn\'t return till the next morning. You lost only',
+				eventAnswerB: 'Your assurances were hollow. No power, and now you\'ve lost the snacks and the ticket revenue. Not loss was',
+				eventAnswerC: 'Someone made a pretty penny, but it wasn\'t you. You\'ve restored power, but the generators were expensive. You paid',
+				eventAnswerD: 'Who knew bribes were so expensive. Though you were the first building to get power restored, your bribe cost'
+			},
+			{
+				base: 3000,
+				eventTitle: 'World\'s Tinniest Violin',
+				modifierA: 3,
+				modifierB: 0,
+				modifierC: 1,
+				modifierD: 2,
+				eventMsg: 'One of your employees, a high school student, asked for your help. They need to raise money to save the music department at school.',
+				eventOptA: 'Convince him to sell cinema tickets door-to-door and give him half the proceeds toward the fundraising.',
+				eventOptB: 'Tell him he shouldn\'t be bringing his problems to work, and leave you out of it.',
+				eventOptC: 'Host a private event in one of your theaters, where the school\'s orchestra can play for an audience. All proceeds go to the fundraiser.',
+				eventOptD: 'Let your employee have bake sell in your cinema, selling their baked goods instead of your usual snacks. What they sell, they keep.',
+				eventAnswerA: 'Your idea did wonders. The employee sold tons of tickets. Ticket sales jumped for an additional',
+				eventAnswerB: 'The employee wandered off looking defeated. You\'re left feeling as though an opportunity has passed you by. You make',
+				eventAnswerC: 'On a night where ticket sales are usually pitiful, you\'ve managed to fill some seats. The increase in snack sales netted you',
+				eventAnswerD: 'Seeing people with delicious cakes, cookies, and other confectionaries, has brought new folks into the theater. More ticket sales equals an extra'
+			},
+			{
+				base: 3000,
+				eventTitle: 'Red Handed',
+				modifierA: -1,
+				modifierB: -3,
+				modifierC: -0,
+				modifierD: -2,
+				eventMsg: 'It\'s a publicity nightmare! The main actor in one of the films you\'re playing has been found guilty of unspeakable crimes.',
+				eventOptA: 'Stop playing the film at once as boycott.',
+				eventOptB: 'Keep playing it. It\'s not like the movie has anything to do with the actor\'s questionable behavior.',
+				eventOptC: 'Tell your employees to warn those about to buy tickets to that movie. Divorce yourself from any connection to the actor.',
+				eventOptD: 'Get into a freedom of speech argument with anybody who complains. Movies are representations of that speech and should not be censored.',
+				eventAnswerA: 'Your losses were minimal. With fewer movies available, fewer tickets were sold. You only lost',
+				eventAnswerB: 'They\'re boycotting your entire cinema. There\'s even a picket line driving off potential customers. Your revenue loss is',
+				eventAnswerC: 'Having neither condemned nor promoted the actor, you neither gained or lost additional revenue. The total comes to',
+				eventAnswerD: 'It could have been worse. Though people are boycotting your cinema, you\'ve reduced the number of protestors on the picket line. Ticket sales only suffer a little. You lost'
+			},
+			{
+				base: 4000,
+				eventTitle: 'Rich Uncles',
+				modifierA: 1,
+				modifierB: 0,
+				modifierC: 2,
+				modifierD: 4,
+				eventMsg: 'You\'ve received a windfall. A distant relative whom you\'ve never met, died recently. They left you a sizeable sum of cash.',
+				eventOptA: 'Put it straight into the bank. A penny saved is a penny earned.',
+				eventOptB: 'Invest it in a risky new technology--a sound system built into each chair.',
+				eventOptC: 'Use it to hire a professional cleaning service for the cinema.',
+				eventOptD: 'Buy a whole bunch of lottery tickets. If you were lucky enough to get the inheritance, surely it will carry over.',
+				eventAnswerA: 'You feel confident that its better to make a little rather than lose a lot. You gained',
+				eventAnswerB: 'The company heading up the research declared bankruptcy. Your money is gone. The net total comes to',
+				eventAnswerC: 'Sparkle and shine, the cinema has never looked so clean. People choose your business over the competitor for ticket sales boost of',
+				eventAnswerD: 'Unbelievable! You actually won a bunch of cash. Your money was quadrupled, for a total of'
+			},
+			{
+				base: 4000,
+				eventTitle: 'Sticky Fingers',
+				modifierA: -2,
+				modifierB: -0,
+				modifierC: -4,
+				modifierD: -1,
+				eventMsg: 'You\'ve received a health code violation warning. Quick action is required, or the government will shut down your cinema.',
+				eventOptA: 'Hire a cleaning crew and a renovation contractor to work the place over.',
+				eventOptB: 'Fight those greedy hogs in court!',
+				eventOptC: 'What business doesn\'t get a warning or two every now and then? Surely it will just pass over.',
+				eventOptD: 'Clearly the inspector was looking for a bribe. Slip him a few, big bills.',
+				eventAnswerA: 'It wasn\'t cheap, but the health inspector--try as he might--can\'t find anything to complain about. You spent',
+				eventAnswerB: 'Amazing! You won! The inspector is under investigation for taking bribes. You lost',
+				eventAnswerC: 'The inspector didn\'t agree with your relaxed response. He shut you down for a week, and dropped a fine in your lap. You lost',
+				eventAnswerD: 'His smole reveals crooked teeth as a few slips of green paper find their way into the man\'s pocket. You spent'
+			},
+			{
+				base: 5000,
+				eventTitle: 'The Limelight',
+				modifierA: 1,
+				modifierB: 1,
+				modifierC: 1,
+				modifierD: 1,
+				eventMsg: 'You\'ve won an award for being the best entertaining activities source tonight. The BEAST\'s coordinator asks you what makes your theaters so much fun.',
+				eventOptA: 'Claim it\'s due to your genius as a business man.',
+				eventOptB: 'Say it\'s the hardworking employees with their quick smiles and eager attitudes that make the place attractive.',
+				eventOptC: 'Point out that everyone loves the movies. Who doesn\'t want to go on an adventure for two hours to far away places and meet interesting characters?',
+				eventOptD: 'Give credit to the state of the art equipment your establishment uses.',
+				eventAnswerA: 'The answer doesn\'t resonate with those who follow the BEAST, but the award comes with a cash price of',
+				eventAnswerB: 'The answer makes your employees happy, and the award comes with a cash price of',
+				eventAnswerC: 'The answer makes people want to keep coming to the movies, and the award comes with a cash price of',
+				eventAnswerD: 'The answer later gets reprinted in a electronics magazine, keeping your notoriety alive. Oh, and the award comes with a cash price of'
+			},
+			{
+				base: 5000,
+				eventTitle: 'On The Fritz',
+				modifierA: -1,
+				modifierB: -1,
+				modifierC: -1,
+				modifierD: -1,
+				eventMsg: 'It\'s not your day. The screen in one of your theaters fell, the sound system is bugging out, and a projector won\'t play anything slower than mach speed.',
+				eventOptA: 'Have the screen fixed, and quickly patch the rest.',
+				eventOptB: 'Repair the sound system, and slap some duct tape on the others.',
+				eventOptC: 'Breathe life back into the projector, and improvise the other two.',
+				eventOptD: 'Spread your resources around equally amongst the three.',
+				eventAnswerA: 'It isn\'t perfect, but it will get you through the day. Repair cost',
+				eventAnswerB: 'It isn\'t perfect, but it will get you through the day. Repair cost',
+				eventAnswerC: 'It isn\'t perfect, but it will get you through the day. Repair cost',
+				eventAnswerD: 'It isn\'t perfect, but it will get you through the day. Repair cost'
+			},
+			{
+				base: 2000,
+				eventTitle: 'The Color Scheme',
+				modifierA: 1,
+				modifierB: 3,
+				modifierC: 2,
+				modifierD: 4,
+				eventMsg: 'It\'s time to give your cinema a new paint job. The color might very well lure more potential customers through the doors, or scare them off.',
+				eventOptA: 'Paint it green.',
+				eventOptB: 'Paint it blue.',
+				eventOptC: 'Paint it white.',
+				eventOptD: 'Paint it red.',
+				eventAnswerA: 'Though green is the color of money, it doesn\'t make people want to watch more movies. A new paint job does make the place look better, though. You got a small boost to ticket sales, netting',
+				eventAnswerB: 'Blue is regal and it really pops in the daytime. With sales increasing as a result you made an extra',
+				eventAnswerC: 'White can\'t go wrong...until it gets dirty. But, that\'s a problem for another day. For now, your sales increased moderately for an additional',
+				eventAnswerD: 'That red really sets your building apart from any of the others. People see it at once, and want to come in. You earned an whopping'
+			}
 		];
-		game.currentEvent = game.events[0];
+		game.currentEvent = {
+			base: game.events[0].base,
+			eventTitle: game.events[0].eventTitle,
+			modifierA: game.events[0].modifierA,
+			modifierB: game.events[0].modifierB,
+			modifierC: game.events[0].modifierC,
+			modifierD: game.events[0].modifierD,
+			eventMsg: game.events[0].eventMsg,
+			eventOptA: game.events[0].eventOptA,
+			eventOptB: game.events[0].eventOptB,
+			eventOptC: game.events[0].eventOptC,
+			eventOptD: game.events[0].eventOptD,
+			eventAnswerA: game.events[0].eventAnswerA,
+			eventAnswerB: game.events[0].eventAnswerB,
+			eventAnswerC: game.events[0].eventAnswerC,
+			eventAnswerD: game.events[0].eventAnswerD,
+			choice: 'A'
+		};
 
 		game.timeData = {};
 		game.timeData.day = 1;								// Tracks the day of the year.
@@ -563,7 +790,7 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 	game.newDay = function()
 	{
 		// Only happens if game isn't over
-		if(game.state.isGameOver)
+		if(game.state.isGameOver || game.state.isPaused)
 		{
 			return;
 		}
@@ -619,6 +846,7 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 			game.state.isWin = "Lose";
 			game.state.endGameMsg = "The game was lost in " + (game.timeData.day + (365 * (game.timeData.year - 1))) + " days!";
 		}
+		randomEventSpawn();
 	};
 	// Pauses and unpauses game
 	game.pause = function(pause)
