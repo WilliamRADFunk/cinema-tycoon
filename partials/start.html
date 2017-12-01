@@ -1,12 +1,12 @@
 <div ng-controller="StartController as startCtrl">
-	<div id="start-modal" class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12" ng-show="!startCtrl.state.isStarted && !startCtrl.state.isGameOver">
+	<div id="start-modal" class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12" ng-show="!startCtrl.state.isStarted && !startCtrl.state.isGameOver && !startCtrl.state.isEvent">
 		<p>Welcome to Cinema Tycoon!</p>
 		<p>As an up-and-coming entrepreneur and aficionado of the silver screen, you've recently leased a chunk of mall real-estate for the purpose of running a movie theater.</p>
 		<p>One day, if you play your cards right, you could even produce your <i>own</i> films.</p>
 		<p>Whether you play it fast and loose, or cautiously slow, your ultimate goal is to turn your seed money into a million dollars and produce at least 3 movies. Do that, and you've won. Drop more than $10,000 into debt and the landowner will pull your lease.</p>
 		<button type="button" class="btn btn-default col-lg-2 col-lg-offset-5 col-md-2 col-md-offset-5 col-sm-2 col-sm-offset-5 col-xs-4 col-xs-offset-4" ng-click="startCtrl.activateTime(3)">Start</button>
 	</div>
-	<div id="help-modal" class="container col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12" ng-show="startCtrl.state.isHelp && !startCtrl.state.isGameOver">
+	<div id="help-modal" class="container col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12" ng-show="startCtrl.state.isHelp && !startCtrl.state.isGameOver && !startCtrl.state.isEvent">
 		<div class="row" style="margin-top: 10px;">
 			<button class="btn col-lg-1 col-lg-offset-10 col-md-1 col-md-offset-10 col-sm-1 col-sm-offset-10 col-xs-2 col-xs-offset-9" ng-click="startCtrl.exitHelp()"/>X
 		</div>
@@ -49,14 +49,51 @@
 		<div class="row"><span class="glyphicon glyphicon-random col-lg-1 col-md-1 col-sm-1 col-xs-2"></span><span class="col-lg-2 col-md-2 col-sm-2 col-xs-3">RANDOM EVENTS: </span><span class="col-lg-9 col-md-9 col-sm-9 col-xs-7">Periodically, random events will occur. These events can be positive or negative in their outcome, mitigated by the decisions you make for each one. Their consequence is always in the form of immediate profit or expense.</span></div>
 		<button type="button" class="btn btn-default col-lg-2 col-lg-offset-5 col-md-2 col-md-offset-5 col-sm-2 col-sm-offset-5 col-xs-4 col-xs-offset-4" ng-click="startCtrl.exitHelp()">Close</button>
 	</div>
-	<div id="game-over-modal" class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12" ng-show="startCtrl.state.isStarted && !startCtrl.state.isHelp && startCtrl.state.isGameOver">
+	<div id="game-over-modal" class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12" ng-show="startCtrl.state.isStarted && !startCtrl.state.isHelp && startCtrl.state.isGameOver && !startCtrl.state.isEvent">
 		<p>You {{startCtrl.state.isWin}}!</p>
 		<p>{{startCtrl.state.endGameMsg}}</p>
 		<button type="button" class="btn btn-default col-lg-2 col-lg-offset-5 col-md-2 col-md-offset-5 col-sm-2 col-sm-offset-5 col-xs-4 col-xs-offset-4" ng-click="startCtrl.restartGame()">Play Again</button>
 	</div>
-	<div ng-show="startCtrl.state.isStarted && !startCtrl.state.isGameOver">
+	<div ng-show="startCtrl.state.isStarted && !startCtrl.state.isGameOver&& !startCtrl.state.isEvent">
 		<button id="pause" type="button" class="btn btn-info controls glyphicon glyphicon-pause col-lg-1 col-lg-offset-4 col-md-1 col-md-offset-4 col-sm-1 col-sm-offset-4 col-xs-1 col-xs-offset-4" ng-show="!startCtrl.state.isPaused" ng-click="startCtrl.pauseTime()"></button>
 		<button id="play" type="button" class="btn btn-info controls glyphicon glyphicon-play col-lg-1 col-lg-offset-4 col-md-1 col-md-offset-4 col-sm-1 col-sm-offset-4 col-xs-1 col-xs-offset-4" ng-show="startCtrl.state.isPaused && !startCtrl.state.isHelp" ng-click="startCtrl.unpauseTime()"></button>
 		<button id="help" type="button" class="btn btn-info controls glyphicon glyphicon-question-sign col-lg-1 col-lg-offset-2 col-md-1 col-md-offset-2 col-sm-1 col-sm-offset-2 col-xs-1 col-xs-offset-2" ng-show="startCtrl.state.isStarted && !startCtrl.state.isHelp" ng-click="startCtrl.needHelp()"></button>
+	</div>
+	<div id="events-modal" class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12" ng-show="startCtrl.state.isStarted && !startCtrl.state.isHelp && !startCtrl.state.isGameOver && startCtrl.state.isEvent">
+		<h2>Event - {{startCtrl.events.eventTitle}}</h2>
+		<hr>
+		<p>{{startCtrl.events.eventMsg}}</p>
+		<div ng-show="!startCtrl.events.selectedOption">
+			<div style="margin-top: 25px;">
+				<input type="radio" ng-model="startCtrl.events.choice" value="{{startCtrl.events.eventChoice1}}"/>
+				<div>
+					{{startCtrl.events.eventOpt1}}
+				</div>
+			</div>
+			<div>
+				<input type="radio" ng-model="startCtrl.events.choice" value="{{startCtrl.events.eventChoice2}}"/>
+				<div>
+					{{startCtrl.events.eventOpt2}}
+				</div>
+			</div>
+			<div>
+				<input type="radio" ng-model="startCtrl.events.choice" value="{{startCtrl.events.eventChoice3}}"/>
+				<div>
+					{{startCtrl.events.eventOpt3}}
+				</div>
+			</div>
+			<div style="margin-bottom: 25px;">
+				<input type="radio" ng-model="startCtrl.events.choice" value="{{startCtrl.events.eventChoice4}}"/>
+				<div>
+					{{startCtrl.events.eventOpt4}}
+				</div>
+			</div>
+			<button type="button" class="btn btn-info col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4 col-xs-4 col-xs-offset-4" ng-click="startCtrl.submitEventChoice()" style="margin-bottom: 15px;">Commit Action</button>
+		</div>
+		<div ng-show="startCtrl.events.selectedOption">
+			<p>{{startCtrl.events.selectionOption}}</p>
+			<p>{{startCtrl.events.selectedResult}}</p>
+			<button type="button" class="btn btn-info col-lg-2 col-lg-offset-5 col-md-2 col-md-offset-5 col-sm-2 col-sm-offset-5 col-xs-4 col-xs-offset-4" ng-click="startCtrl.exitModal()">Back to Game</button>
+		</div>
 	</div>
 </div>

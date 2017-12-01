@@ -208,12 +208,26 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 		game.snackData.newSnackPriceMultiplier = 500;		// Multiplier for additional snacks.
 
 		game.state = {};
-		game.state.isStarted = false;						// Tracks whether player has started or not.
+		game.state.isStarted = true;						// Tracks whether player has started or not.
 		game.state.isPaused = false;						// Tracks whether player has paused game.
 		game.state.isHelp = false;							// Tracks whether player is in help modal.
 		game.state.isGameOver = false;						// Tracks whether player is in the end game modal.
 		game.state.endGameMsg = "";							// Message displayed to user at end of game.
 		game.state.isWin = "";								// Displays 'Win' or 'Lose' at end game.
+		game.state.isEvent = true;							// Tracks whether a random event is active on screen.
+
+		game.events = {
+			eventTitle: 'Mutiny',
+			eventMsg: 'Your employees feel underappreciated. There has been talk about unionizing. If you don\'t do something quick they may strike and cut into your profits.',
+			eventOpt1: 'Fire the malcontents and bring in some new blood.',
+			eventOpt2: 'Give each employee a number of free tickets for their friends and families.',
+			eventOpt3: 'Cut their pay across the board, so that they know what underappreciation really feels like.',
+			eventOpt4: 'Add a fat bonus into everybody\'s check this month.',
+			eventChoice1: 'FactorChoiceA',
+			eventChoice2: 'FactorChoiceB',
+			eventChoice3: 'FactorChoiceC',
+			eventChoice4: 'FactorChoiceD',
+		};
 
 		game.timeData = {};
 		game.timeData.day = 1;								// Tracks the day of the year.
@@ -331,6 +345,11 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 		if(index < 0 || index >= promos.length) return; // In case someone sneaks a bad index through.
 		game.miscData.currentPromotionIndex = index;
 		game.miscData.currentPromotion = promos[game.miscData.currentPromotionIndex];
+	};
+	// Changes event mode
+	game.event = function(event)
+	{
+		game.state.isEvent = event;
 	};
 	// Gets player's bank balance.
 	game.getBalance = function()

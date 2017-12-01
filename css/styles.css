@@ -244,6 +244,7 @@ select
 		padding-left: 0px;
 		padding-right: 0px;
 	}
+	#events-modal,
 	#game-over-modal,
 	#help-modal,
 	#movie-modal,
@@ -259,10 +260,12 @@ select
 		margin-top: 10px;
 		padding: 0px 10px;
 	}
+	#events-modal,
 	#help-modal
 	{
 		border-radius: 1%;
 	}
+	#events-modal > button,
 	#game-over-modal > button,
 	#help-modal > button,
 	#movie-modal > button,
@@ -271,6 +274,22 @@ select
 	{
 		margin-bottom: 20px;
 		margin-top: 20px;
+	}
+	#events-modal > div > div
+	{
+		clear: both;
+		display: block;
+		padding-top: 15px;
+	}
+	#events-modal > div > div > div
+	{
+		float: left;
+		width: 95%;
+	}
+	#events-modal > div > div > input[type=radio]
+	{
+		float: left;
+		padding-top: 3px;
 	}
 	#hud
 	{

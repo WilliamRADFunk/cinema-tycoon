@@ -1,4 +1,4 @@
-<div id="gameroom-container" class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-controller="GameroomController as grCtrl" ng-show="grCtrl.state.isStarted && !grCtrl.state.isHelp && !grCtrl.state.isGameOver" entering="grCtrl.entered()" exiting="grCtrl.exited()" active="{{grCtrl.active}}" flipping>
+<div id="gameroom-container" class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-controller="GameroomController as grCtrl" ng-show="grCtrl.state.isStarted && !grCtrl.state.isHelp && !grCtrl.state.isGameOver && !grCtrl.state.isEvent" entering="grCtrl.entered()" exiting="grCtrl.exited()" active="{{grCtrl.active}}" flipping>
 	<div id="gameroom-inactive" ng-show="!grCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
 	<div id="gameroom-active" ng-show="grCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 		<p class="underline">Games Offered: {{grCtrl.gameroomData.numOfGames}} / {{grCtrl.gameroomData.maxGames}}</p>

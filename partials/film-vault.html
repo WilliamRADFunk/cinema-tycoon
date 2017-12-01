@@ -1,4 +1,4 @@
-<div id="film-vault-container" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-controller="FilmVaultController as fvCtrl" ng-show="fvCtrl.state.isStarted && !fvCtrl.state.isHelp && !fvCtrl.state.isGameOver" entering="fvCtrl.entered()" exiting="fvCtrl.exited()" active="{{fvCtrl.active}}" flipping>
+<div id="film-vault-container" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-controller="FilmVaultController as fvCtrl" ng-show="fvCtrl.state.isStarted && !fvCtrl.state.isHelp && !fvCtrl.state.isGameOver && !fvCtrl.state.isEvent" entering="fvCtrl.entered()" exiting="fvCtrl.exited()" active="{{fvCtrl.active}}" flipping>
 	<div id="film-vault-inactive" ng-show="!fvCtrl.active" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
 	<div id="film-vault-active" ng-show="fvCtrl.active && !fvCtrl.state.isInspecting" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 		<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
