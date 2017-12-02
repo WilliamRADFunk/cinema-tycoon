@@ -10,6 +10,13 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	var weekSnackProfits;
 	var weekGamesProfits;
 	var randomEventSpawnCounter = 0;
+	/*
+	 * Title: Cha Ching Register
+	 * Author: Muska666
+	 * Download Source: http://soundbible.com/1997-Cha-Ching-Register.html
+	 * License: Attribution 3.0
+	 */
+	var chaChingSound = new Audio('../sounds/cha-ching.mp3');
 
 	var calculateDailyProfits = function()
 	{
@@ -652,6 +659,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 			{
 				game.gameroomData.numOfGames++;
 				balance -= cost;
+				chaChingSound.play();
 			}
 		}
 	};
@@ -669,6 +677,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 			{
 				game.parkingData.parkingLevels++;
 				balance -= cost;
+				chaChingSound.play();
 			}
 		}
 	};
@@ -690,6 +699,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 				game.salonData.numOfSalons = game.salonData.salonsOwned.length;
 				game.salonData.totalSeats = calculateTotalSeats();
 				balance -= cost;
+				chaChingSound.play();
 				return true;
 			}
 			else return false;
@@ -709,14 +719,20 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 			{
 				game.snackData.numOfSnacks++;
 				balance -= cost;
+				chaChingSound.play();
 			}
 		}
 	};
 	// Since salon object has seat quantity and balance checker, buy and adjust totalSeats.
 	game.buySeats = function(salonNum, quantity)
 	{
+		var oldNumSeats = game.salonData.totalSeats;
 		balance = game.salonData.salonsOwned[salonNum].addSeats(quantity, (balance + 9990));
 		game.salonData.totalSeats = calculateTotalSeats();
+		if(game.salonData.totalSeats !== oldNumSeats)
+		{
+			chaChingSound.play();
+		}
 	};
 	// Changes the movie playing in this salon
 	game.changeMoviePlaying = function(salonNum, movieIndex)
@@ -870,6 +886,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 				balance -= game.miscData.moviesAvailable[index].getCostLicense();
 				game.miscData.moviesOwned.push(game.miscData.moviesAvailable[index]);
 				game.miscData.moviesAvailable.splice(index, 1);
+				chaChingSound.play();
 				return true;
 			}
 			else return false;
@@ -883,15 +900,30 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	};
 	game.upgradeProjector = function(salonNum)
 	{
+		var oldBalance = balance;
 		balance = game.salonData.salonsOwned[salonNum].upgradeProjectorLevel((balance + 9990));
+		if(balance !== oldBalance)
+		{
+			chaChingSound.play();
+		}
 	};
 	game.upgradeScreen = function(salonNum)
 	{
+		var oldBalance = balance;
 		balance = game.salonData.salonsOwned[salonNum].upgradeScreenLevel((balance + 9990));
+		if(balance !== oldBalance)
+		{
+			chaChingSound.play();
+		}
 	};
 	game.upgradeSound = function(salonNum)
 	{
+		var oldBalance = balance;
 		balance = game.salonData.salonsOwned[salonNum].upgradeSoundLevel((balance + 9990));
+		if(balance !== oldBalance)
+		{
+			chaChingSound.play();
+		}
 	};
 	// Adds a user created movie to the database iff balance available and content passes inspection.
 	// Upon success, transfer movie into user's owned licenses.
