@@ -434,7 +434,7 @@ cinemaTycoonApp.controller('SnackController', ['gameData', '$rootScope', '$scope
 	self.setup();
 }]);
 // Main function is to instigate the game timer.
-cinemaTycoonApp.controller('StartController', ['gameData', '$interval', '$rootScope', function(game, $interval, $rootScope)
+cinemaTycoonApp.controller('StartController', ['gameData', '$interval', '$rootScope', '$scope', function(game, $interval, $rootScope, $scope)
 {
 	var self = this;
 
@@ -442,6 +442,11 @@ cinemaTycoonApp.controller('StartController', ['gameData', '$interval', '$rootSc
 	self.speed;
 	self.state = game.state;
 	self.currentEvent = game.currentEvent;
+
+	$scope.$on('event', function(msg, args)
+	{
+		self.pauseTime();
+	});
 
 	self.activateTime = function(speed)
 	{
@@ -474,6 +479,7 @@ cinemaTycoonApp.controller('StartController', ['gameData', '$interval', '$rootSc
 		{
 			cancelSucceeded = $interval.cancel(self.intervalPromise);
 		} while(!cancelSucceeded);
+		self.intervalPromise = undefined;
 	};
 	self.restartGame = function(speed)
 	{
@@ -518,7 +524,6 @@ cinemaTycoonApp.controller('WorkshopController', ['gameData', '$rootScope', '$sc
 	};
 	self.entered = function()
 	{
-		console.log('Here');
 		self.active = true;
 		$rootScope.$broadcast('sectionEntered', { section: 'workshop' });
 	};

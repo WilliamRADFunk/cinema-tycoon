@@ -1,4 +1,4 @@
-cinemaTycoonApp.factory('gameData', ['$http', function($http)
+cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $rootScope)
 {
 	var balance;
 	var basicLeaseRent;
@@ -9,6 +9,7 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 	var weekTicketProfits;
 	var weekSnackProfits;
 	var weekGamesProfits;
+	var randomEventSpawnCounter = 0;
 
 	var calculateDailyProfits = function()
 	{
@@ -145,8 +146,12 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 	// Decides whether to spawn a random event. If so, if picks one from the list.
 	var randomEventSpawn = function()
 	{
-		if(Math.random() <= 0.1 && !game.state.isEvent && game.timeData.day >= 6) {
-			game.pause(true);
+		randomEventSpawnCounter++;
+		if(randomEventSpawnCounter < 8) {
+			return;
+		}
+		if(Math.random() <= 0.20 && !game.state.isEvent) {
+			$rootScope.$broadcast('event');
 			var i = 0;
 			do
 			{
@@ -172,6 +177,7 @@ cinemaTycoonApp.factory('gameData', ['$http', function($http)
 					break;
 				}
 			} while(true);
+			randomEventSpawnCounter = 0;
 		}
 	};
 	// Decrements all licenses by one, and removes those with 0 weeks remaining.
