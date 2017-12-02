@@ -2,6 +2,13 @@
 cinemaTycoonApp.controller('FilmVaultController', ['gameData', '$rootScope', '$scope', function(game, $rootScope, $scope)
 {
 	var self = this;
+	/*
+	 * Title: Opening Casket
+	 * Author: Mike Koenig
+	 * Download Source: http://soundbible.com/1354-Opening-Casket.html
+	 * License: Attribution 3.0
+	 */
+	self.vaultDoorSound = new Audio('../sounds/vault-door.mp3');
 
 	$scope.$on('restart', function()
 	{
@@ -21,11 +28,17 @@ cinemaTycoonApp.controller('FilmVaultController', ['gameData', '$rootScope', '$s
 	self.entered = function()
 	{
 		self.active = true;
+		self.vaultDoorSound.pause();
+		self.vaultDoorSound.currentTime = 0;
+		self.vaultDoorSound.play();
 		$rootScope.$broadcast('sectionEntered', { section: 'vault' });
 	};
 	self.exited = function()
 	{
 		self.active = false;
+		self.vaultDoorSound.pause();
+		self.vaultDoorSound.currentTime = 0;
+		self.vaultDoorSound.play();
 		self.state.selectedMovieLicense = '0';
 		self.state.selectedMovieOwned = '0';
 	};
