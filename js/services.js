@@ -17,6 +17,20 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 * License: Attribution 3.0
 	 */
 	var chaChingSound = new Audio('../sounds/cha-ching.mp3');
+	/*
+	 * Title: Flyby
+	 * Author: Conor
+	 * Download Source: http://soundbible.com/1891-Flyby.html
+	 * License: Attribution 3.0
+	 */
+	 var spawnEventSound = new Audio('../sounds/spawn-event.mp3');
+	 /*
+	 * Title: Climactic Suspense
+	 * Author: Mike Koenig
+	 * Download Source: http://soundbible.com/1832-Climactic-Suspense.html
+	 * License: Attribution 3.0
+	 */
+	 var eventRevealSound = new Audio('../sounds/event-reveal.mp3');
 
 	var calculateDailyProfits = function()
 	{
@@ -184,6 +198,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 					break;
 				}
 			} while(true);
+			spawnEventSound.play();
 			randomEventSpawnCounter = 0;
 		}
 	};
@@ -772,6 +787,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 		{
 			gainOrLossAmount = ' $ ' + gainOrLossAmount;
 		}
+		eventRevealSound.play();
 		return game.currentEvent.selectedResult =
 			game.currentEvent['eventAnswer' + choice] + gainOrLossAmount;
 	};

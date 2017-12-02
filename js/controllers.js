@@ -234,6 +234,13 @@ cinemaTycoonApp.controller('OfficeController', ['gameData', '$rootScope', '$scop
 cinemaTycoonApp.controller('ParkingLotController', ['gameData', '$rootScope', '$scope', function(game, $rootScope, $scope)
 {
 	var self = this;
+	/*
+	 * Title: Horn Honk
+	 * Author: Mike Koenig
+	 * Download Source: http://soundbible.com/1048-Horn-Honk.html
+	 * License: Attribution 3.0
+	 */
+	 self.parkingLotSound = new Audio('../sounds/horn-honk.mp3');
 
 	$scope.$on('restart', function()
 	{
@@ -242,18 +249,22 @@ cinemaTycoonApp.controller('ParkingLotController', ['gameData', '$rootScope', '$
 	$scope.$on('sectionEntered', function(msg, args)
 	{
 		if(args.section !== 'parking') {
-			self.exited();
+			self.exited(false);
 		}
 	});
 
 	self.entered = function()
 	{
 		self.active = true;
+		self.parkingLotSound.play();
 		$rootScope.$broadcast('sectionEntered', { section: 'parking' });
 	};
-	self.exited = function()
+	self.exited = function(localTrigger)
 	{
 		self.active = false;
+		if(localTrigger) {
+			self.parkingLotSound.play();
+		}
 	};
 	self.expandParking = function()
 	{
@@ -399,6 +410,20 @@ cinemaTycoonApp.controller('SalonController', ['gameData', '$rootScope', '$scope
 cinemaTycoonApp.controller('SnackController', ['gameData', '$rootScope', '$scope', function(game, $rootScope, $scope)
 {
 	var self = this;
+	/*
+	 * Title: Pouring Hot Tea
+	 * Author: Cori Samuel
+	 * Download Source: http://soundbible.com/1244-Pouring-Hot-Tea.html
+	 * License: Public Domain
+	 */
+	 self.snackDrinkSound = new Audio('../sounds/concession-drink.mp3');
+	 /*
+	 * Title: Popcorn Popping
+	 * Author: KevanGC
+	 * Download Source: http://soundbible.com/1710-Popcorn-Popping.html
+	 * License: Public Domain
+	 */
+	 self.snackPopcornSound = new Audio('../sounds/concession-popcorn.mp3');
 
 	$scope.$on('restart', function()
 	{
@@ -407,18 +432,36 @@ cinemaTycoonApp.controller('SnackController', ['gameData', '$rootScope', '$scope
 	$scope.$on('sectionEntered', function(msg, args)
 	{
 		if(args.section !== 'snack') {
-			self.exited();
+			self.exited(false);
 		}
 	});
 
 	self.entered = function()
 	{
 		self.active = true;
+		self.snackDrinkSound.play();
+		self.snackPopcornSound.play();
+		setTimeout(function() {
+			self.snackDrinkSound.pause();
+			self.snackDrinkSound.currentTime = 0;
+			self.snackPopcornSound.pause();
+			self.snackPopcornSound.currentTime = 0;
+		}, 2000);
 		$rootScope.$broadcast('sectionEntered', { section: 'snack' });
 	};
-	self.exited = function()
+	self.exited = function(localTrigger)
 	{
 		self.active = false;
+		if(localTrigger) {
+			self.snackDrinkSound.play();
+			self.snackPopcornSound.play();
+			setTimeout(function() {
+				self.snackDrinkSound.pause();
+				self.snackDrinkSound.currentTime = 0;
+				self.snackPopcornSound.pause();
+				self.snackPopcornSound.currentTime = 0;
+			}, 2000);
+		}
 	};
 	self.increaseSnacks = function()
 	{
