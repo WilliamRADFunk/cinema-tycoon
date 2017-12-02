@@ -240,7 +240,8 @@ cinemaTycoonApp.controller('ParkingLotController', ['gameData', '$rootScope', '$
 	 * Download Source: http://soundbible.com/1048-Horn-Honk.html
 	 * License: Attribution 3.0
 	 */
-	 self.parkingLotSound = new Audio('../sounds/horn-honk.mp3');
+	self.parkingLotSound = new Audio('../sounds/horn-honk.mp3');
+	self.parkingLotSound.volume = 0.1;
 
 	$scope.$on('restart', function()
 	{
@@ -256,6 +257,8 @@ cinemaTycoonApp.controller('ParkingLotController', ['gameData', '$rootScope', '$
 	self.entered = function()
 	{
 		self.active = true;
+		self.parkingLotSound.pause();
+		self.parkingLotSound.currentTime = 0;
 		self.parkingLotSound.play();
 		$rootScope.$broadcast('sectionEntered', { section: 'parking' });
 	};
@@ -263,6 +266,8 @@ cinemaTycoonApp.controller('ParkingLotController', ['gameData', '$rootScope', '$
 	{
 		self.active = false;
 		if(localTrigger) {
+			self.parkingLotSound.pause();
+			self.parkingLotSound.currentTime = 0;
 			self.parkingLotSound.play();
 		}
 	};
@@ -407,9 +412,10 @@ cinemaTycoonApp.controller('SalonController', ['gameData', '$rootScope', '$scope
 	self.setup();
 }]);
 // Main function is to increase snacks offered.
-cinemaTycoonApp.controller('SnackController', ['gameData', '$rootScope', '$scope', function(game, $rootScope, $scope)
+cinemaTycoonApp.controller('SnackController', ['gameData', '$rootScope', '$scope', '$timeout', function(game, $rootScope, $scope, $timeout)
 {
 	var self = this;
+	self.timeoutPromise;
 	/*
 	 * Title: Pouring Hot Tea
 	 * Author: Cori Samuel
@@ -439,13 +445,24 @@ cinemaTycoonApp.controller('SnackController', ['gameData', '$rootScope', '$scope
 	self.entered = function()
 	{
 		self.active = true;
-		self.snackDrinkSound.play();
-		self.snackPopcornSound.play();
-		setTimeout(function() {
+		var cancelSucceeded = false;
+		if(self.timeoutPromise) {
 			self.snackDrinkSound.pause();
 			self.snackDrinkSound.currentTime = 0;
 			self.snackPopcornSound.pause();
 			self.snackPopcornSound.currentTime = 0;
+			$timeout.cancel(self.timeoutPromise);
+			self.timeoutPromise = undefined;
+		}
+		self.snackDrinkSound.play();
+		self.snackPopcornSound.play();
+		self.timeoutPromise = $timeout(function() {
+			self.snackDrinkSound.pause();
+			self.snackDrinkSound.currentTime = 0;
+			self.snackPopcornSound.pause();
+			self.snackPopcornSound.currentTime = 0;
+			$timeout.cancel(self.timeoutPromise);
+			self.timeoutPromise = undefined;
 		}, 2000);
 		$rootScope.$broadcast('sectionEntered', { section: 'snack' });
 	};
@@ -453,13 +470,24 @@ cinemaTycoonApp.controller('SnackController', ['gameData', '$rootScope', '$scope
 	{
 		self.active = false;
 		if(localTrigger) {
-			self.snackDrinkSound.play();
-			self.snackPopcornSound.play();
-			setTimeout(function() {
+			var cancelSucceeded = false;
+			if(self.timeoutPromise) {
 				self.snackDrinkSound.pause();
 				self.snackDrinkSound.currentTime = 0;
 				self.snackPopcornSound.pause();
 				self.snackPopcornSound.currentTime = 0;
+				$timeout.cancel(self.timeoutPromise);
+				self.timeoutPromise = undefined;
+			}
+			self.snackDrinkSound.play();
+			self.snackPopcornSound.play();
+			self.timeoutPromise = $timeout(function() {
+				self.snackDrinkSound.pause();
+				self.snackDrinkSound.currentTime = 0;
+				self.snackPopcornSound.pause();
+				self.snackPopcornSound.currentTime = 0;
+				$timeout.cancel(self.timeoutPromise);
+				self.timeoutPromise = undefined;
 			}, 2000);
 		}
 	};
