@@ -1,4 +1,4 @@
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-controller="SalonController as salonCtrl" ng-show="salonCtrl.state.isStarted && !salonCtrl.state.isHelp && !salonCtrl.state.isGameOver && !salonCtrl.state.isEvent" entering="salonCtrl.entered()" exiting="salonCtrl.exited()" active="{{salonCtrl.active}}" flipping>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-controller="SalonController as salonCtrl" ng-show="salonCtrl.state.isStarted && !salonCtrl.state.isHelp && !salonCtrl.state.isGameOver && !salonCtrl.state.isEvent" entering="salonCtrl.entered()" exiting="salonCtrl.exited(true)" active="{{salonCtrl.active}}" flipping>
 	<div id="salon-inactive" ng-show="!salonCtrl.active && salonCtrl.state.activeSalon !== 0" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
 	<div id="salon-active" ng-show="salonCtrl.active && salonCtrl.state.activeSalon !== 0" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 		<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">

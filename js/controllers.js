@@ -2,13 +2,8 @@
 cinemaTycoonApp.controller('FilmVaultController', ['gameData', '$rootScope', '$scope', function(game, $rootScope, $scope)
 {
 	var self = this;
-	/*
-	 * Title: Opening Casket
-	 * Author: Mike Koenig
-	 * Download Source: http://soundbible.com/1354-Opening-Casket.html
-	 * License: Attribution 3.0
-	 */
-	self.vaultDoorSound = new Audio('../sounds/vault-door.mp3');
+	self.vaultDoorSound = game.sounds.vaultDoorSound;
+	self.buttonBlopSound = game.sounds.buttonBlopSound;
 
 	$scope.$on('restart', function()
 	{
@@ -17,12 +12,20 @@ cinemaTycoonApp.controller('FilmVaultController', ['gameData', '$rootScope', '$s
 	$scope.$on('sectionEntered', function(msg, args)
 	{
 		if(args.section !== 'vault') {
-			self.exited();
+			self.exited(false);
 		}
 	});
 
+	var playBlop = function()
+	{
+		self.buttonBlopSound.pause();
+		self.buttonBlopSound.currentTime = 0;
+		self.buttonBlopSound.play();
+	};
+
 	self.closeInspector = function()
 	{
+		playBlop();
 		self.state.isInspecting = false;
 	};
 	self.entered = function()
@@ -33,12 +36,14 @@ cinemaTycoonApp.controller('FilmVaultController', ['gameData', '$rootScope', '$s
 		self.vaultDoorSound.play();
 		$rootScope.$broadcast('sectionEntered', { section: 'vault' });
 	};
-	self.exited = function()
+	self.exited = function(localTrigger)
 	{
 		self.active = false;
-		self.vaultDoorSound.pause();
-		self.vaultDoorSound.currentTime = 0;
-		self.vaultDoorSound.play();
+		if(localTrigger) {
+			self.vaultDoorSound.pause();
+			self.vaultDoorSound.currentTime = 0;
+			playBlop();
+		}
 		self.state.selectedMovieLicense = '0';
 		self.state.selectedMovieOwned = '0';
 	};
@@ -48,6 +53,7 @@ cinemaTycoonApp.controller('FilmVaultController', ['gameData', '$rootScope', '$s
 	};
 	self.openInspector = function(mode)
 	{
+		playBlop();
 		if(mode === 0 && self.state.selectedMovieLicense !== '0')
 		{
 			self.state.selectedMovie = game.miscData.moviesAvailable[Number(self.state.selectedMovieLicense)];
@@ -87,6 +93,7 @@ cinemaTycoonApp.controller('FilmVaultController', ['gameData', '$rootScope', '$s
 cinemaTycoonApp.controller('FrontDoorController', ['gameData', '$rootScope', '$scope', function(game, $rootScope, $scope)
 {
 	var self = this;
+	self.buttonBlopSound = game.sounds.buttonBlopSound;
 
 	$scope.$on('restart', function()
 	{
@@ -95,18 +102,29 @@ cinemaTycoonApp.controller('FrontDoorController', ['gameData', '$rootScope', '$s
 	$scope.$on('sectionEntered', function(msg, args)
 	{
 		if(args.section !== 'ticket') {
-			self.exited();
+			self.exited(false);
 		}
 	});
+
+	var playBlop = function()
+	{
+		self.buttonBlopSound.pause();
+		self.buttonBlopSound.currentTime = 0;
+		self.buttonBlopSound.play();
+	};
 
 	self.entered = function()
 	{
 		self.active = true;
 		$rootScope.$broadcast('sectionEntered', { section: 'ticket' });
 	};
-	self.exited = function()
+	self.exited = function(localTrigger)
 	{
 		self.active = false;
+		if(localTrigger)
+		{
+			playBlop();
+		}
 	};
 	self.lowerTicketPrice = function()
 	{
@@ -129,6 +147,7 @@ cinemaTycoonApp.controller('FrontDoorController', ['gameData', '$rootScope', '$s
 cinemaTycoonApp.controller('GameroomController', ['gameData', '$rootScope', '$scope', function(game, $rootScope, $scope)
 {
 	var self = this;
+	self.buttonBlopSound = game.sounds.buttonBlopSound;
 
 	$scope.$on('restart', function()
 	{
@@ -137,18 +156,29 @@ cinemaTycoonApp.controller('GameroomController', ['gameData', '$rootScope', '$sc
 	$scope.$on('sectionEntered', function(msg, args)
 	{
 		if(args.section !== 'games') {
-			self.exited();
+			self.exited(false);
 		}
 	});
+
+	var playBlop = function()
+	{
+		self.buttonBlopSound.pause();
+		self.buttonBlopSound.currentTime = 0;
+		self.buttonBlopSound.play();
+	};
 
 	self.entered = function()
 	{
 		self.active = true;
 		$rootScope.$broadcast('sectionEntered', { section: 'games' });
 	};
-	self.exited = function()
+	self.exited = function(localTrigger)
 	{
 		self.active = false;
+		if(localTrigger)
+		{
+			playBlop();
+		}
 	};
 	self.increaseGames = function()
 	{
@@ -197,6 +227,7 @@ cinemaTycoonApp.controller('HUDController', ['gameData', '$scope', function(game
 cinemaTycoonApp.controller('OfficeController', ['gameData', '$rootScope', '$scope', function(game, $rootScope, $scope)
 {
 	var self = this;
+	self.buttonBlopSound = game.sounds.buttonBlopSound;
 
 	$scope.$on('restart', function()
 	{
@@ -205,9 +236,16 @@ cinemaTycoonApp.controller('OfficeController', ['gameData', '$rootScope', '$scop
 	$scope.$on('sectionEntered', function(msg, args)
 	{
 		if(args.section !== 'office') {
-			self.exited();
+			self.exited(false);
 		}
 	});
+
+	var playBlop = function()
+	{
+		self.buttonBlopSound.pause();
+		self.buttonBlopSound.currentTime = 0;
+		self.buttonBlopSound.play();
+	};
 
 	self.changePromo = function()
 	{
@@ -219,9 +257,13 @@ cinemaTycoonApp.controller('OfficeController', ['gameData', '$rootScope', '$scop
 		self.active = true;
 		$rootScope.$broadcast('sectionEntered', { section: 'office' });
 	};
-	self.exited = function()
+	self.exited = function(localTrigger)
 	{
 		self.active = false;
+		if(localTrigger)
+		{
+			playBlop();
+		}
 	};
 	self.fireEmployee = function()
 	{
@@ -247,14 +289,8 @@ cinemaTycoonApp.controller('OfficeController', ['gameData', '$rootScope', '$scop
 cinemaTycoonApp.controller('ParkingLotController', ['gameData', '$rootScope', '$scope', function(game, $rootScope, $scope)
 {
 	var self = this;
-	/*
-	 * Title: Horn Honk
-	 * Author: Mike Koenig
-	 * Download Source: http://soundbible.com/1048-Horn-Honk.html
-	 * License: Attribution 3.0
-	 */
-	self.parkingLotSound = new Audio('../sounds/horn-honk.mp3');
-	self.parkingLotSound.volume = 0.1;
+	self.parkingLotSound = game.sounds.parkingLotSound;
+	self.buttonBlopSound = game.sounds.buttonBlopSound;
 
 	$scope.$on('restart', function()
 	{
@@ -266,6 +302,13 @@ cinemaTycoonApp.controller('ParkingLotController', ['gameData', '$rootScope', '$
 			self.exited(false);
 		}
 	});
+
+	var playBlop = function()
+	{
+		self.buttonBlopSound.pause();
+		self.buttonBlopSound.currentTime = 0;
+		self.buttonBlopSound.play();
+	};
 
 	self.entered = function()
 	{
@@ -281,7 +324,7 @@ cinemaTycoonApp.controller('ParkingLotController', ['gameData', '$rootScope', '$
 		if(localTrigger) {
 			self.parkingLotSound.pause();
 			self.parkingLotSound.currentTime = 0;
-			self.parkingLotSound.play();
+			playBlop();
 		}
 	};
 	self.expandParking = function()
@@ -301,6 +344,7 @@ cinemaTycoonApp.controller('ParkingLotController', ['gameData', '$rootScope', '$
 cinemaTycoonApp.controller('SalonController', ['gameData', '$rootScope', '$scope', function(game, $rootScope, $scope)
 {
 	var self = this;
+	self.buttonBlopSound = game.sounds.buttonBlopSound;
 
 	$scope.$on('restart', function()
 	{
@@ -309,9 +353,16 @@ cinemaTycoonApp.controller('SalonController', ['gameData', '$rootScope', '$scope
 	$scope.$on('sectionEntered', function(msg, args)
 	{
 		if(args.section !== 'salon') {
-			self.exited();
+			self.exited(false);
 		}
 	});
+
+	var playBlop = function()
+	{
+		self.buttonBlopSound.pause();
+		self.buttonBlopSound.currentTime = 0;
+		self.buttonBlopSound.play();
+	};
 
 	self.buildSalon = function()
 	{
@@ -367,9 +418,12 @@ cinemaTycoonApp.controller('SalonController', ['gameData', '$rootScope', '$scope
 		self.active = true;
 		$rootScope.$broadcast('sectionEntered', { section: 'salon' });
 	};
-	self.exited = function()
+	self.exited = function(localTrigger)
 	{
 		self.active = false;
+		if(localTrigger) {
+			playBlop();
+		}
 	};
 	self.getMaxSeats = function()
 	{
@@ -429,20 +483,9 @@ cinemaTycoonApp.controller('SnackController', ['gameData', '$rootScope', '$scope
 {
 	var self = this;
 	self.timeoutPromise;
-	/*
-	 * Title: Pouring Hot Tea
-	 * Author: Cori Samuel
-	 * Download Source: http://soundbible.com/1244-Pouring-Hot-Tea.html
-	 * License: Public Domain
-	 */
-	 self.snackDrinkSound = new Audio('../sounds/concession-drink.mp3');
-	 /*
-	 * Title: Popcorn Popping
-	 * Author: KevanGC
-	 * Download Source: http://soundbible.com/1710-Popcorn-Popping.html
-	 * License: Public Domain
-	 */
-	 self.snackPopcornSound = new Audio('../sounds/concession-popcorn.mp3');
+	self.snackDrinkSound = game.sounds.snackDrinkSound;
+	self.snackPopcornSound = game.sounds.snackPopcornSound;
+	self.buttonBlopSound = game.sounds.buttonBlopSound;
 
 	$scope.$on('restart', function()
 	{
@@ -454,6 +497,13 @@ cinemaTycoonApp.controller('SnackController', ['gameData', '$rootScope', '$scope
 			self.exited(false);
 		}
 	});
+
+	var playBlop = function()
+	{
+		self.buttonBlopSound.pause();
+		self.buttonBlopSound.currentTime = 0;
+		self.buttonBlopSound.play();
+	};
 
 	self.entered = function()
 	{
@@ -492,8 +542,7 @@ cinemaTycoonApp.controller('SnackController', ['gameData', '$rootScope', '$scope
 				$timeout.cancel(self.timeoutPromise);
 				self.timeoutPromise = undefined;
 			}
-			self.snackDrinkSound.play();
-			self.snackPopcornSound.play();
+			playBlop();
 			self.timeoutPromise = $timeout(function() {
 				self.snackDrinkSound.pause();
 				self.snackDrinkSound.currentTime = 0;
@@ -526,36 +575,49 @@ cinemaTycoonApp.controller('StartController', ['gameData', '$interval', '$rootSc
 	self.speed;
 	self.state = game.state;
 	self.currentEvent = game.currentEvent;
+	self.buttonBlopSound = game.sounds.buttonBlopSound;
 
 	$scope.$on('event', function(msg, args)
 	{
 		self.pauseTime();
 	});
 
+	var playBlop = function()
+	{
+		self.buttonBlopSound.pause();
+		self.buttonBlopSound.currentTime = 0;
+		self.buttonBlopSound.play();
+	};
+
 	self.activateTime = function(speed)
 	{
+		playBlop();
 		game.startGame();
 		self.speed = speed;
 		self.intervalPromise = $interval(game.newDay, (1000 * self.speed));
 	};
 	self.exitHelp = function()
 	{
+		playBlop();
 		game.help(false);
 		self.unpauseTime();
 	};
 	self.exitModal = function()
 	{
+		playBlop();
 		game.event(false);
 		self.currentEvent.selectedResult = null;
 		self.unpauseTime();
 	};
 	self.needHelp = function()
 	{
+		playBlop();
 		game.help(true);
 		self.pauseTime();
 	};
-	self.pauseTime = function()
+	self.pauseTime = function(localTrigger)
 	{
+		if(localTrigger) playBlop();
 		if(self.state.isPaused) return;
 		game.pause(true);
 		var cancelSucceeded = false;
@@ -570,15 +632,19 @@ cinemaTycoonApp.controller('StartController', ['gameData', '$interval', '$rootSc
 		self.pauseTime();
 		game = game.restartGame();
 		self.state = game.state;
+		self.currentEvent = game.currentEvent;		
+		self.currentEvent.choice = self.currentEvent.eventChoiceA;
 		$rootScope.$broadcast('restart');
 	};
 	self.submitEventChoice = function()
 	{
+		playBlop();
 		self.currentEvent.selectedOption = self.currentEvent['eventOpt' + self.currentEvent.choice];
 		self.currentEvent.selectedResult = game.getEventResult(self.currentEvent.choice);
 	};
-	self.unpauseTime = function()
+	self.unpauseTime = function(localTrigger)
 	{
+		if(localTrigger) playBlop();
 		if(!self.state.isPaused) return;
 		game.pause(false);
 		self.intervalPromise = $interval(game.newDay, (1000 * self.speed));
@@ -590,6 +656,7 @@ cinemaTycoonApp.controller('StartController', ['gameData', '$interval', '$rootSc
 cinemaTycoonApp.controller('WorkshopController', ['gameData', '$rootScope', '$scope', function(game, $rootScope, $scope)
 {
 	var self = this;
+	self.buttonBlopSound = game.sounds.buttonBlopSound;
 
 	$scope.$on('restart', function()
 	{
@@ -598,9 +665,16 @@ cinemaTycoonApp.controller('WorkshopController', ['gameData', '$rootScope', '$sc
 	$scope.$on('sectionEntered', function(msg, args)
 	{
 		if(args.section !== 'workshop') {
-			self.exited();
+			self.exited(false);
 		}
 	});
+
+	var playBlop = function()
+	{
+		self.buttonBlopSound.pause();
+		self.buttonBlopSound.currentTime = 0;
+		self.buttonBlopSound.play();
+	};
 
 	self.closeProduction = function()
 	{
@@ -611,10 +685,15 @@ cinemaTycoonApp.controller('WorkshopController', ['gameData', '$rootScope', '$sc
 		self.active = true;
 		$rootScope.$broadcast('sectionEntered', { section: 'workshop' });
 	};
-	self.exited = function()
+	self.exited = function(localTrigger)
 	{
 		self.active = false;
 		self.warningText = "";
+		if(localTrigger) {
+			// self.parkingLotSound.pause();
+			// self.parkingLotSound.currentTime = 0;
+			playBlop();
+		}
 	};
 	self.produceMovie = function()
 	{

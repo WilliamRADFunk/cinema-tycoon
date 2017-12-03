@@ -10,27 +10,77 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	var weekSnackProfits;
 	var weekGamesProfits;
 	var randomEventSpawnCounter = 0;
+	game.sounds = {};
 	/*
 	 * Title: Cha Ching Register
 	 * Author: Muska666
 	 * Download Source: http://soundbible.com/1997-Cha-Ching-Register.html
 	 * License: Attribution 3.0
 	 */
-	var chaChingSound = new Audio('../sounds/cha-ching.mp3');
+	game.sounds.chaChingSound = new Audio('../sounds/cha-ching.mp3');
+	game.sounds.chaChingSound.volume = 0.5;
 	/*
 	 * Title: Flyby
 	 * Author: Conor
 	 * Download Source: http://soundbible.com/1891-Flyby.html
 	 * License: Attribution 3.0
 	 */
-	 var spawnEventSound = new Audio('../sounds/spawn-event.mp3');
+	game.sounds.spawnEventSound = new Audio('../sounds/spawn-event.mp3');
+	game.sounds.spawnEventSound.volume = 0.5;
 	 /*
 	 * Title: Climactic Suspense
 	 * Author: Mike Koenig
 	 * Download Source: http://soundbible.com/1832-Climactic-Suspense.html
 	 * License: Attribution 3.0
 	 */
-	 var eventRevealSound = new Audio('../sounds/event-reveal.mp3');
+	game.sounds.eventRevealSound = new Audio('../sounds/event-reveal.mp3');
+	game.sounds.spawnEventSound.volume = 0.5;
+	 /*
+	 * Title: Horn Honk
+	 * Author: Mike Koenig
+	 * Download Source: http://soundbible.com/1048-Horn-Honk.html
+	 * License: Attribution 3.0
+	 */
+	game.sounds.parkingLotSound = new Audio('../sounds/horn-honk.mp3');
+	game.sounds.parkingLotSound.volume = 0.1;
+	/*
+	 * Title: Pouring Hot Tea
+	 * Author: Cori Samuel
+	 * Download Source: http://soundbible.com/1244-Pouring-Hot-Tea.html
+	 * License: Public Domain
+	 */
+	game.sounds.snackDrinkSound = new Audio('../sounds/concession-drink.mp3');
+	game.sounds.snackDrinkSound.volume = 0.4;
+	 /*
+	 * Title: Popcorn Popping
+	 * Author: KevanGC
+	 * Download Source: http://soundbible.com/1710-Popcorn-Popping.html
+	 * License: Public Domain
+	 */
+	game.sounds.snackPopcornSound = new Audio('../sounds/concession-popcorn.mp3');
+	game.sounds.snackPopcornSound.volume = 0.4;
+	/*
+	 * Title: Opening Casket
+	 * Author: Mike Koenig
+	 * Download Source: http://soundbible.com/1354-Opening-Casket.html
+	 * License: Attribution 3.0
+	 */
+	game.sounds.vaultDoorSound = new Audio('../sounds/vault-door.mp3');
+	game.sounds.snackPopcornSound.volume = 0.8;
+	/*
+	 * Title: Blop
+	 * Author: Mark DiAngelo
+	 * Download Source: http://soundbible.com/2067-Blop.html
+	 * License: Attribution 3.0
+	 */
+	game.sounds.buttonBlopSound = new Audio('../sounds/blop.mp3');
+	/*
+	 * Title: Gun Silencer
+	 * Author: Mike Koenig
+	 * Download Source: http://soundbible.com/930-Gun-Silencer.html
+	 * License: Attribution 3.0
+	 */
+	game.sounds.deniedSound = new Audio('../sounds/denied.mp3');
 
 	var calculateDailyProfits = function()
 	{
@@ -164,6 +214,16 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 			setTimeout(getNewMovies(), 3000);
 		});
 	};
+	// Makes sure to pause and reset sound before playing.
+	var playSound = function(sound)
+	{
+		if(sound)
+		{
+			game.sounds[sound].pause();
+			game.sounds[sound].currentTime = 0;
+			game.sounds[sound].play();
+		}
+	};
 	// Decides whether to spawn a random event. If so, if picks one from the list.
 	var randomEventSpawn = function()
 	{
@@ -198,7 +258,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 					break;
 				}
 			} while(true);
-			spawnEventSound.play();
+			playSound('spawnEventSound');
 			randomEventSpawnCounter = 0;
 		}
 	};
@@ -652,6 +712,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	{
 		if(game.employeeData.numOfEmployees >= game.employeeData.maxEmployees)
 		{
+			playSound('deniedSound');
 			game.employeeData.numOfEmployees = game.employeeData.maxEmployees;
 		}
 		else
@@ -665,6 +726,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	{
 		if(game.gameroomData.numOfGames >= game.gameroomData.maxGames)
 		{
+			playSound('deniedSound');
 			game.gameroomData.numOfGames = game.gameroomData.maxGames;
 		}
 		else
@@ -674,7 +736,11 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 			{
 				game.gameroomData.numOfGames++;
 				balance -= cost;
-				chaChingSound.play();
+				playSound('chaChingSound');
+			}
+			else
+			{
+				playSound('deniedSound');
 			}
 		}
 	};
@@ -683,6 +749,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	{
 		if(game.parkingData.parkingLevels >= game.parkingData.maxParkingLevels)
 		{
+			playSound('deniedSound');
 			game.parkingData.parkingLevels = game.parkingData.maxParkingLevels;
 		}
 		else
@@ -692,7 +759,11 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 			{
 				game.parkingData.parkingLevels++;
 				balance -= cost;
-				chaChingSound.play();
+				playSound('chaChingSound');
+			}
+			else
+			{
+				playSound('deniedSound');
 			}
 		}
 	};
@@ -701,6 +772,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	{
 		if(game.salonData.numOfSalons >= game.salonData.maxSalons)
 		{
+			playSound('deniedSound');
 			game.salonData.numOfSalons = game.salonData.maxSalons;
 			return false;
 		}
@@ -714,10 +786,14 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 				game.salonData.numOfSalons = game.salonData.salonsOwned.length;
 				game.salonData.totalSeats = calculateTotalSeats();
 				balance -= cost;
-				chaChingSound.play();
+				playSound('chaChingSound');
 				return true;
 			}
-			else return false;
+			else
+			{
+				playSound('deniedSound');
+				return false;
+			}
 		}
 	};
 	// Adds a snack iff player has the money.
@@ -725,6 +801,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	{
 		if(game.snackData.numOfSnacks >= game.snackData.maxSnacks)
 		{
+			playSound('deniedSound');
 			game.snackData.numOfSnacks = game.snackData.maxSnacks;
 		}
 		else
@@ -734,7 +811,11 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 			{
 				game.snackData.numOfSnacks++;
 				balance -= cost;
-				chaChingSound.play();
+				playSound('chaChingSound');
+			}
+			else
+			{
+				playSound('deniedSound');
 			}
 		}
 	};
@@ -746,7 +827,11 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 		game.salonData.totalSeats = calculateTotalSeats();
 		if(game.salonData.totalSeats !== oldNumSeats)
 		{
-			chaChingSound.play();
+			playSound('chaChingSound');
+		}
+		else
+		{
+			playSound('deniedSound');
 		}
 	};
 	// Changes the movie playing in this salon
@@ -787,7 +872,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 		{
 			gainOrLossAmount = ' $ ' + gainOrLossAmount;
 		}
-		eventRevealSound.play();
+		playSound('eventRevealSound');
 		return game.currentEvent.selectedResult =
 			game.currentEvent['eventAnswer' + choice] + gainOrLossAmount;
 	};
@@ -822,7 +907,11 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	game.lowerTicketPrice = function()
 	{
 		game.miscData.ticketPrice -= 0.10;
-		if(game.miscData.ticketPrice <= 0) game.miscData.ticketPrice = 0.0;
+		if(game.miscData.ticketPrice <= 0)
+		{
+			playSound('deniedSound');
+			game.miscData.ticketPrice = 0.0;
+		}
 	};
 	// Main time-keeping function that serves as a simple game loop.
 	game.newDay = function()
@@ -902,17 +991,25 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 				balance -= game.miscData.moviesAvailable[index].getCostLicense();
 				game.miscData.moviesOwned.push(game.miscData.moviesAvailable[index]);
 				game.miscData.moviesAvailable.splice(index, 1);
-				chaChingSound.play();
+				playSound('chaChingSound');
 				return true;
 			}
-			else return false;
+			else
+			{
+				playSound('deniedSound');
+				return false;
+			}
 		}
 	};
 	// Updates the increase of ticket price for entire game.
 	game.raiseTicketPrice = function()
 	{
 		game.miscData.ticketPrice += 0.10;
-		if(game.miscData.ticketPrice >= 100) game.miscData.ticketPrice = 100.0;
+		if(game.miscData.ticketPrice >= 100)
+		{
+			playSound('deniedSound');
+			game.miscData.ticketPrice = 100.0;
+		}
 	};
 	game.upgradeProjector = function(salonNum)
 	{
@@ -920,7 +1017,11 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 		balance = game.salonData.salonsOwned[salonNum].upgradeProjectorLevel((balance + 9990));
 		if(balance !== oldBalance)
 		{
-			chaChingSound.play();
+			playSound('chaChingSound');
+		}
+		else
+		{
+			playSound('deniedSound');
 		}
 	};
 	game.upgradeScreen = function(salonNum)
@@ -929,7 +1030,11 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 		balance = game.salonData.salonsOwned[salonNum].upgradeScreenLevel((balance + 9990));
 		if(balance !== oldBalance)
 		{
-			chaChingSound.play();
+			playSound('chaChingSound');
+		}
+		else
+		{
+			playSound('deniedSound');
 		}
 	};
 	game.upgradeSound = function(salonNum)
@@ -938,14 +1043,22 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 		balance = game.salonData.salonsOwned[salonNum].upgradeSoundLevel((balance + 9990));
 		if(balance !== oldBalance)
 		{
-			chaChingSound.play();
+			playSound('chaChingSound');
+		}
+		else
+		{
+			playSound('deniedSound');
 		}
 	};
 	// Adds a user created movie to the database iff balance available and content passes inspection.
 	// Upon success, transfer movie into user's owned licenses.
 	game.produceMovie = function(title, synopsis, optimalSeason, worstSeason, cost, licenseDuration, producer)
 	{
-		if((balance + 9990) < (game.miscData.moviesMade + 1) * game.miscData.movieProductionModifier) game.workshop.warningText = "Movie production failed. You need more money!";
+		if((balance + 9990) < (game.miscData.moviesMade + 1) * game.miscData.movieProductionModifier)
+		{
+			playSound('deniedSound');
+			game.workshop.warningText = "Movie production failed. You need more money!";
+		}
 		else
 		{
 			// Randomly select popularity.
@@ -1013,6 +1126,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 			}, function errorCallback(response)
 			{
 				console.log(response);
+				playSound('deniedSound');
 				game.workshop.warningText = "Movie production failed. Connection Problems?";
 			});
 		}
@@ -1022,6 +1136,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	{
 		if(game.employeeData.numOfEmployees <= 1)
 		{
+			playSound('deniedSound');
 			game.employeeData.numOfEmployees = 1;
 		}
 		else
