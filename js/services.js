@@ -34,7 +34,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 * License: Attribution 3.0
 	 */
 	game.sounds.eventRevealSound = new Audio('./sounds/event-reveal.mp3');
-	game.sounds.spawnEventSound.volume = 0.5;
+	game.sounds.eventRevealSound.volume = 0.5;
 	 /*
 	 * Title: Horn Honk
 	 * Author: Mike Koenig
@@ -66,7 +66,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 * License: Attribution 3.0
 	 */
 	game.sounds.vaultDoorSound = new Audio('./sounds/vault-door.mp3');
-	game.sounds.snackPopcornSound.volume = 0.8;
+	game.sounds.vaultDoorSound.volume = 0.8;
 	/*
 	 * Title: Blop
 	 * Author: Mark DiAngelo
@@ -81,6 +81,30 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 * License: Attribution 3.0
 	 */
 	game.sounds.deniedSound = new Audio('./sounds/denied.mp3');
+	/*
+	 * Title: Close Door
+	 * Author: Caroline Ford
+	 * Download Source: http://soundbible.com/875-Close-Door.html
+	 * License: Attribution 3.0
+	 */
+	game.sounds.doorSound = new Audio('./sounds/close-door.mp3');
+	game.sounds.doorSound.volume = 0.8;
+	/*
+	 * Title: Cash Register Fake
+	 * Author: CapsLok
+	 * Download Source: https://freesound.org/people/CapsLok/sounds/184438/
+	 * License: Public Domain
+	 */
+	game.sounds.cashRegisterSound = new Audio('./sounds/cash-register.wav');
+	game.sounds.cashRegisterSound.volume = 0.8;
+	/*
+	 * Title: Retro arcade video game descending, crazy lose life tone
+	 * Author: alanmcki
+	 * Download https://freesound.org/people/alanmcki/sounds/400582/
+	 * License: Attribution 3.0
+	 */
+	game.sounds.arcadeSound = new Audio('./sounds/arcade.wav');
+	game.sounds.arcadeSound.volume = 0.5;
 
 	var calculateDailyProfits = function()
 	{
