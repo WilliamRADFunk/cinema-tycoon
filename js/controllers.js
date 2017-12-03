@@ -12,7 +12,8 @@ cinemaTycoonApp.controller('FilmVaultController', ['gameData', '$rootScope', '$s
 	});
 	$scope.$on('sectionEntered', function(msg, args)
 	{
-		if(args.section !== 'vault') {
+		if(args.section !== 'vault')
+		{
 			self.exited(false);
 		}
 	});
@@ -48,7 +49,8 @@ cinemaTycoonApp.controller('FilmVaultController', ['gameData', '$rootScope', '$s
 		self.active = false;
 		self.vaultDoorSound.pause();
 		self.vaultDoorSound.currentTime = 0;
-		if(localTrigger) {
+		if(localTrigger)
+		{
 			playBlop();
 		}
 		self.state.selectedMovieLicense = '0';
@@ -120,7 +122,8 @@ cinemaTycoonApp.controller('FrontDoorController', ['gameData', '$rootScope', '$s
 	});
 	$scope.$on('sectionEntered', function(msg, args)
 	{
-		if(args.section !== 'ticket') {
+		if(args.section !== 'ticket')
+		{
 			self.exited(false);
 		}
 	});
@@ -131,7 +134,8 @@ cinemaTycoonApp.controller('FrontDoorController', ['gameData', '$rootScope', '$s
 		self.buttonBlopSound.currentTime = 0;
 		self.buttonBlopSound.play();
 	};
-	var playCashRegisterSound = function() {
+	var playCashRegisterSound = function()
+	{
 		self.cashRegisterSound.pause();
 		self.cashRegisterSound.currentTime = 0;
 		self.cashRegisterSound.play();
@@ -155,10 +159,12 @@ cinemaTycoonApp.controller('FrontDoorController', ['gameData', '$rootScope', '$s
 	};
 	self.lowerTicketPrice = function()
 	{
+		playBlop();
 		game.lowerTicketPrice();
 	};
 	self.raiseTicketPrice = function()
 	{
+		playBlop();
 		game.raiseTicketPrice();
 	};
 	self.setup = function()
@@ -183,7 +189,8 @@ cinemaTycoonApp.controller('GameroomController', ['gameData', '$rootScope', '$sc
 	});
 	$scope.$on('sectionEntered', function(msg, args)
 	{
-		if(args.section !== 'games') {
+		if(args.section !== 'games')
+		{
 			self.exited(false);
 		}
 	});
@@ -194,7 +201,8 @@ cinemaTycoonApp.controller('GameroomController', ['gameData', '$rootScope', '$sc
 		self.buttonBlopSound.currentTime = 0;
 		self.buttonBlopSound.play();
 	};
-	var playArcadeSound = function() {
+	var playArcadeSound = function()
+	{
 		self.arcadeSound.pause();
 		self.arcadeSound.currentTime = 0;
 		self.arcadeSound.play();
@@ -272,7 +280,8 @@ cinemaTycoonApp.controller('OfficeController', ['gameData', '$rootScope', '$scop
 	});
 	$scope.$on('sectionEntered', function(msg, args)
 	{
-		if(args.section !== 'office') {
+		if(args.section !== 'office')
+		{
 			self.exited(false);
 		}
 	});
@@ -304,10 +313,10 @@ cinemaTycoonApp.controller('OfficeController', ['gameData', '$rootScope', '$scop
 	self.exited = function(localTrigger)
 	{
 		self.active = false;
-		self.doorSound.pause();
-		self.doorSound.currentTime = 0;
 		if(localTrigger)
 		{
+			self.doorSound.pause();
+			self.doorSound.currentTime = 0;
 			playBlop();
 		}
 	};
@@ -346,7 +355,8 @@ cinemaTycoonApp.controller('ParkingLotController', ['gameData', '$rootScope', '$
 	});
 	$scope.$on('sectionEntered', function(msg, args)
 	{
-		if(args.section !== 'parking') {
+		if(args.section !== 'parking')
+		{
 			self.exited(false);
 		}
 	});
@@ -371,7 +381,8 @@ cinemaTycoonApp.controller('ParkingLotController', ['gameData', '$rootScope', '$
 		self.active = false;
 		self.parkingLotSound.pause();
 		self.parkingLotSound.currentTime = 0;
-		if(localTrigger) {
+		if(localTrigger)
+		{
 			playBlop();
 		}
 	};
@@ -389,10 +400,13 @@ cinemaTycoonApp.controller('ParkingLotController', ['gameData', '$rootScope', '$
 	self.setup();
 }]);
 // Main function is to handle salon details (buy seats, upgrade screen, change movie).
-cinemaTycoonApp.controller('SalonController', ['gameData', '$rootScope', '$scope', function(game, $rootScope, $scope)
+cinemaTycoonApp.controller('SalonController', ['gameData', '$rootScope', '$scope', '$timeout', function(game, $rootScope, $scope, $timeout)
 {
 	var self = this;
 	self.buttonBlopSound = game.sounds.buttonBlopSound;
+	self.chatterSound = game.sounds.chatterSound;
+
+	self.timeoutPromise;
 
 	$scope.$on('restart', function()
 	{
@@ -400,7 +414,8 @@ cinemaTycoonApp.controller('SalonController', ['gameData', '$rootScope', '$scope
 	});
 	$scope.$on('sectionEntered', function(msg, args)
 	{
-		if(args.section !== 'salon') {
+		if(args.section !== 'salon')
+		{
 			self.exited(false);
 		}
 	});
@@ -410,6 +425,27 @@ cinemaTycoonApp.controller('SalonController', ['gameData', '$rootScope', '$scope
 		self.buttonBlopSound.pause();
 		self.buttonBlopSound.currentTime = 0;
 		self.buttonBlopSound.play();
+	};
+	var playSalonSounds = function()
+	{
+		killSounds();
+		self.chatterSound.play();
+		self.timeoutPromise = $timeout(function()
+		{
+			self.chatterSound.pause();
+			self.chatterSound.currentTime = 0;
+			$timeout.cancel(self.timeoutPromise);
+			self.timeoutPromise = undefined;
+		}, 2000);
+	};
+	var killSounds = function()
+	{
+		if(self.timeoutPromise)
+		{
+			$timeout.cancel(self.timeoutPromise);
+		}
+		self.chatterSound.pause();
+		self.chatterSound.currentTime = 0;
 	};
 
 	self.buildSalon = function()
@@ -464,12 +500,15 @@ cinemaTycoonApp.controller('SalonController', ['gameData', '$rootScope', '$scope
 	self.entered = function()
 	{
 		self.active = true;
+		playSalonSounds();
 		$rootScope.$broadcast('sectionEntered', { section: 'salon' });
 	};
 	self.exited = function(localTrigger)
 	{
 		self.active = false;
-		if(localTrigger) {
+		killSounds();
+		if(localTrigger)
+		{
 			playBlop();
 		}
 	};
@@ -541,7 +580,8 @@ cinemaTycoonApp.controller('SnackController', ['gameData', '$rootScope', '$scope
 	});
 	$scope.$on('sectionEntered', function(msg, args)
 	{
-		if(args.section !== 'snack') {
+		if(args.section !== 'snack')
+		{
 			self.exited(false);
 		}
 	});
@@ -557,7 +597,8 @@ cinemaTycoonApp.controller('SnackController', ['gameData', '$rootScope', '$scope
 	{
 		self.active = true;
 		var cancelSucceeded = false;
-		if(self.timeoutPromise) {
+		if(self.timeoutPromise)
+		{
 			self.snackDrinkSound.pause();
 			self.snackDrinkSound.currentTime = 0;
 			self.snackPopcornSound.pause();
@@ -567,7 +608,8 @@ cinemaTycoonApp.controller('SnackController', ['gameData', '$rootScope', '$scope
 		}
 		self.snackDrinkSound.play();
 		self.snackPopcornSound.play();
-		self.timeoutPromise = $timeout(function() {
+		self.timeoutPromise = $timeout(function()
+		{
 			self.snackDrinkSound.pause();
 			self.snackDrinkSound.currentTime = 0;
 			self.snackPopcornSound.pause();
@@ -581,7 +623,8 @@ cinemaTycoonApp.controller('SnackController', ['gameData', '$rootScope', '$scope
 	{
 		self.active = false;
 		var cancelSucceeded = false;
-		if(self.timeoutPromise) {
+		if(self.timeoutPromise)
+		{
 			self.snackDrinkSound.pause();
 			self.snackDrinkSound.currentTime = 0;
 			self.snackPopcornSound.pause();
@@ -589,9 +632,11 @@ cinemaTycoonApp.controller('SnackController', ['gameData', '$rootScope', '$scope
 			$timeout.cancel(self.timeoutPromise);
 			self.timeoutPromise = undefined;
 		}
-		if(localTrigger) {
+		if(localTrigger)
+		{
 			playBlop();
-			self.timeoutPromise = $timeout(function() {
+			self.timeoutPromise = $timeout(function()
+			{
 				self.snackDrinkSound.pause();
 				self.snackDrinkSound.currentTime = 0;
 				self.snackPopcornSound.pause();
@@ -707,6 +752,7 @@ cinemaTycoonApp.controller('WorkshopController', ['gameData', '$rootScope', '$sc
 	self.state = game.state;
 	self.state.warningText = game.workshop.warningText;
 	self.buttonBlopSound = game.sounds.buttonBlopSound;
+	self.doorSound = game.sounds.doorSound;
 	self.deniedSound = game.sounds.deniedSound;
 
 	$scope.$on('restart', function()
@@ -715,7 +761,8 @@ cinemaTycoonApp.controller('WorkshopController', ['gameData', '$rootScope', '$sc
 	});
 	$scope.$on('sectionEntered', function(msg, args)
 	{
-		if(args.section !== 'workshop') {
+		if(args.section !== 'workshop')
+		{
 			self.exited(false);
 		}
 	});
@@ -725,6 +772,12 @@ cinemaTycoonApp.controller('WorkshopController', ['gameData', '$rootScope', '$sc
 		self.buttonBlopSound.pause();
 		self.buttonBlopSound.currentTime = 0;
 		self.buttonBlopSound.play();
+	};
+	var playDoorSound = function()
+	{
+		self.doorSound.pause();
+		self.doorSound.currentTime = 0;
+		self.doorSound.play();
 	};
 	var playDenied = function()
 	{
@@ -740,6 +793,7 @@ cinemaTycoonApp.controller('WorkshopController', ['gameData', '$rootScope', '$sc
 	self.entered = function()
 	{
 		self.active = true;
+		playDoorSound();
 		$rootScope.$broadcast('sectionEntered', { section: 'workshop' });
 	};
 	self.exited = function(localTrigger)
@@ -747,7 +801,10 @@ cinemaTycoonApp.controller('WorkshopController', ['gameData', '$rootScope', '$sc
 		self.active = false;
 		game.updateWarningText("workshop", "");
 		self.state.warningText = game.workshop.warningText;
-		if(localTrigger) {
+		if(localTrigger)
+		{
+			self.doorSound.pause();
+			self.doorSound.currentTime = 0;
 			playBlop();
 		}
 	};

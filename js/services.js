@@ -107,6 +107,14 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	game.sounds.arcadeSound = new Audio('./sounds/arcade.wav');
 	game.sounds.arcadeSound.volume = 0.3;
 	/*
+	 * Title: chattering crowd 2
+	 * Author: cognito perceptu
+	 * Download https://freesound.org/people/cognito%20perceptu/sounds/266192/
+	 * License: Public Domain
+	 */
+	game.sounds.chatterSound = new Audio('./sounds/chatter.mp3');
+	game.sounds.chatterSound.volume = 0.5;
+	/*
 	 * Title: badass
 	 * Author: bensound
 	 * Download https://www.bensound.com/royalty-free-music/track/badass
@@ -263,16 +271,19 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	var randomEventSpawn = function()
 	{
 		randomEventSpawnCounter++;
-		if(randomEventSpawnCounter < 8) {
+		if(randomEventSpawnCounter < 8)
+		{
 			return;
 		}
-		if(Math.random() <= 0.20 && !game.state.isEvent) {
+		if(Math.random() <= 0.20 && !game.state.isEvent)
+		{
 			$rootScope.$broadcast('event');
 			var i = 0;
 			do
 			{
 				i = Math.floor(Math.random() * game.events.length);
-				if(game.currentEvent.eventTitle !== game.events[i].eventTitle) {
+				if(game.currentEvent.eventTitle !== game.events[i].eventTitle)
+				{
 					game.currentEvent.base = game.events[i].base;
 					game.currentEvent.eventTitle = game.events[i].eventTitle;
 					game.currentEvent.modifierA = game.events[i].modifierA;
