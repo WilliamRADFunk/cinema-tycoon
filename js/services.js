@@ -18,7 +18,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 * License: Attribution 3.0
 	 */
 	game.sounds.chaChingSound = new Audio('./sounds/cha-ching.mp3');
-	game.sounds.chaChingSound.volume = 0.5;
+	game.sounds.chaChingSound.volume = 0.4;
 	/*
 	 * Title: Flyby
 	 * Author: Conor
@@ -26,7 +26,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 * License: Attribution 3.0
 	 */
 	game.sounds.spawnEventSound = new Audio('./sounds/spawn-event.mp3');
-	game.sounds.spawnEventSound.volume = 0.5;
+	game.sounds.spawnEventSound.volume = 0.4;
 	 /*
 	 * Title: Climactic Suspense
 	 * Author: Mike Koenig
@@ -34,7 +34,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 * License: Attribution 3.0
 	 */
 	game.sounds.eventRevealSound = new Audio('./sounds/event-reveal.mp3');
-	game.sounds.eventRevealSound.volume = 0.5;
+	game.sounds.eventRevealSound.volume = 0.4;
 	 /*
 	 * Title: Horn Honk
 	 * Author: Mike Koenig
@@ -66,7 +66,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 * License: Attribution 3.0
 	 */
 	game.sounds.vaultDoorSound = new Audio('./sounds/vault-door.mp3');
-	game.sounds.vaultDoorSound.volume = 0.8;
+	game.sounds.vaultDoorSound.volume = 0.6;
 	/*
 	 * Title: Blop
 	 * Author: Mark DiAngelo
@@ -81,6 +81,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 * License: Attribution 3.0
 	 */
 	game.sounds.deniedSound = new Audio('./sounds/denied.mp3');
+	game.sounds.deniedSound.volume = 0.8;
 	/*
 	 * Title: Close Door
 	 * Author: Caroline Ford
@@ -88,7 +89,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 * License: Attribution 3.0
 	 */
 	game.sounds.doorSound = new Audio('./sounds/close-door.mp3');
-	game.sounds.doorSound.volume = 0.8;
+	game.sounds.doorSound.volume = 0.6;
 	/*
 	 * Title: Cash Register Fake
 	 * Author: CapsLok
@@ -104,7 +105,17 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 * License: Attribution 3.0
 	 */
 	game.sounds.arcadeSound = new Audio('./sounds/arcade.wav');
-	game.sounds.arcadeSound.volume = 0.5;
+	game.sounds.arcadeSound.volume = 0.3;
+	/*
+	 * Title: badass
+	 * Author: bensound
+	 * Download https://www.bensound.com/royalty-free-music/track/badass
+	 * License: FREE Creative Commons License
+	 */
+	game.sounds.themeSound = new Audio('./sounds/bensound-badass.mp3');
+	game.sounds.themeSound.volume = 0.1;
+	game.sounds.themeSound.loop = true;
+	game.sounds.themeSound.play();
 
 	var calculateDailyProfits = function()
 	{
