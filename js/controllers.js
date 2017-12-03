@@ -46,9 +46,9 @@ cinemaTycoonApp.controller('FilmVaultController', ['gameData', '$rootScope', '$s
 	self.exited = function(localTrigger)
 	{
 		self.active = false;
+		self.vaultDoorSound.pause();
+		self.vaultDoorSound.currentTime = 0;
 		if(localTrigger) {
-			self.vaultDoorSound.pause();
-			self.vaultDoorSound.currentTime = 0;
 			playBlop();
 		}
 		self.state.selectedMovieLicense = '0';
@@ -146,6 +146,8 @@ cinemaTycoonApp.controller('FrontDoorController', ['gameData', '$rootScope', '$s
 	self.exited = function(localTrigger)
 	{
 		self.active = false;
+		self.cashRegisterSound.pause();
+		self.cashRegisterSound.currentTime = 0;
 		if(localTrigger)
 		{
 			playBlop();
@@ -207,6 +209,8 @@ cinemaTycoonApp.controller('GameroomController', ['gameData', '$rootScope', '$sc
 	self.exited = function(localTrigger)
 	{
 		self.active = false;
+		self.arcadeSound.pause();
+		self.arcadeSound.currentTime = 0;
 		if(localTrigger)
 		{
 			playBlop();
@@ -300,6 +304,8 @@ cinemaTycoonApp.controller('OfficeController', ['gameData', '$rootScope', '$scop
 	self.exited = function(localTrigger)
 	{
 		self.active = false;
+		self.doorSound.pause();
+		self.doorSound.currentTime = 0;
 		if(localTrigger)
 		{
 			playBlop();
@@ -363,9 +369,9 @@ cinemaTycoonApp.controller('ParkingLotController', ['gameData', '$rootScope', '$
 	self.exited = function(localTrigger)
 	{
 		self.active = false;
+		self.parkingLotSound.pause();
+		self.parkingLotSound.currentTime = 0;
 		if(localTrigger) {
-			self.parkingLotSound.pause();
-			self.parkingLotSound.currentTime = 0;
 			playBlop();
 		}
 	};
