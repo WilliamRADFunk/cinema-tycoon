@@ -17,7 +17,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 * Download Source: http://soundbible.com/1997-Cha-Ching-Register.html
 	 * License: Attribution 3.0
 	 */
-	game.sounds.chaChingSound = new Audio('../sounds/cha-ching.mp3');
+	game.sounds.chaChingSound = new Audio('./sounds/cha-ching.mp3');
 	game.sounds.chaChingSound.volume = 0.5;
 	/*
 	 * Title: Flyby
@@ -25,7 +25,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 * Download Source: http://soundbible.com/1891-Flyby.html
 	 * License: Attribution 3.0
 	 */
-	game.sounds.spawnEventSound = new Audio('../sounds/spawn-event.mp3');
+	game.sounds.spawnEventSound = new Audio('./sounds/spawn-event.mp3');
 	game.sounds.spawnEventSound.volume = 0.5;
 	 /*
 	 * Title: Climactic Suspense
@@ -33,7 +33,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 * Download Source: http://soundbible.com/1832-Climactic-Suspense.html
 	 * License: Attribution 3.0
 	 */
-	game.sounds.eventRevealSound = new Audio('../sounds/event-reveal.mp3');
+	game.sounds.eventRevealSound = new Audio('./sounds/event-reveal.mp3');
 	game.sounds.spawnEventSound.volume = 0.5;
 	 /*
 	 * Title: Horn Honk
@@ -41,7 +41,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 * Download Source: http://soundbible.com/1048-Horn-Honk.html
 	 * License: Attribution 3.0
 	 */
-	game.sounds.parkingLotSound = new Audio('../sounds/horn-honk.mp3');
+	game.sounds.parkingLotSound = new Audio('./sounds/horn-honk.mp3');
 	game.sounds.parkingLotSound.volume = 0.1;
 	/*
 	 * Title: Pouring Hot Tea
@@ -49,7 +49,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 * Download Source: http://soundbible.com/1244-Pouring-Hot-Tea.html
 	 * License: Public Domain
 	 */
-	game.sounds.snackDrinkSound = new Audio('../sounds/concession-drink.mp3');
+	game.sounds.snackDrinkSound = new Audio('./sounds/concession-drink.mp3');
 	game.sounds.snackDrinkSound.volume = 0.4;
 	 /*
 	 * Title: Popcorn Popping
@@ -57,7 +57,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 * Download Source: http://soundbible.com/1710-Popcorn-Popping.html
 	 * License: Public Domain
 	 */
-	game.sounds.snackPopcornSound = new Audio('../sounds/concession-popcorn.mp3');
+	game.sounds.snackPopcornSound = new Audio('./sounds/concession-popcorn.mp3');
 	game.sounds.snackPopcornSound.volume = 0.4;
 	/*
 	 * Title: Opening Casket
@@ -65,7 +65,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 * Download Source: http://soundbible.com/1354-Opening-Casket.html
 	 * License: Attribution 3.0
 	 */
-	game.sounds.vaultDoorSound = new Audio('../sounds/vault-door.mp3');
+	game.sounds.vaultDoorSound = new Audio('./sounds/vault-door.mp3');
 	game.sounds.snackPopcornSound.volume = 0.8;
 	/*
 	 * Title: Blop
@@ -73,14 +73,14 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 * Download Source: http://soundbible.com/2067-Blop.html
 	 * License: Attribution 3.0
 	 */
-	game.sounds.buttonBlopSound = new Audio('../sounds/blop.mp3');
+	game.sounds.buttonBlopSound = new Audio('./sounds/blop.mp3');
 	/*
 	 * Title: Gun Silencer
 	 * Author: Mike Koenig
 	 * Download Source: http://soundbible.com/930-Gun-Silencer.html
 	 * License: Attribution 3.0
 	 */
-	game.sounds.deniedSound = new Audio('../sounds/denied.mp3');
+	game.sounds.deniedSound = new Audio('./sounds/denied.mp3');
 
 	var calculateDailyProfits = function()
 	{
