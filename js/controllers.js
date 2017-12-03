@@ -4,6 +4,7 @@ cinemaTycoonApp.controller('FilmVaultController', ['gameData', '$rootScope', '$s
 	var self = this;
 	self.vaultDoorSound = game.sounds.vaultDoorSound;
 	self.buttonBlopSound = game.sounds.buttonBlopSound;
+	self.deniedSound = game.sounds.deniedSound;
 
 	$scope.$on('restart', function()
 	{
@@ -21,6 +22,12 @@ cinemaTycoonApp.controller('FilmVaultController', ['gameData', '$rootScope', '$s
 		self.buttonBlopSound.pause();
 		self.buttonBlopSound.currentTime = 0;
 		self.buttonBlopSound.play();
+	};
+	var playDenied = function()
+	{
+		self.deniedSound.pause();
+		self.deniedSound.currentTime = 0;
+		self.deniedSound.play();
 	};
 
 	self.closeInspector = function()
@@ -64,11 +71,22 @@ cinemaTycoonApp.controller('FilmVaultController', ['gameData', '$rootScope', '$s
 			self.state.selectedMovie = game.miscData.moviesOwned[Number(self.state.selectedMovieOwned)];
 			self.state.isInspecting = true;
 		}
+		else
+		{
+			playDenied();
+		}
 	};
 	self.purchaseMovie = function()
 	{
 		var success = false;
-		if(self.state.selectedMovieLicense !== '0') success = game.purchaseLicense(Number(self.state.selectedMovieLicense));
+		if(self.state.selectedMovieLicense !== '0')
+		{
+			success = game.purchaseLicense(Number(self.state.selectedMovieLicense));
+		}
+		else
+		{
+			playDenied();
+		}
 		if(success)
 		{
 			self.state.selectedMovieLicense = '0';
