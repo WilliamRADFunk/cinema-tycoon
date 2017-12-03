@@ -532,16 +532,16 @@ cinemaTycoonApp.controller('SnackController', ['gameData', '$rootScope', '$scope
 	self.exited = function(localTrigger)
 	{
 		self.active = false;
+		var cancelSucceeded = false;
+		if(self.timeoutPromise) {
+			self.snackDrinkSound.pause();
+			self.snackDrinkSound.currentTime = 0;
+			self.snackPopcornSound.pause();
+			self.snackPopcornSound.currentTime = 0;
+			$timeout.cancel(self.timeoutPromise);
+			self.timeoutPromise = undefined;
+		}
 		if(localTrigger) {
-			var cancelSucceeded = false;
-			if(self.timeoutPromise) {
-				self.snackDrinkSound.pause();
-				self.snackDrinkSound.currentTime = 0;
-				self.snackPopcornSound.pause();
-				self.snackPopcornSound.currentTime = 0;
-				$timeout.cancel(self.timeoutPromise);
-				self.timeoutPromise = undefined;
-			}
 			playBlop();
 			self.timeoutPromise = $timeout(function() {
 				self.snackDrinkSound.pause();
@@ -656,7 +656,10 @@ cinemaTycoonApp.controller('StartController', ['gameData', '$interval', '$rootSc
 cinemaTycoonApp.controller('WorkshopController', ['gameData', '$rootScope', '$scope', function(game, $rootScope, $scope)
 {
 	var self = this;
+	self.state = game.state;
+	self.state.warningText = game.workshop.warningText;
 	self.buttonBlopSound = game.sounds.buttonBlopSound;
+	self.deniedSound = game.sounds.deniedSound;
 
 	$scope.$on('restart', function()
 	{
@@ -675,6 +678,12 @@ cinemaTycoonApp.controller('WorkshopController', ['gameData', '$rootScope', '$sc
 		self.buttonBlopSound.currentTime = 0;
 		self.buttonBlopSound.play();
 	};
+	var playDenied = function()
+	{
+		self.deniedSound.pause();
+		self.deniedSound.currentTime = 0;
+		self.deniedSound.play();
+	};
 
 	self.closeProduction = function()
 	{
@@ -688,16 +697,20 @@ cinemaTycoonApp.controller('WorkshopController', ['gameData', '$rootScope', '$sc
 	self.exited = function(localTrigger)
 	{
 		self.active = false;
-		self.warningText = "";
+		game.updateWarningText("workshop", "");
+		self.state.warningText = game.workshop.warningText;
 		if(localTrigger) {
-			// self.parkingLotSound.pause();
-			// self.parkingLotSound.currentTime = 0;
 			playBlop();
 		}
 	};
 	self.produceMovie = function()
 	{
-		if(game.getBalance() < (game.miscData.moviesMade + 1) * game.miscData.movieProductionModifier) game.updateWarningText("workshop", "Not enough money!\n\nYou need $" + ((game.miscData.moviesMade + 1) * game.miscData.movieProductionModifier) + " and you only have $" + game.getBalance());
+		if(game.getBalance() < (game.miscData.moviesMade + 1) * game.miscData.movieProductionModifier)
+		{
+			playDenied();
+			game.updateWarningText("workshop", "Not enough money!\n\nYou need $" + ((game.miscData.moviesMade + 1) * game.miscData.movieProductionModifier) + " and you only have $" + game.getBalance());
+			self.state.warningText = game.workshop.warningText;
+		}
 		else
 		{
 			self.state.isProducing = true;
