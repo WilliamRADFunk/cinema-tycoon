@@ -4,12 +4,15 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	var basicLeaseRent;
 	var employ = ["Dismal", "Substandard", "Decent", "Friendly", "Super"];
 	var game = {};
+	game.state = {};
 	var promos = ["None", "Newspaper Ad", "Radio Commercial", "TV Commercial", "Celebrity Endorsement"];
 	var season = ["Winter", "Spring", "Summer", "Autumn"];
 	var weekTicketProfits;
 	var weekSnackProfits;
 	var weekGamesProfits;
 	var randomEventSpawnCounter = 0;
+	var resourcesLoaded = 0;
+
 	game.sounds = {};
 	/*
 	 * Title: Cha Ching Register
@@ -18,6 +21,9 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 * License: Attribution 3.0
 	 */
 	game.sounds.chaChingSound = new Audio('./sounds/cha-ching.mp3');
+	game.sounds.chaChingSound.addEventListener('loadeddata', function(e) {
+		checkLoaded('chaChingSound');
+	});
 	game.sounds.chaChingSound.volume = 0.4;
 	/*
 	 * Title: Flyby
@@ -26,6 +32,9 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 * License: Attribution 3.0
 	 */
 	game.sounds.spawnEventSound = new Audio('./sounds/spawn-event.mp3');
+	game.sounds.spawnEventSound.addEventListener('loadeddata', function(e) {
+		checkLoaded('spawnEventSound');
+	});
 	game.sounds.spawnEventSound.volume = 0.4;
 	 /*
 	 * Title: Climactic Suspense
@@ -34,6 +43,9 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 * License: Attribution 3.0
 	 */
 	game.sounds.eventRevealSound = new Audio('./sounds/event-reveal.mp3');
+	game.sounds.eventRevealSound.addEventListener('loadeddata', function(e) {
+		checkLoaded('eventRevealSound');
+	});
 	game.sounds.eventRevealSound.volume = 0.4;
 	 /*
 	 * Title: Horn Honk
@@ -42,6 +54,9 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 * License: Attribution 3.0
 	 */
 	game.sounds.parkingLotSound = new Audio('./sounds/horn-honk.mp3');
+	game.sounds.parkingLotSound.addEventListener('loadeddata', function(e) {
+		checkLoaded('parkingLotSound');
+	});
 	game.sounds.parkingLotSound.volume = 0.1;
 	/*
 	 * Title: Pouring Hot Tea
@@ -50,6 +65,9 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 * License: Public Domain
 	 */
 	game.sounds.snackDrinkSound = new Audio('./sounds/concession-drink.mp3');
+	game.sounds.snackDrinkSound.addEventListener('loadeddata', function(e) {
+		checkLoaded('snackDrinkSound');
+	});
 	game.sounds.snackDrinkSound.volume = 0.4;
 	 /*
 	 * Title: Popcorn Popping
@@ -58,6 +76,9 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 * License: Public Domain
 	 */
 	game.sounds.snackPopcornSound = new Audio('./sounds/concession-popcorn.mp3');
+	game.sounds.snackPopcornSound.addEventListener('loadeddata', function(e) {
+		checkLoaded('snackPopcornSound');
+	});
 	game.sounds.snackPopcornSound.volume = 0.4;
 	/*
 	 * Title: Opening Casket
@@ -66,6 +87,9 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 * License: Attribution 3.0
 	 */
 	game.sounds.vaultDoorSound = new Audio('./sounds/vault-door.mp3');
+	game.sounds.vaultDoorSound.addEventListener('loadeddata', function(e) {
+		checkLoaded('vaultDoorSound');
+	});
 	game.sounds.vaultDoorSound.volume = 0.6;
 	/*
 	 * Title: Blop
@@ -74,6 +98,9 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 * License: Attribution 3.0
 	 */
 	game.sounds.buttonBlopSound = new Audio('./sounds/blop.mp3');
+	game.sounds.buttonBlopSound.addEventListener('loadeddata', function(e) {
+		checkLoaded('buttonBlopSound');
+	});
 	/*
 	 * Title: Gun Silencer
 	 * Author: Mike Koenig
@@ -81,6 +108,9 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 * License: Attribution 3.0
 	 */
 	game.sounds.deniedSound = new Audio('./sounds/denied.mp3');
+	game.sounds.deniedSound.addEventListener('loadeddata', function(e) {
+		checkLoaded('deniedSound');
+	});
 	game.sounds.deniedSound.volume = 0.8;
 	/*
 	 * Title: Close Door
@@ -89,6 +119,9 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 * License: Attribution 3.0
 	 */
 	game.sounds.doorSound = new Audio('./sounds/close-door.mp3');
+	game.sounds.doorSound.addEventListener('loadeddata', function(e) {
+		checkLoaded('doorSound');
+	});
 	game.sounds.doorSound.volume = 0.6;
 	/*
 	 * Title: Cash Register Fake
@@ -97,6 +130,9 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 * License: Public Domain
 	 */
 	game.sounds.cashRegisterSound = new Audio('./sounds/cash-register.wav');
+	game.sounds.cashRegisterSound.addEventListener('loadeddata', function(e) {
+		checkLoaded('cashRegisterSound');
+	});
 	game.sounds.cashRegisterSound.volume = 0.8;
 	/*
 	 * Title: Retro arcade video game descending, crazy lose life tone
@@ -105,6 +141,9 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 * License: Attribution 3.0
 	 */
 	game.sounds.arcadeSound = new Audio('./sounds/arcade.wav');
+	game.sounds.arcadeSound.addEventListener('loadeddata', function(e) {
+		checkLoaded('arcadeSound');
+	});
 	game.sounds.arcadeSound.volume = 0.3;
 	/*
 	 * Title: chattering crowd 2
@@ -113,6 +152,9 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 * License: Public Domain
 	 */
 	game.sounds.chatterSound = new Audio('./sounds/chatter.mp3');
+	game.sounds.chatterSound.addEventListener('loadeddata', function(e) {
+		checkLoaded('chatterSound');
+	});
 	game.sounds.chatterSound.volume = 0.5;
 	/*
 	 * Title: badass
@@ -121,10 +163,22 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 * License: FREE Creative Commons License
 	 */
 	game.sounds.themeSound = new Audio('./sounds/bensound-badass.mp3');
+	game.sounds.themeSound.addEventListener('loadeddata', function(e) {
+		checkLoaded('themeSound');
+	});
 	game.sounds.themeSound.volume = 0.1;
 	game.sounds.themeSound.loop = true;
 	game.sounds.themeSound.play();
+	
 
+	var checkLoaded = function(sound) {
+		resourcesLoaded += game.sounds[sound].readyState;
+		if(resourcesLoaded >= 60)
+		{
+			game.state.isLoading = false;
+			$rootScope.$digest();
+		}		
+	};
 	var calculateDailyProfits = function()
 	{
 		var dailyProfit = 0;
@@ -208,7 +262,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	};
 	// Called at game start and at regular time intervals (~90 days)
 	// Gets three movies to refresh the "available for license purchase" array.
-	var getNewMovies = function()
+	var getNewMovies = function(firstTime)
 	{
 		$http(
 		{
@@ -251,6 +305,15 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 														response.data.movies[2].licenseLength,
 														response.data.movies[2].producedBy
 														));
+			if(firstTime)
+			{
+				resourcesLoaded += 4;
+				if(resourcesLoaded >= 60)
+				{
+					game.state.isLoading = false;
+					$rootScope.$digest();
+				}	
+			}
 		}, function errorCallback(response)
 		{
 			console.log(response);
@@ -373,7 +436,10 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 		game.snackData.maxSnacks = 5;						// Maximum number of snacks possible.
 		game.snackData.newSnackPriceMultiplier = 500;		// Multiplier for additional snacks.
 
-		game.state = {};
+		if(game.state.isLoading === undefined)
+		{
+			game.state.isLoading = true;					// Tracks if initial assets are still loading.
+		}
 		game.state.isStarted = false;						// Tracks whether player has started or not.
 		game.state.isPaused = false;						// Tracks whether player has paused game.
 		game.state.isHelp = false;							// Tracks whether player is in help modal.
@@ -752,6 +818,8 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 
 		game.workshop = {};
 		game.workshop.warningText = "";						// Unique warning text for the workshop module (async failures).
+
+		getNewMovies(true);
 	};
 	// Adds an extra employee to the cinema.
 	game.addEmployee = function()
@@ -893,6 +961,10 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 		if(index < 0 || index >= promos.length) return; // In case someone sneaks a bad index through.
 		game.miscData.currentPromotionIndex = index;
 		game.miscData.currentPromotion = promos[game.miscData.currentPromotionIndex];
+	};
+	// Lets start screen keep checking if assets are loaded.
+	game.checkIfLoaded = function() {
+		return game.state.isLoading;
 	};
 	// Changes event mode
 	game.event = function(event)
@@ -1201,7 +1273,6 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	game.startGame = function(speed)
 	{
 		game.state.isStarted = true;
-		getNewMovies();
 		game.miscData.moviesOwned.push(createMovie("No Movie Selected"));
 		game.miscData.numOfLicenses = game.miscData.moviesOwned.length - 1;
 	};

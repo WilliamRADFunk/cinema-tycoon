@@ -1,10 +1,12 @@
 <div ng-controller="StartController as startCtrl">
-	<div id="start-modal" class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12" ng-show="!startCtrl.state.isStarted && !startCtrl.state.isGameOver && !startCtrl.state.isEvent">
+	<div id="start-modal" class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12" ng-if="!startCtrl.state.isStarted && !startCtrl.state.isGameOver && !startCtrl.state.isEvent">
 		<p>Welcome to Cinema Tycoon!</p>
 		<p>As an up-and-coming entrepreneur and aficionado of the silver screen, you've recently leased a chunk of mall real-estate for the purpose of running a movie theater.</p>
 		<p>One day, if you play your cards right, you could even produce your <i>own</i> films.</p>
 		<p>Whether you play it fast and loose, or cautiously slow, your ultimate goal is to turn your seed money into a million dollars and produce at least 3 movies. Do that, and you've won. Drop more than $10,000 into debt and the landowner will pull your lease.</p>
-		<button type="button" class="btn btn-default col-lg-2 col-lg-offset-5 col-md-2 col-md-offset-5 col-sm-2 col-sm-offset-5 col-xs-4 col-xs-offset-4" ng-click="startCtrl.activateTime(3)">Start</button>
+		<br/>
+		<p ng-if="startCtrl.checkIfLoaded()" style="color: #FFFF00; text-align: center;">Loading assets...</p>
+		<button type="button" class="btn btn-default col-lg-2 col-lg-offset-5 col-md-2 col-md-offset-5 col-sm-2 col-sm-offset-5 col-xs-4 col-xs-offset-4" ng-click="startCtrl.activateTime(3)" ng-if="!startCtrl.checkIfLoaded()">Start</button>
 	</div>
 	<div id="help-modal" class="container col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12" ng-show="startCtrl.state.isHelp && !startCtrl.state.isGameOver && !startCtrl.state.isEvent">
 		<div class="row" style="margin-top: 10px;">

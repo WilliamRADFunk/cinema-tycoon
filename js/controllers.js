@@ -667,6 +667,7 @@ cinemaTycoonApp.controller('StartController', ['gameData', '$interval', '$rootSc
 	self.intervalPromise;
 	self.speed;
 	self.state = game.state;
+	self.checkIfLoaded = game.checkIfLoaded;
 	self.currentEvent = game.currentEvent;
 	self.buttonBlopSound = game.sounds.buttonBlopSound;
 
