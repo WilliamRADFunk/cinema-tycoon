@@ -694,14 +694,14 @@ cinemaTycoonApp.controller('StartController', ['gameData', '$interval', '$rootSc
 	{
 		playBlop();
 		game.help(false);
-		self.unpauseTime();
+		// self.unpauseTime();
 	};
 	self.exitModal = function()
 	{
 		playBlop();
 		game.event(false);
 		self.currentEvent.selectedResult = null;
-		self.unpauseTime();
+		// self.unpauseTime();
 	};
 	self.needHelp = function()
 	{

@@ -441,7 +441,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 			game.state.isLoading = true;					// Tracks if initial assets are still loading.
 		}
 		game.state.isStarted = false;						// Tracks whether player has started or not.
-		game.state.isPaused = false;						// Tracks whether player has paused game.
+		game.state.isPaused = true;						// Tracks whether player has paused game.
 		game.state.isHelp = false;							// Tracks whether player is in help modal.
 		game.state.isGameOver = false;						// Tracks whether player is in the end game modal.
 		game.state.endGameMsg = "";							// Message displayed to user at end of game.
