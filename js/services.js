@@ -22,7 +22,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 */
 	game.sounds.chaChingSound = new Audio('./sounds/cha-ching.mp3');
 	game.sounds.chaChingSound.addEventListener('loadeddata', function(e) {
-		checkLoaded('chaChingSound');
+		// checkLoaded('chaChingSound');
 	});
 	game.sounds.chaChingSound.volume = 0.4;
 	/*
@@ -33,7 +33,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 */
 	game.sounds.spawnEventSound = new Audio('./sounds/spawn-event.mp3');
 	game.sounds.spawnEventSound.addEventListener('loadeddata', function(e) {
-		checkLoaded('spawnEventSound');
+		// checkLoaded('spawnEventSound');
 	});
 	game.sounds.spawnEventSound.volume = 0.4;
 	 /*
@@ -44,7 +44,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 */
 	game.sounds.eventRevealSound = new Audio('./sounds/event-reveal.mp3');
 	game.sounds.eventRevealSound.addEventListener('loadeddata', function(e) {
-		checkLoaded('eventRevealSound');
+		// checkLoaded('eventRevealSound');
 	});
 	game.sounds.eventRevealSound.volume = 0.4;
 	 /*
@@ -55,7 +55,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 */
 	game.sounds.parkingLotSound = new Audio('./sounds/horn-honk.mp3');
 	game.sounds.parkingLotSound.addEventListener('loadeddata', function(e) {
-		checkLoaded('parkingLotSound');
+		// checkLoaded('parkingLotSound');
 	});
 	game.sounds.parkingLotSound.volume = 0.1;
 	/*
@@ -66,7 +66,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 */
 	game.sounds.snackDrinkSound = new Audio('./sounds/concession-drink.mp3');
 	game.sounds.snackDrinkSound.addEventListener('loadeddata', function(e) {
-		checkLoaded('snackDrinkSound');
+		// checkLoaded('snackDrinkSound');
 	});
 	game.sounds.snackDrinkSound.volume = 0.4;
 	 /*
@@ -77,7 +77,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 */
 	game.sounds.snackPopcornSound = new Audio('./sounds/concession-popcorn.mp3');
 	game.sounds.snackPopcornSound.addEventListener('loadeddata', function(e) {
-		checkLoaded('snackPopcornSound');
+		// checkLoaded('snackPopcornSound');
 	});
 	game.sounds.snackPopcornSound.volume = 0.4;
 	/*
@@ -88,7 +88,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 */
 	game.sounds.vaultDoorSound = new Audio('./sounds/vault-door.mp3');
 	game.sounds.vaultDoorSound.addEventListener('loadeddata', function(e) {
-		checkLoaded('vaultDoorSound');
+		// checkLoaded('vaultDoorSound');
 	});
 	game.sounds.vaultDoorSound.volume = 0.6;
 	/*
@@ -99,7 +99,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 */
 	game.sounds.buttonBlopSound = new Audio('./sounds/blop.mp3');
 	game.sounds.buttonBlopSound.addEventListener('loadeddata', function(e) {
-		checkLoaded('buttonBlopSound');
+		// checkLoaded('buttonBlopSound');
 	});
 	/*
 	 * Title: Gun Silencer
@@ -109,7 +109,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 */
 	game.sounds.deniedSound = new Audio('./sounds/denied.mp3');
 	game.sounds.deniedSound.addEventListener('loadeddata', function(e) {
-		checkLoaded('deniedSound');
+		// checkLoaded('deniedSound');
 	});
 	game.sounds.deniedSound.volume = 0.8;
 	/*
@@ -120,7 +120,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 */
 	game.sounds.doorSound = new Audio('./sounds/close-door.mp3');
 	game.sounds.doorSound.addEventListener('loadeddata', function(e) {
-		checkLoaded('doorSound');
+		// checkLoaded('doorSound');
 	});
 	game.sounds.doorSound.volume = 0.6;
 	/*
@@ -131,7 +131,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 */
 	game.sounds.cashRegisterSound = new Audio('./sounds/cash-register.wav');
 	game.sounds.cashRegisterSound.addEventListener('loadeddata', function(e) {
-		checkLoaded('cashRegisterSound');
+		// checkLoaded('cashRegisterSound');
 	});
 	game.sounds.cashRegisterSound.volume = 0.8;
 	/*
@@ -142,7 +142,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 */
 	game.sounds.arcadeSound = new Audio('./sounds/arcade.wav');
 	game.sounds.arcadeSound.addEventListener('loadeddata', function(e) {
-		checkLoaded('arcadeSound');
+		// checkLoaded('arcadeSound');
 	});
 	game.sounds.arcadeSound.volume = 0.3;
 	/*
@@ -153,7 +153,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 */
 	game.sounds.chatterSound = new Audio('./sounds/chatter.mp3');
 	game.sounds.chatterSound.addEventListener('loadeddata', function(e) {
-		checkLoaded('chatterSound');
+		// checkLoaded('chatterSound');
 	});
 	game.sounds.chatterSound.volume = 0.5;
 	/*
@@ -164,21 +164,21 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 */
 	game.sounds.themeSound = new Audio('./sounds/bensound-badass.mp3');
 	game.sounds.themeSound.addEventListener('loadeddata', function(e) {
-		checkLoaded('themeSound');
+		// checkLoaded('themeSound');
 	});
 	game.sounds.themeSound.volume = 0.1;
 	game.sounds.themeSound.loop = true;
 	game.sounds.themeSound.play();
 	
 
-	var checkLoaded = function(sound) {
-		resourcesLoaded += game.sounds[sound].readyState;
-		if(resourcesLoaded >= 60)
-		{
-			game.state.isLoading = false;
-			// $rootScope.$digest();
-		}		
-	};
+	// var checkLoaded = function(sound) {
+	// 	resourcesLoaded += game.sounds[sound].readyState;
+	// 	if(resourcesLoaded >= 60)
+	// 	{
+	// 		game.state.isLoading = false;
+	// 		// $rootScope.$digest();
+	// 	}		
+	// };
 	var calculateDailyProfits = function()
 	{
 		var dailyProfit = 0;
@@ -307,12 +307,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 														));
 			if(firstTime)
 			{
-				resourcesLoaded += 4;
-				if(resourcesLoaded >= 60)
-				{
-					game.state.isLoading = false;
-					// $rootScope.$digest();
-				}	
+				game.state.isLoading = false;	
 			}
 		}, function errorCallback(response)
 		{
