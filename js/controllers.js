@@ -247,6 +247,10 @@ cinemaTycoonApp.controller('HUDController', ['gameData', '$scope', function(game
 	{
 		self.setup();
 	});
+	$scope.$on('netWeekly', function(args)
+	{
+		console.log("changed", args);
+	});
 
 	self.getBalance = function()
 	{
@@ -420,6 +424,7 @@ cinemaTycoonApp.controller('SalonController', ['gameData', '$rootScope', '$scope
 		}
 	});
 
+	var salonReference = createSalon();
 	var playBlop = function()
 	{
 		self.buttonBlopSound.pause();
@@ -497,6 +502,13 @@ cinemaTycoonApp.controller('SalonController', ['gameData', '$rootScope', '$scope
 			self.state.selectedMovie = game.getMoviePlayingIndex(self.state.activeSalon - 1).toString();
 		}
 	};
+	self.changeSeatAmount = function(seats)
+	{
+		if(seats > self.getPossibleSeats())
+		{
+			self.seatAmount = self.getPossibleSeats();
+		}
+	}
 	self.entered = function()
 	{
 		self.active = true;
@@ -529,11 +541,13 @@ cinemaTycoonApp.controller('SalonController', ['gameData', '$rootScope', '$scope
 	self.getProjectorUpgradeLevel = function()
 	{
 		if(self.state.activeSalon <= 0 || self.salonData.numOfSalons <= 0) return 0;
+		else if(self.salonData.salonsOwned[self.state.activeSalon - 1].getProjectorLevel() >= salonReference.getMaxUpgradeLevel()) return 'MAX';
 		else return self.salonData.salonsOwned[self.state.activeSalon - 1].getProjectorLevel();
 	};
 	self.getScreenUpgradeLevel = function()
 	{
 		if(self.state.activeSalon <= 0 || self.salonData.numOfSalons <= 0) return 0;
+		else if(self.salonData.salonsOwned[self.state.activeSalon - 1].getScreenLevel() >= salonReference.getMaxUpgradeLevel()) return 'MAX';
 		else return self.salonData.salonsOwned[self.state.activeSalon - 1].getScreenLevel();
 	};
 	self.getSeats = function()
@@ -544,11 +558,12 @@ cinemaTycoonApp.controller('SalonController', ['gameData', '$rootScope', '$scope
 	self.getSeatCost = function()
 	{
 		if(self.state.activeSalon <= 0 || self.salonData.numOfSalons <= 0 || self.seatAmount === undefined) return 0;
-		else return self.salonData.salonsOwned[self.state.activeSalon - 1].getSeatCost(self.seatAmount);
+		else return salonReference.getSeatCost(self.seatAmount);
 	};
 	self.getSoundUpgradeLevel = function()
 	{
 		if(self.state.activeSalon <= 0 || self.salonData.numOfSalons <= 0) return 0;
+		else if(self.salonData.salonsOwned[self.state.activeSalon - 1].getSoundLevel() >= salonReference.getMaxUpgradeLevel()) return 'MAX';
 		else return self.salonData.salonsOwned[self.state.activeSalon - 1].getSoundLevel();
 	};
 	self.setup = function()

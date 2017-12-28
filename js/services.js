@@ -176,7 +176,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 		if(resourcesLoaded >= 60)
 		{
 			game.state.isLoading = false;
-			$rootScope.$digest();
+			// $rootScope.$digest();
 		}		
 	};
 	var calculateDailyProfits = function()
@@ -311,7 +311,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 				if(resourcesLoaded >= 60)
 				{
 					game.state.isLoading = false;
-					$rootScope.$digest();
+					// $rootScope.$digest();
 				}	
 			}
 		}, function errorCallback(response)
@@ -937,7 +937,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	game.buySeats = function(salonNum, quantity)
 	{
 		var oldNumSeats = game.salonData.totalSeats;
-		balance = game.salonData.salonsOwned[salonNum].addSeats(quantity, (balance + 9990));
+		balance = game.salonData.salonsOwned[salonNum].addSeats(quantity, balance);
 		game.salonData.totalSeats = calculateTotalSeats();
 		if(game.salonData.totalSeats !== oldNumSeats)
 		{
@@ -1132,7 +1132,13 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	game.upgradeProjector = function(salonNum)
 	{
 		var oldBalance = balance;
-		balance = game.salonData.salonsOwned[salonNum].upgradeProjectorLevel((balance + 9990));
+		var maxLevel = game.salonData.salonsOwned[salonNum].getMaxUpgradeLevel();
+		if(game.salonData.salonsOwned[salonNum].getProjectorLevel() >= maxLevel)
+		{
+			playSound('deniedSound');
+			return;
+		}
+		balance = game.salonData.salonsOwned[salonNum].upgradeProjectorLevel(balance);
 		if(balance !== oldBalance)
 		{
 			playSound('chaChingSound');
@@ -1145,7 +1151,13 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	game.upgradeScreen = function(salonNum)
 	{
 		var oldBalance = balance;
-		balance = game.salonData.salonsOwned[salonNum].upgradeScreenLevel((balance + 9990));
+		var maxLevel = game.salonData.salonsOwned[salonNum].getMaxUpgradeLevel();
+		if(game.salonData.salonsOwned[salonNum].getScreenLevel() >= maxLevel)
+		{
+			playSound('deniedSound');
+			return;
+		}
+		balance = game.salonData.salonsOwned[salonNum].upgradeScreenLevel(balance);
 		if(balance !== oldBalance)
 		{
 			playSound('chaChingSound');
@@ -1158,7 +1170,13 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	game.upgradeSound = function(salonNum)
 	{
 		var oldBalance = balance;
-		balance = game.salonData.salonsOwned[salonNum].upgradeSoundLevel((balance + 9990));
+		var maxLevel = game.salonData.salonsOwned[salonNum].getMaxUpgradeLevel();
+		if(game.salonData.salonsOwned[salonNum].getSoundLevel() >= maxLevel)
+		{
+			playSound('deniedSound');
+			return;
+		}
+		balance = game.salonData.salonsOwned[salonNum].upgradeSoundLevel(balance);
 		if(balance !== oldBalance)
 		{
 			playSound('chaChingSound');

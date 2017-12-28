@@ -80,7 +80,7 @@ var createSalon = function()
 	return {
 		addSeats: function(quantity, balance)
 		{
-			if(balance < (seatCost * quantity)) return balance;
+			if((balance + 9990) < (seatCost * quantity)) return balance;
 			else if (quantity <= (maxSeats - seats))
 			{
 				seats += quantity;
@@ -188,7 +188,7 @@ var createSalon = function()
 		upgradeProjectorLevel: function(balance)
 		{
 			if(projectorLevel >= maxUpgradeLevel) projectorLevel = maxUpgradeLevel;
-			else if( (projectorLevel + 1) * upgradeMultiplier <= balance )
+			else if( (projectorLevel + 1) * upgradeMultiplier <= (balance + 9990) )
 			{
 				balance -= (projectorLevel + 1) * upgradeMultiplier;
 				projectorLevel++;
@@ -198,7 +198,7 @@ var createSalon = function()
 		upgradeScreenLevel: function(balance)
 		{
 			if(screenLevel >= maxUpgradeLevel) screenLevel = maxUpgradeLevel;
-			else if( (screenLevel + 1) * upgradeMultiplier <= balance )
+			else if( (screenLevel + 1) * upgradeMultiplier <= (balance + 9990) )
 			{
 				balance -= (screenLevel + 1) * upgradeMultiplier;
 				screenLevel++;
@@ -208,7 +208,7 @@ var createSalon = function()
 		upgradeSoundLevel: function(balance)
 		{
 			if(soundLevel >= maxUpgradeLevel) soundLevel = maxUpgradeLevel;
-			else if( (soundLevel + 1) * upgradeMultiplier <= balance )
+			else if( (soundLevel + 1) * upgradeMultiplier <= (balance + 9990) )
 			{
 				balance -= (soundLevel + 1) * upgradeMultiplier;
 				soundLevel++;

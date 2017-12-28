@@ -39,6 +39,10 @@ select
 	height: 26px;
 	width: 40px;
 }
+#btn-salon-builder
+{
+	margin-bottom: 50px;
+}
 #header
 {
 	/* Image from: http://freytheater.com/ */
@@ -216,6 +220,14 @@ select
 .right
 {
 	float: right;
+}
+.green
+{
+	color: #00FF00;
+}
+.red
+{
+	color: #FF0000;
 }
 @media (min-width: 300px) {
 	#film-vault-active

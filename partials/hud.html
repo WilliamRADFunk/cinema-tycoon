@@ -37,19 +37,19 @@
 			<table class="table">
 				<tbody>
 					<tr>
-						<td>$ from Ticket Sales (last week): <span class="right">{{hudCtrl.profitData.profitTicketSales | currency}}</span></td>
+						<td>$ from Ticket Sales (last week): <span class="right green">{{hudCtrl.profitData.profitTicketSales | currency}}</span></td>
 					</tr>
 					<tr>
-						<td>$ from Snack Sales (last week): <span class="right">{{hudCtrl.profitData.profitSnackSales | currency}}</span></td>
+						<td>$ from Snack Sales (last week): <span class="right green">{{hudCtrl.profitData.profitSnackSales | currency}}</span></td>
 					</tr>
 					<tr>
-						<td>$ from Game Sales (last week): <span class="right">{{hudCtrl.profitData.profitGamesSales | currency}}</span></td>
+						<td>$ from Game Sales (last week): <span class="right green">{{hudCtrl.profitData.profitGamesSales | currency}}</span></td>
 					</tr>
 					<tr>
-						<td>$ for Expenses (last week): <span class="right">{{hudCtrl.profitData.expenses | currency}}</span></td>
+						<td>$ for Expenses (last week): <span class="right red">{{hudCtrl.profitData.expenses | currency}}</span></td>
 					</tr>
 					<tr>
-						<td>$ in Profit/Loss (last week): <span class="right">{{hudCtrl.profitData.netProfit | currency}}</span></td>
+						<td>$ in Profit/Loss (last week): <span id="net-income" class="right">{{hudCtrl.profitData.netProfit | currency}}</span></td>
 					</tr>
 					<tr>
 						<td>Total Employees: <span class="right">{{hudCtrl.employeeData.numOfEmployees}} / {{hudCtrl.employeeData.maxEmployees}} ( {{hudCtrl.employeeData.employeeResult}} )</span></td>
