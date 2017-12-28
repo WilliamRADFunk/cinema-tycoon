@@ -697,6 +697,8 @@ cinemaTycoonApp.controller('StartController', ['gameData', '$interval', '$rootSc
 	self.currentEvent = game.currentEvent;
 	self.buttonBlopSound = game.sounds.buttonBlopSound;
 
+	self.state.helpChoice = 'isHelpWin';
+
 	$scope.$on('event', function(msg, args)
 	{
 		self.pauseTime();
@@ -708,7 +710,6 @@ cinemaTycoonApp.controller('StartController', ['gameData', '$interval', '$rootSc
 		self.buttonBlopSound.currentTime = 0;
 		self.buttonBlopSound.play();
 	};
-
 	self.activateTime = function(speed)
 	{
 		playBlop();
