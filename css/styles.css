@@ -39,9 +39,42 @@ select
 	height: 26px;
 	width: 40px;
 }
+.navbar-inverse
+{
+	background: url("../images/floating-hud.png") no-repeat center center;
+	background-color: #000000;
+	border-top: 1px solid #00441C;
+	height: 75px;
+	margin: 0px auto;
+	text-align: center;
+	width: 720px;
+}
+.floating-hud-text
+{
+	display: inline-block;
+}
+.floating-hud-row
+{
+	display: block;
+	height: 25%;
+	padding-left: 5%;
+	width: 90%;
+}
+.first
+{
+	width: 20%;
+}
+.second
+{
+	width: 35%;
+}
+.third
+{
+	width: 35%;
+}
 #btn-salon-builder
 {
-	margin-bottom: 50px;
+	margin-bottom: 75px;
 }
 #header
 {
@@ -370,6 +403,16 @@ select
 		background: url("../images/workshop-small.png") no-repeat center center;
 		height: 320px;
 	}
+	.navbar-inverse
+	{
+		font-size: 10px;
+		width: 400px;
+	}
+	.floating-hud-row
+	{
+		width: 100%;
+		padding-left: 0%;
+	}
 }
 @media (min-width: 500px) {
 	#hud
@@ -381,6 +424,19 @@ select
 	#help-modal
 	{
 		font-size: 13px;
+	}
+	.navbar-inverse
+	{
+		font-size: 12px;
+		padding-left: 0%;
+		width: 720px;
+	}
+	.floating-hud-row
+	{
+		display: block;
+		height: 25%;
+		padding-left: 5%;
+		width: 90%;
 	}
 }
 @media (min-width: 992px) {
