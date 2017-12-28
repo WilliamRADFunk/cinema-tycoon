@@ -738,14 +738,16 @@ cinemaTycoonApp.controller('StartController', ['gameData', '$interval', '$rootSc
 	self.pauseTime = function(localTrigger)
 	{
 		if(localTrigger) playBlop();
-		if(self.state.isPaused) return;
-		game.pause(true);
-		var cancelSucceeded = false;
-		do
+		if(self.intervalPromise)
 		{
-			cancelSucceeded = $interval.cancel(self.intervalPromise);
-		} while(!cancelSucceeded);
-		self.intervalPromise = undefined;
+			var cancelSucceeded = false;
+			do
+			{
+				cancelSucceeded = $interval.cancel(self.intervalPromise);
+			} while(!cancelSucceeded);
+			self.intervalPromise = undefined;
+		}
+		game.pause(true);
 	};
 	self.restartGame = function(speed)
 	{
@@ -765,6 +767,15 @@ cinemaTycoonApp.controller('StartController', ['gameData', '$interval', '$rootSc
 	self.unpauseTime = function(localTrigger)
 	{
 		if(localTrigger) playBlop();
+		if(self.intervalPromise)
+		{
+			var cancelSucceeded = false;
+			do
+			{
+				cancelSucceeded = $interval.cancel(self.intervalPromise);
+			} while(!cancelSucceeded);
+			self.intervalPromise = undefined;
+		}
 		if(!self.state.isPaused) return;
 		game.pause(false);
 		self.intervalPromise = $interval(game.newDay, (1000 * self.speed));
