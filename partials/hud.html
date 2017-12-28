@@ -49,7 +49,7 @@
 						<td>$ for Expenses (last week): <span class="right red">{{hudCtrl.profitData.expenses | currency}}</span></td>
 					</tr>
 					<tr>
-						<td>$ in Profit/Loss (last week): <span id="net-income" class="right">{{hudCtrl.profitData.netProfit | currency}}</span></td>
+						<td>$ in Profit/Loss (last week): <span id="net-income" class="right {{hudCtrl.colorClass}}">{{hudCtrl.profitData.netProfit | currency}}</span></td>
 					</tr>
 					<tr>
 						<td>Total Employees: <span class="right">{{hudCtrl.employeeData.numOfEmployees}} / {{hudCtrl.employeeData.maxEmployees}} ( {{hudCtrl.employeeData.employeeResult}} )</span></td>

@@ -247,9 +247,20 @@ cinemaTycoonApp.controller('HUDController', ['gameData', '$scope', function(game
 	{
 		self.setup();
 	});
-	$scope.$on('netWeekly', function(args)
+	$scope.$on('netWeekly', function()
 	{
-		console.log("changed", args);
+		if(self.profitData.netProfit > 0)
+		{
+			self.colorClass = 'green';
+		}
+		else if(self.profitData.netProfit < 0)
+		{
+			self.colorClass = 'red';
+		}
+		else
+		{
+			self.colorClass = '';
+		}
 	});
 
 	self.getBalance = function()

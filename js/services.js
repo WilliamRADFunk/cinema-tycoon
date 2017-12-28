@@ -1057,6 +1057,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 			weekSnackProfits = 0;
 			weekGamesProfits = 0;
 			removeExpiredLicenses();
+			$rootScope.$broadcast('netWeekly');
 		}
 		// Every 90 days, refresh available licenses for purchase.
 		if(game.timeData.day % 90 === 0) getNewMovies();
