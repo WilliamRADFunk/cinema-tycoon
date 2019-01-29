@@ -1198,7 +1198,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 			var expectedPopularity = Math.floor(Math.random() * 10 + 1) / 10.0;
 			// Validate cost input.
 			if(cost < 1000) cost = 1000;
-			else if(cost > 5000) cost = 5000;
+			else if(cost > 7500) cost = 7500;
 			// Validate license duration input.
 			if(licenseDuration < 12) licenseDuration = 12;
 			else if(licenseDuration > 52) licenseDuration = 52;

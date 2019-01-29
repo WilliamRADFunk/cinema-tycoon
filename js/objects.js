@@ -11,7 +11,7 @@ var createMovie = function(title, synopsis, expectedPopularity, actualPopularity
 	var worstSeason = worstSeason;
 
 	if(actualPopularity === undefined || actualPopularity === null || actualPopularity < 0 || actualPopularity > 1) actualPopularity = 0.1;
-	if(costLicense === undefined || costLicense === null || costLicense <= 0) costLicense = 5000;
+	if(costLicense === undefined || costLicense === null || costLicense <= 0) costLicense = 7500;
 	if(expectedPopularity === undefined || expectedPopularity === null || expectedPopularity < 0 || expectedPopularity > 1) expectedPopularity = 0.1;
 	if(licenseLength === undefined || licenseLength === null || licenseLength <= 0) licenseLength = 12;
 	if(optimalSeason === undefined || optimalSeason === null || optimalSeason < 0 || optimalSeason > 3) optimalSeason = 3;
