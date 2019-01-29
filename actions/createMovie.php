@@ -53,7 +53,7 @@ else $actualPopularity = 0.1;
 if($costLicense)
 {
 	if($costLicense < 1000) $costLicense = 1000;
-	if($costLicense > 100000) $costLicense = 100000;
+	if($costLicense > 5000) $costLicense = 5000;
 }
 else $costLicense = 1000;
 if($optimalSeason)
