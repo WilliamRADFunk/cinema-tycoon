@@ -1,5 +1,5 @@
 # Cinema Tycoon
-(Complete) - A simple resource management game using AngularJS
+A simple resource management game using AngularJS
 
 ## User takes over a movie theater, and must make it thrive.
 
