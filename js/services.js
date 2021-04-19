@@ -168,7 +168,9 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	});
 	game.sounds.themeSound.volume = 0.1;
 	game.sounds.themeSound.loop = true;
-	game.sounds.themeSound.play();
+	setTimeout(function() {
+		game.sounds.themeSound.play();
+	}, 2000);
 	
 
 	// var checkLoaded = function(sound) {
