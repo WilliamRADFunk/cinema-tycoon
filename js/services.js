@@ -11,7 +11,6 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	var weekSnackProfits;
 	var weekGamesProfits;
 	var randomEventSpawnCounter = 0;
-	var resourcesLoaded = 0;
 
 	game.sounds = {};
 	/*
@@ -22,9 +21,8 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 */
 	game.sounds.chaChingSound = new Audio('./sounds/cha-ching.mp3');
 	game.sounds.chaChingSound.addEventListener('loadeddata', function(e) {
-		// checkLoaded('chaChingSound');
+		game.sounds.chaChingSound.volume = 0.4;
 	});
-	game.sounds.chaChingSound.volume = 0.4;
 	/*
 	 * Title: Flyby
 	 * Author: Conor
@@ -33,9 +31,8 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 */
 	game.sounds.spawnEventSound = new Audio('./sounds/spawn-event.mp3');
 	game.sounds.spawnEventSound.addEventListener('loadeddata', function(e) {
-		// checkLoaded('spawnEventSound');
+		game.sounds.spawnEventSound.volume = 0.4;
 	});
-	game.sounds.spawnEventSound.volume = 0.4;
 	 /*
 	 * Title: Climactic Suspense
 	 * Author: Mike Koenig
@@ -44,9 +41,8 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 */
 	game.sounds.eventRevealSound = new Audio('./sounds/event-reveal.mp3');
 	game.sounds.eventRevealSound.addEventListener('loadeddata', function(e) {
-		// checkLoaded('eventRevealSound');
+		game.sounds.eventRevealSound.volume = 0.4;
 	});
-	game.sounds.eventRevealSound.volume = 0.4;
 	 /*
 	 * Title: Horn Honk
 	 * Author: Mike Koenig
@@ -55,9 +51,8 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 */
 	game.sounds.parkingLotSound = new Audio('./sounds/horn-honk.mp3');
 	game.sounds.parkingLotSound.addEventListener('loadeddata', function(e) {
-		// checkLoaded('parkingLotSound');
+		game.sounds.parkingLotSound.volume = 0.1;
 	});
-	game.sounds.parkingLotSound.volume = 0.1;
 	/*
 	 * Title: Pouring Hot Tea
 	 * Author: Cori Samuel
@@ -66,9 +61,8 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 */
 	game.sounds.snackDrinkSound = new Audio('./sounds/concession-drink.mp3');
 	game.sounds.snackDrinkSound.addEventListener('loadeddata', function(e) {
-		// checkLoaded('snackDrinkSound');
+		game.sounds.snackDrinkSound.volume = 0.4;
 	});
-	game.sounds.snackDrinkSound.volume = 0.4;
 	 /*
 	 * Title: Popcorn Popping
 	 * Author: KevanGC
@@ -77,9 +71,8 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 */
 	game.sounds.snackPopcornSound = new Audio('./sounds/concession-popcorn.mp3');
 	game.sounds.snackPopcornSound.addEventListener('loadeddata', function(e) {
-		// checkLoaded('snackPopcornSound');
+		game.sounds.snackPopcornSound.volume = 0.4;
 	});
-	game.sounds.snackPopcornSound.volume = 0.4;
 	/*
 	 * Title: Opening Casket
 	 * Author: Mike Koenig
@@ -88,9 +81,8 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 */
 	game.sounds.vaultDoorSound = new Audio('./sounds/vault-door.mp3');
 	game.sounds.vaultDoorSound.addEventListener('loadeddata', function(e) {
-		// checkLoaded('vaultDoorSound');
+		game.sounds.vaultDoorSound.volume = 0.6;
 	});
-	game.sounds.vaultDoorSound.volume = 0.6;
 	/*
 	 * Title: Blop
 	 * Author: Mark DiAngelo
@@ -98,9 +90,6 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 * License: Attribution 3.0
 	 */
 	game.sounds.buttonBlopSound = new Audio('./sounds/blop.mp3');
-	game.sounds.buttonBlopSound.addEventListener('loadeddata', function(e) {
-		// checkLoaded('buttonBlopSound');
-	});
 	/*
 	 * Title: Gun Silencer
 	 * Author: Mike Koenig
@@ -109,9 +98,8 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 */
 	game.sounds.deniedSound = new Audio('./sounds/denied.mp3');
 	game.sounds.deniedSound.addEventListener('loadeddata', function(e) {
-		// checkLoaded('deniedSound');
+		game.sounds.deniedSound.volume = 0.8;
 	});
-	game.sounds.deniedSound.volume = 0.8;
 	/*
 	 * Title: Close Door
 	 * Author: Caroline Ford
@@ -120,9 +108,8 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 */
 	game.sounds.doorSound = new Audio('./sounds/close-door.mp3');
 	game.sounds.doorSound.addEventListener('loadeddata', function(e) {
-		// checkLoaded('doorSound');
+		game.sounds.doorSound.volume = 0.6;
 	});
-	game.sounds.doorSound.volume = 0.6;
 	/*
 	 * Title: Cash Register Fake
 	 * Author: CapsLok
@@ -131,9 +118,8 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 */
 	game.sounds.cashRegisterSound = new Audio('./sounds/cash-register.wav');
 	game.sounds.cashRegisterSound.addEventListener('loadeddata', function(e) {
-		// checkLoaded('cashRegisterSound');
+		game.sounds.cashRegisterSound.volume = 0.8;
 	});
-	game.sounds.cashRegisterSound.volume = 0.8;
 	/*
 	 * Title: Retro arcade video game descending, crazy lose life tone
 	 * Author: alanmcki
@@ -142,9 +128,8 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 */
 	game.sounds.arcadeSound = new Audio('./sounds/arcade.wav');
 	game.sounds.arcadeSound.addEventListener('loadeddata', function(e) {
-		// checkLoaded('arcadeSound');
+		game.sounds.arcadeSound.volume = 0.3;
 	});
-	game.sounds.arcadeSound.volume = 0.3;
 	/*
 	 * Title: chattering crowd 2
 	 * Author: cognito perceptu
@@ -153,9 +138,8 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 */
 	game.sounds.chatterSound = new Audio('./sounds/chatter.mp3');
 	game.sounds.chatterSound.addEventListener('loadeddata', function(e) {
-		// checkLoaded('chatterSound');
+		game.sounds.chatterSound.volume = 0.5;
 	});
-	game.sounds.chatterSound.volume = 0.5;
 	/*
 	 * Title: badass
 	 * Author: bensound
@@ -164,23 +148,10 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	 */
 	game.sounds.themeSound = new Audio('./sounds/bensound-badass.mp3');
 	game.sounds.themeSound.addEventListener('loadeddata', function(e) {
-		// checkLoaded('themeSound');
+		game.sounds.themeSound.volume = 0.1;
+		game.sounds.themeSound.loop = true;
 	});
-	game.sounds.themeSound.volume = 0.1;
-	game.sounds.themeSound.loop = true;
-	setTimeout(function() {
-		game.sounds.themeSound.play();
-	}, 2000);
 	
-
-	// var checkLoaded = function(sound) {
-	// 	resourcesLoaded += game.sounds[sound].readyState;
-	// 	if(resourcesLoaded >= 60)
-	// 	{
-	// 		game.state.isLoading = false;
-	// 		// $rootScope.$digest();
-	// 	}		
-	// };
 	var calculateDailyProfits = function()
 	{
 		var dailyProfit = 0;
@@ -254,6 +225,13 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	};
 	var calculateWeeklyExpenses = function()
 	{
+		game.profitData.currentExpenses.rent = basicLeaseRent;
+		game.profitData.currentExpenses.salons = game.salonData.numOfSalons * (0.75 * game.salonData.newSalonPriceMultiplier);
+		game.profitData.currentExpenses.snacks = game.snackData.numOfSnacks * (0.25 * game.snackData.newSnackPriceMultiplier);
+		game.profitData.currentExpenses.games = game.gameroomData.numOfGames * (0.25 * game.gameroomData.newGamePriceMultiplier);
+		game.profitData.currentExpenses.employees = game.employeeData.numOfEmployees * game.employeeData.employeeCostMultiplier;
+		game.profitData.currentExpenses.parking = game.parkingData.parkingLevels * (0.25 * game.parkingData.parkingExpandCost);
+		game.profitData.currentExpenses.promotions = game.miscData.currentPromotionIndex * game.miscData.promotionMultiplier;
 		return  ( basicLeaseRent +
 				(game.salonData.numOfSalons * (0.75 * game.salonData.newSalonPriceMultiplier)) +
 				(game.snackData.numOfSnacks * (0.25 * game.snackData.newSnackPriceMultiplier)) +
@@ -386,64 +364,73 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 		weekGamesProfits = 0;
 
 		game.employeeData = {};
-		game.employeeData.numOfEmployees = 1;				// Player's current number of employed workers.
-		game.employeeData.maxEmployees = 5;					// Maximum number of employees possible.
-		game.employeeData.employeeResult = employ[0];		// Description of employee amount.
-		game.employeeData.employeeCostMultiplier = 500;		// Multiplier for employees on payday.
+		game.employeeData.numOfEmployees = 1;					// Player's current number of employed workers.
+		game.employeeData.maxEmployees = 5;						// Maximum number of employees possible.
+		game.employeeData.employeeResult = employ[0];			// Description of employee amount.
+		game.employeeData.employeeCostMultiplier = 500;			// Multiplier for employees on payday.
 
 		game.gameroomData = {};
-		game.gameroomData.numOfGames = 0;					// Player's total existing game choices.
-		game.gameroomData.maxGames = 5;						// Maximum number of games possible.
-		game.gameroomData.newGamePriceMultiplier = 1000;	// Multiplier for additional games.
+		game.gameroomData.numOfGames = 0;						// Player's total existing game choices.
+		game.gameroomData.maxGames = 5;							// Maximum number of games possible.
+		game.gameroomData.newGamePriceMultiplier = 1000;		// Multiplier for additional games.
 
 		game.miscData = {};
-		game.miscData.ticketPrice = 10.00;					// Price of a movie ticket.
-		game.miscData.currentPromotionIndex = 0;			// Enum index for marketing promotion.
+		game.miscData.ticketPrice = 10.00;						// Price of a movie ticket.
+		game.miscData.currentPromotionIndex = 0;				// Enum index for marketing promotion.
 		game.miscData.currentPromotion =
-			promos[game.miscData.currentPromotionIndex];	// Enum value for marketing promotion.
-		game.miscData.promotionMultiplier = 500;			// Multiplier for marketing promotions.
-		game.miscData.numOfLicenses = 0;					// Total number of movie licenses currently owned.
-		game.miscData.moviesOwned = [];						// List of movie objects player currently owns.
-		game.miscData.moviesAvailable = [];					// Periodically changed. Movies for license purchase.
-		game.miscData.movieProductionModifier = 250000;		// Modifier for cost of film making.
-		game.miscData.moviesMade = 0;						// User made movies. Needed for the win.
+			promos[game.miscData.currentPromotionIndex];		// Enum value for marketing promotion.
+		game.miscData.promotionMultiplier = 500;				// Multiplier for marketing promotions.
+		game.miscData.numOfLicenses = 0;						// Total number of movie licenses currently owned.
+		game.miscData.moviesOwned = [];							// List of movie objects player currently owns.
+		game.miscData.moviesAvailable = [];						// Periodically changed. Movies for license purchase.
+		game.miscData.movieProductionModifier = 250000;			// Modifier for cost of film making.
+		game.miscData.moviesMade = 0;							// User made movies. Needed for the win.
 		
 		game.parkingData = {};
-		game.parkingData.parkingLevels = 0;					// Current parking lot capacity level.
-		game.parkingData.maxParkingLevels = 10;				// Maximum number of parking levels possible.
-		game.parkingData.parkingExpandCost = 2000			// Cost multiplier to expand local parking space.
+		game.parkingData.parkingLevels = 0;						// Current parking lot capacity level.
+		game.parkingData.maxParkingLevels = 10;					// Maximum number of parking levels possible.
+		game.parkingData.parkingExpandCost = 2000				// Cost multiplier to expand local parking space.
 
 		game.profitData = {};
-		game.profitData.profitTicketSales = 0.0;			// Tally of total ticket's sold at cost in last period.
-		game.profitData.profitSnackSales = 0.0;				// Tally of total snacks sold at cost in last period.
-		game.profitData.profitGamesSales = 0.0;				// Tally of total games sold at cost in last period.
-		game.profitData.expenses = 0.0;						// Total cost of running cinema in last period.
-		game.profitData.netProfit = 0.0;					// Total profit/loss for the last period.
+		game.profitData.profitTicketSales = 0.0;				// Tally of total ticket's sold at cost in last period.
+		game.profitData.profitSnackSales = 0.0;					// Tally of total snacks sold at cost in last period.
+		game.profitData.profitGamesSales = 0.0;					// Tally of total games sold at cost in last period.
+		game.profitData.expenses = 0.0;							// Total cost of running cinema in last period.
+		game.profitData.netProfit = 0.0;						// Total profit/loss for the last period.
+		game.profitData.currentExpenses = {};
+		game.profitData.currentExpenses.total = 0.0;			// Tally of total expenses for current week.
+		game.profitData.currentExpenses.rent = basicLeaseRent;	// Tally of rent expenses for current week.
+		game.profitData.currentExpenses.salons = 0.0;			// Tally of salon expenses for current week.
+		game.profitData.currentExpenses.snacks = 0.0;			// Tally of snack expenses for current week.
+		game.profitData.currentExpenses.games = 0.0;			// Tally of game expenses for current week.
+		game.profitData.currentExpenses.employees = 0.0;		// Tally of salary expenses for current week.
+		game.profitData.currentExpenses.parking = 0.0;			// Tally of parking expenses for current week.
+		game.profitData.currentExpenses.promotions = 0.0;		// Tally of promotionals expenses for current week.
 
 		game.salonData = {};
-		game.salonData.salonsOwned = [];					// Contains the actual salon objects.
+		game.salonData.salonsOwned = [];						// Contains the actual salon objects.
 		game.salonData.numOfSalons =
-			game.salonData.salonsOwned.length;				// Player's total existing salons.
-		game.salonData.maxSalons = 10;						// Maximum number of salons possible.
-		game.salonData.newSalonPriceMultiplier = 1000;		// Multiplier for additional salons.
-		game.salonData.totalSeats = 0;						// Total seats (possible tickets) cinema has.	
+			game.salonData.salonsOwned.length;					// Player's total existing salons.
+		game.salonData.maxSalons = 10;							// Maximum number of salons possible.
+		game.salonData.newSalonPriceMultiplier = 1000;			// Multiplier for additional salons.
+		game.salonData.totalSeats = 0;							// Total seats (possible tickets) cinema has.	
 
 		game.snackData = {};
-		game.snackData.numOfSnacks = 0;						// Player's total existing snack choices.
-		game.snackData.maxSnacks = 5;						// Maximum number of snacks possible.
-		game.snackData.newSnackPriceMultiplier = 500;		// Multiplier for additional snacks.
+		game.snackData.numOfSnacks = 0;							// Player's total existing snack choices.
+		game.snackData.maxSnacks = 5;							// Maximum number of snacks possible.
+		game.snackData.newSnackPriceMultiplier = 500;			// Multiplier for additional snacks.
 
 		if(game.state.isLoading === undefined)
 		{
-			game.state.isLoading = true;					// Tracks if initial assets are still loading.
+			game.state.isLoading = true;						// Tracks if initial assets are still loading.
 		}
-		game.state.isStarted = false;						// Tracks whether player has started or not.
-		game.state.isPaused = true;						// Tracks whether player has paused game.
-		game.state.isHelp = false;							// Tracks whether player is in help modal.
-		game.state.isGameOver = false;						// Tracks whether player is in the end game modal.
-		game.state.endGameMsg = "";							// Message displayed to user at end of game.
-		game.state.isWin = "";								// Displays 'Win' or 'Lose' at end game.
-		game.state.isEvent = false;							// Tracks whether a random event is active on screen.
+		game.state.isStarted = false;							// Tracks whether player has started or not.
+		game.state.isPaused = true;								// Tracks whether player has paused game.
+		game.state.isHelp = false;								// Tracks whether player is in help modal.
+		game.state.isGameOver = false;							// Tracks whether player is in the end game modal.
+		game.state.endGameMsg = "";								// Message displayed to user at end of game.
+		game.state.isWin = "";									// Displays 'Win' or 'Lose' at end game.
+		game.state.isEvent = false;								// Tracks whether a random event is active on screen.
 
 		game.events = [
 			{
@@ -816,6 +803,8 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 		game.workshop = {};
 		game.workshop.warningText = "";						// Unique warning text for the workshop module (async failures).
 
+		game.profitData.currentExpenses.total = calculateWeeklyExpenses();
+
 		getNewMovies(true);
 	};
 	// Adds an extra employee to the cinema.
@@ -831,6 +820,8 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 			game.employeeData.numOfEmployees++;
 			game.employeeData.employeeResult = employ[game.employeeData.numOfEmployees - 1];
 		}
+		
+		game.profitData.currentExpenses.total = calculateWeeklyExpenses();
 	};
 	// Adds a game iff player has the money.
 	game.addGame = function()
@@ -854,6 +845,8 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 				playSound('deniedSound');
 			}
 		}
+		
+		game.profitData.currentExpenses.total = calculateWeeklyExpenses();
 	};
 	// Adds extra parking iff player has the money.
 	game.addParking = function()
@@ -877,6 +870,8 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 				playSound('deniedSound');
 			}
 		}
+		
+		game.profitData.currentExpenses.total = calculateWeeklyExpenses();
 	};
 	// Adds a salon iff player has the money.
 	game.addSalon = function()
@@ -906,6 +901,8 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 				return false;
 			}
 		}
+		
+		game.profitData.currentExpenses.total = calculateWeeklyExpenses();
 	};
 	// Adds a snack iff player has the money.
 	game.addSnack = function()
@@ -929,6 +926,8 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 				playSound('deniedSound');
 			}
 		}
+		
+		game.profitData.currentExpenses.total = calculateWeeklyExpenses();
 	};
 	// Since salon object has seat quantity and balance checker, buy and adjust totalSeats.
 	game.buySeats = function(salonNum, quantity)
@@ -944,6 +943,8 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 		{
 			playSound('deniedSound');
 		}
+		
+		game.profitData.currentExpenses.total = calculateWeeklyExpenses();
 	};
 	// Changes the movie playing in this salon
 	game.changeMoviePlaying = function(salonNum, movieIndex)
@@ -958,6 +959,8 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 		if(index < 0 || index >= promos.length) return; // In case someone sneaks a bad index through.
 		game.miscData.currentPromotionIndex = index;
 		game.miscData.currentPromotion = promos[game.miscData.currentPromotionIndex];
+		
+		game.profitData.currentExpenses.total = calculateWeeklyExpenses();
 	};
 	// Lets start screen keep checking if assets are loaded.
 	game.checkIfLoaded = function() {
@@ -1027,6 +1030,8 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 			playSound('deniedSound');
 			game.miscData.ticketPrice = 0.0;
 		}
+
+		game.profitData.currentExpenses.total = calculateWeeklyExpenses();
 	};
 	// Main time-keeping function that serves as a simple game loop.
 	game.newDay = function()
@@ -1044,6 +1049,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 		{
 			basicLeaseRent += 10;
 			var expenses = calculateWeeklyExpenses();
+			game.profitData.currentExpenses.total = expenses;
 			game.profitData.expenses = expenses;
 			balance -= expenses;
 			game.profitData.profitTicketSales = weekTicketProfits;
@@ -1116,6 +1122,8 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 				return false;
 			}
 		}
+		
+		game.profitData.currentExpenses.total = calculateWeeklyExpenses();
 	};
 	// Updates the increase of ticket price for entire game.
 	game.raiseTicketPrice = function()
@@ -1126,6 +1134,8 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 			playSound('deniedSound');
 			game.miscData.ticketPrice = 100.0;
 		}
+		
+		game.profitData.currentExpenses.total = calculateWeeklyExpenses();
 	};
 	game.upgradeProjector = function(salonNum)
 	{
@@ -1145,6 +1155,8 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 		{
 			playSound('deniedSound');
 		}
+		
+		game.profitData.currentExpenses.total = calculateWeeklyExpenses();
 	};
 	game.upgradeScreen = function(salonNum)
 	{
@@ -1164,6 +1176,8 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 		{
 			playSound('deniedSound');
 		}
+		
+		game.profitData.currentExpenses.total = calculateWeeklyExpenses();
 	};
 	game.upgradeSound = function(salonNum)
 	{
@@ -1183,6 +1197,8 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 		{
 			playSound('deniedSound');
 		}
+		
+		game.profitData.currentExpenses.total = calculateWeeklyExpenses();
 	};
 	// Adds a user created movie to the database iff balance available and content passes inspection.
 	// Upon success, transfer movie into user's owned licenses.
@@ -1256,6 +1272,8 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 					));
 					game.miscData.moviesMade++;
 					game.workshop.warningText = "";
+					
+					game.profitData.currentExpenses.total = calculateWeeklyExpenses();
 				}
 			}, function errorCallback(response)
 			{
@@ -1278,6 +1296,8 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 			game.employeeData.numOfEmployees--;
 			game.employeeData.employeeResult = employ[game.employeeData.numOfEmployees - 1];
 		}
+		
+		game.profitData.currentExpenses.total = calculateWeeklyExpenses();
 	};
 	// Resets all of game's variables to brand new conditions.
 	game.restartGame = function()

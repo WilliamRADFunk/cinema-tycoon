@@ -2,7 +2,7 @@
 	<nav id="main-nav" class="navbar navbar-default navbar-inverse navbar-fixed-bottom" role="navigation">
 		<div class="floating-hud-row" style="margin-top: 18px;">
 			<div class="floating-hud-text first"><u>Bank</u></div>
-			<div class="floating-hud-text second"><u>Expenses (last week)</u></div>
+			<div class="floating-hud-text second"><u>Expenses (last week)</u>  +  </div>
 			<div class="floating-hud-text third"><u>Profit/Loss (last week)</u></div>
 		</div>
 		<div class="floating-hud-row">
@@ -16,7 +16,7 @@
 			--- Day: {{hudCtrl.timeData.day}} -- Season: {{hudCtrl.timeData.season}} -- Year: {{hudCtrl.timeData.year}} ---
 		</div>
 		<div class="table-responsive col-lg-6 col-md-6 col-sm-12 col-xs-12">
-			<table class="table">
+			<table class="table" style="margin-bottom: 0;">
 				<tbody>
 					<tr>
 						<td>Bank: <span class="right">{{hudCtrl.getBalance() | currency}}</span></td>
@@ -46,7 +46,7 @@
 			</table>
 		</div>
 		<div class="table-responsive col-lg-6 col-md-6 col-sm-12 col-xs-12">
-			<table class="table">
+			<table class="table" style="margin-bottom: 0;">
 				<tbody>
 					<tr>
 						<td>$ from Ticket Sales (last week): <span class="right green">{{hudCtrl.profitData.profitTicketSales | currency}}</span></td>
@@ -71,6 +71,36 @@
 					</tr>
 					<tr>
 						<td>Ticket Price: <span class="right">{{hudCtrl.miscData.ticketPrice | currency}}</span></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="table-responsive col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<table class="table">
+				<tbody>
+					<tr>
+						<td colspan="2" ng-click="hudCtrl.toggleExpenses()" onclick="event.stopPropagation();" style="cursor: pointer;">$ for Upcoming Expenses (this week): <span class="red">{{hudCtrl.profitData.currentExpenses.total | currency}}</span><span class="right red" style="font-size: 24px; line-height: 12px;">{{hudCtrl.toggleState ? "-" : "+"}}</span></td>
+					</tr>
+					<tr ng-if="hudCtrl.toggleState">
+						<td>$ for Rent (this week): <span class="right red">{{hudCtrl.profitData.currentExpenses.rent | currency}}</span></td>
+					</tr>
+					<tr ng-if="hudCtrl.toggleState">
+						<td>$ for Salons (this week): <span class="right red">{{hudCtrl.profitData.currentExpenses.salons | currency}}</span></td>
+					</tr>
+					<tr ng-if="hudCtrl.toggleState">
+						<td>$ for Snacks (this week): <span class="right red">{{hudCtrl.profitData.currentExpenses.snacks | currency}}</span></td>
+					</tr>
+					<tr ng-if="hudCtrl.toggleState">
+						<td>$ for Games (this week): <span class="right red">{{hudCtrl.profitData.currentExpenses.games | currency}}</span></td>
+					</tr>
+					<tr ng-if="hudCtrl.toggleState">
+						<td>$ for Employees (this week): <span class="right red">{{hudCtrl.profitData.currentExpenses.employees | currency}}</span></td>
+					</tr>
+					<tr ng-if="hudCtrl.toggleState">
+						<td>$ for Parking (this week): <span class="right red">{{hudCtrl.profitData.currentExpenses.parking | currency}}</span></td>
+					</tr>
+					<tr ng-if="hudCtrl.toggleState">
+						<td>$ for Promotionals (this week): <span class="right red">{{hudCtrl.profitData.currentExpenses.promotions | currency}}</span></td>
 					</tr>
 				</tbody>
 			</table>

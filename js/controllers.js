@@ -247,6 +247,7 @@ cinemaTycoonApp.controller('HUDController', ['gameData', '$scope', function(game
 	{
 		self.setup();
 	});
+
 	$scope.$on('netWeekly', function()
 	{
 		if(self.profitData.netProfit > 0)
@@ -267,6 +268,12 @@ cinemaTycoonApp.controller('HUDController', ['gameData', '$scope', function(game
 	{
 		return game.getBalance();
 	};
+
+	self.toggleExpenses = function()
+	{
+		self.toggleState = !self.toggleState
+	};
+
 	self.setup = function()
 	{
 		self.employeeData = game.employeeData;
@@ -278,6 +285,7 @@ cinemaTycoonApp.controller('HUDController', ['gameData', '$scope', function(game
 		self.snackData = game.snackData;
 		self.state = game.state;
 		self.timeData = game.timeData;
+		self.toggleState = false;
 	};
 
 	self.setup();
@@ -696,6 +704,7 @@ cinemaTycoonApp.controller('StartController', ['gameData', '$interval', '$rootSc
 	self.checkIfLoaded = game.checkIfLoaded;
 	self.currentEvent = game.currentEvent;
 	self.buttonBlopSound = game.sounds.buttonBlopSound;
+	self.themeSound = game.sounds.themeSound;
 
 	self.state.helpChoice = 'isHelpWin';
 
@@ -714,6 +723,7 @@ cinemaTycoonApp.controller('StartController', ['gameData', '$interval', '$rootSc
 	{
 		playBlop();
 		game.startGame();
+		self.themeSound.play();
 		self.speed = speed;
 		self.intervalPromise = $interval(game.newDay, (1000 * self.speed));
 	};
@@ -721,14 +731,12 @@ cinemaTycoonApp.controller('StartController', ['gameData', '$interval', '$rootSc
 	{
 		playBlop();
 		game.help(false);
-		// self.unpauseTime();
 	};
 	self.exitModal = function()
 	{
 		playBlop();
 		game.event(false);
 		self.currentEvent.selectedResult = null;
-		// self.unpauseTime();
 	};
 	self.needHelp = function()
 	{
