@@ -727,6 +727,10 @@ cinemaTycoonApp.controller('StartController', ['gameData', '$interval', '$rootSc
 		self.speed = speed;
 		self.intervalPromise = $interval(game.newDay, (1000 * self.speed));
 	};
+	self.changeDifficulty = function(diff) {
+		game.updateDifficulty(diff);
+		self.restartGame();
+	};
 	self.exitHelp = function()
 	{
 		playBlop();

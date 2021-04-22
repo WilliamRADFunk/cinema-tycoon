@@ -5,6 +5,27 @@
 		<p>One day, if you play your cards right, you could even produce your <i>own</i> films.</p>
 		<p>Whether you play it fast and loose, or cautiously slow, your ultimate goal is to turn your seed money into a million dollars and produce at least 3 movies. Do that, and you've won. Drop more than $10,000 into debt and the landowner will pull your lease.</p>
 		<br/>
+		<div role="radiogroup" class="row text-center">
+			<div class="col-xs-12" style="margin-bottom: 15px;">Choose difficulty level:</div>
+			<div class="radio-option col-xs-4">
+				<span class="row" ng-click="startCtrl.changeDifficulty(0)">
+					<label for="easyMode" class="col-xs-12">Easy</label>
+					<input id="easyMode" type="radio" class="col-xs-12"/>
+				</span>
+			</div>
+			<div class="radio-option col-xs-4">
+				<span class="row" ng-click="startCtrl.changeDifficulty(1)">
+					<label for="normalMode" class="col-xs-12">Normal</label>
+					<input id="normalMode" type="radio" checked class="col-xs-12" />
+				</span>
+			</div>
+			<div class="radio-option col-xs-4">
+				<span class="row" ng-click="startCtrl.changeDifficulty(2)">
+					<label for="hardMode" class="col-xs-12">Hard</label>
+					<input id="hardMode" type="radio" class="col-xs-12"/>
+				</span>
+			</div>
+		</div>
 		<p ng-if="startCtrl.checkIfLoaded()" style="color: #FFFF00; text-align: center;">Loading assets...  (If longer than 5 seconds, refresh page)</p>
 		<button type="button" class="btn btn-default col-lg-2 col-lg-offset-5 col-md-2 col-md-offset-5 col-sm-2 col-sm-offset-5 col-xs-4 col-xs-offset-4" ng-click="startCtrl.activateTime(3)" ng-if="!startCtrl.checkIfLoaded()">Start</button>
 	</div>

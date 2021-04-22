@@ -11,6 +11,8 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	var weekSnackProfits;
 	var weekGamesProfits;
 	var randomEventSpawnCounter = 0;
+	var difficultyBadModifier = 1;
+	var difficultyGoodModifier = 1;
 
 	game.sounds = {};
 	/*
@@ -170,6 +172,10 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 		{
 			dailyPatronModifier += ((game.employeeData.numOfEmployees / (game.employeeData.maxEmployees / 2.0)) - 1) * 0.01;
 		}
+
+		// Difficulty mod
+		dailyPatronModifier *= difficultyGoodModifier;
+ 
 		// Ticket price has direct impact on patronage.
 		if(game.miscData.ticketPrice < 5) dailyPatronModifier += 0.05;
 		else if(game.miscData.ticketPrice >= 5 && game.miscData.ticketPrice < 7.5) dailyPatronModifier += 0.025;
@@ -320,6 +326,10 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 			do
 			{
 				i = Math.floor(Math.random() * game.events.length);
+				if (game.events[i].modifierA < 0 && difficultyGoodModifier > 1) {
+					// Skip this option because it's negative and we're in easy mode.
+					continue;
+				}
 				if(game.currentEvent.eventTitle !== game.events[i].eventTitle)
 				{
 					game.currentEvent.base = game.events[i].base;
@@ -357,8 +367,8 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 	};
 	var setup = function()
 	{
-		balance = 10000;
-		basicLeaseRent = 1000;
+		balance = 10000 * difficultyGoodModifier;
+		basicLeaseRent = 1000 * difficultyBadModifier;
 		weekTicketProfits = 0;
 		weekSnackProfits = 0;
 		weekGamesProfits = 0;
@@ -368,11 +378,13 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 		game.employeeData.maxEmployees = 5;						// Maximum number of employees possible.
 		game.employeeData.employeeResult = employ[0];			// Description of employee amount.
 		game.employeeData.employeeCostMultiplier = 500;			// Multiplier for employees on payday.
+		game.employeeData.employeeCostMultiplier *= difficultyBadModifier;
 
 		game.gameroomData = {};
 		game.gameroomData.numOfGames = 0;						// Player's total existing game choices.
 		game.gameroomData.maxGames = 5;							// Maximum number of games possible.
 		game.gameroomData.newGamePriceMultiplier = 1000;		// Multiplier for additional games.
+		game.gameroomData.newGamePriceMultiplier *= difficultyBadModifier;
 
 		game.miscData = {};
 		game.miscData.ticketPrice = 10.00;						// Price of a movie ticket.
@@ -385,11 +397,14 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 		game.miscData.moviesAvailable = [];						// Periodically changed. Movies for license purchase.
 		game.miscData.movieProductionModifier = 250000;			// Modifier for cost of film making.
 		game.miscData.moviesMade = 0;							// User made movies. Needed for the win.
+		game.miscData.promotionMultiplier *= difficultyBadModifier;
+		game.miscData.movieProductionModifier *= difficultyBadModifier;
 		
 		game.parkingData = {};
 		game.parkingData.parkingLevels = 0;						// Current parking lot capacity level.
 		game.parkingData.maxParkingLevels = 10;					// Maximum number of parking levels possible.
 		game.parkingData.parkingExpandCost = 2000				// Cost multiplier to expand local parking space.
+		game.parkingData.parkingExpandCost *= difficultyBadModifier;
 
 		game.profitData = {};
 		game.profitData.profitTicketSales = 0.0;				// Tally of total ticket's sold at cost in last period.
@@ -413,12 +428,14 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 			game.salonData.salonsOwned.length;					// Player's total existing salons.
 		game.salonData.maxSalons = 10;							// Maximum number of salons possible.
 		game.salonData.newSalonPriceMultiplier = 1000;			// Multiplier for additional salons.
-		game.salonData.totalSeats = 0;							// Total seats (possible tickets) cinema has.	
+		game.salonData.totalSeats = 0;							// Total seats (possible tickets) cinema has.
+		game.salonData.newSalonPriceMultiplier *= difficultyBadModifier;
 
 		game.snackData = {};
 		game.snackData.numOfSnacks = 0;							// Player's total existing snack choices.
 		game.snackData.maxSnacks = 5;							// Maximum number of snacks possible.
 		game.snackData.newSnackPriceMultiplier = 500;			// Multiplier for additional snacks.
+		game.snackData.newSnackPriceMultiplier *= difficultyBadModifier;
 
 		if(game.state.isLoading === undefined)
 		{
@@ -434,7 +451,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 
 		game.events = [
 			{
-				base: 1000,
+				base: 1000 * difficultyBadModifier,
 				eventTitle: 'Mutiny',
 				eventMsg: 'Your employees feel underappreciated. There has been talk about unionizing. If you don\'t do something quick they may strike and cut into your profits.',
 				eventOptA: 'Fire the malcontents and bring in some new blood.',
@@ -446,7 +463,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 				eventAnswerC: 'This heavy handed tactic only fuels the dissatisfaction your employees have been feeling. They go on strike. You\'ve lost',
 				eventAnswerD: 'It was a costly move, but it\'s evident you\'re a good boss. The improved morale and performance does boost your customers\' experience and mitigates the expense. You only lose',
 				modifierA: -2,
-				modifierB: -0,
+				modifierB: -0.00000001,
 				modifierC: -4,
 				modifierD: -1
 			},
@@ -468,7 +485,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 				eventAnswerD: 'Such an odd response has spawned much gossip. Intrgued by your question, more people gravitate toward your establishment, earning you an extra'
 			},
 			{
-				base: 4000,
+				base: 4000 * difficultyBadModifier,
 				eventTitle: 'Leaky Pipe',
 				modifierA: -3,
 				modifierB: -1,
@@ -502,7 +519,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 				eventAnswerD: 'Rumors spread amongst your patrons to keep one hand on their wallets at all times. Meanwhile, your employees love you. The net difference is'
 			},
 			{
-				base: 2000,
+				base: 2000 * difficultyBadModifier,
 				eventTitle: 'Under The Counter',
 				modifierA: -2,
 				modifierB: -4,
@@ -536,10 +553,10 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 				eventAnswerD: 'Ehhh! Wrong! It\'s the title of the movie. Of course there was a snow fortress. The CGI was mind-blowing. Your winnings were'
 			},
 			{
-				base: 3000,
+				base: 3000 * difficultyBadModifier,
 				eventTitle: '...and Cut!',
 				modifierA: -2,
-				modifierB: -0,
+				modifierB: -0.00000001,
 				modifierC: -1,
 				modifierD: -4,
 				eventMsg: 'The projector went on the fritz mid-movie. People are upset.',
@@ -570,12 +587,12 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 				eventAnswerD: 'Unfortunately, the heavy rain made your lights hard to see. Only those who thought of it on their own swung by, earning you an extra'
 			},
 			{
-				base: 5000,
+				base: 5000 * difficultyBadModifier,
 				eventTitle: 'Oh Snap!',
 				modifierA: -3,
 				modifierB: -1,
 				modifierC: -2,
-				modifierD: -0,
+				modifierD: -0.00000001,
 				eventMsg: 'A little old lady slipped on a wet spot in your front lobby, breaking a hip.',
 				eventOptA: 'Go on the defensive with a smear compaign, telling people she\'s one of those ambulance chasers looking for a free-ride.',
 				eventOptB: 'Visit her in the hospital, and offer her a lifetime of free tickets and popcorn.',
@@ -604,12 +621,12 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 				eventAnswerD: 'The church\'s representatives weren\'t exactly impressed with you donation, but they accepted it. After taking into account the cost of the shirts, you gained'
 			},
 			{
-				base: 1000,
+				base: 1000 * difficultyBadModifier,
 				eventTitle: 'Frisky Business',
 				modifierA: -2,
 				modifierB: -4,
 				modifierC: -3,
-				modifierD: -0,
+				modifierD: -0.00000001,
 				eventMsg: 'The local newspaper ran a story on how the teenagers in your community use the cinema as a place to get frisky. Great for selling tickets to teenagers. Not so much to adults.',
 				eventOptA: 'Lower the lighting yet further, catering to your new crowd.',
 				eventOptB: 'Increase the presence of ushers, checking the back rows with flashlights to halt any hanky panky before it starts.',
@@ -638,7 +655,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 				eventAnswerD: 'Ticket sales don\'t explode, but the actor spreads the words to friends and family that you run a tight ship. That increased revenue comes to'
 			},
 			{
-				base: 2000,
+				base: 2000 * difficultyBadModifier,
 				eventTitle: 'Lights Out',
 				modifierA: -1,
 				modifierB: -2,
@@ -672,11 +689,11 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 				eventAnswerD: 'Seeing people with delicious cakes, cookies, and other confectionaries, has brought new folks into the theater. More ticket sales equals an extra'
 			},
 			{
-				base: 3000,
+				base: 3000 * difficultyBadModifier,
 				eventTitle: 'Red Handed',
 				modifierA: -1,
 				modifierB: -3,
-				modifierC: -0,
+				modifierC: -0.00000001,
 				modifierD: -2,
 				eventMsg: 'It\'s a publicity nightmare! The main actor in one of the films you\'re playing has been found guilty of unspeakable crimes.',
 				eventOptA: 'Stop playing the film at once as boycott.',
@@ -706,10 +723,10 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 				eventAnswerD: 'Unbelievable! You actually won a bunch of cash. Your money was quadrupled, for a total of'
 			},
 			{
-				base: 4000,
+				base: 4000 * difficultyBadModifier,
 				eventTitle: 'Sticky Fingers',
 				modifierA: -2,
-				modifierB: -0,
+				modifierB: -0.00000001,
 				modifierC: -4,
 				modifierD: -1,
 				eventMsg: 'You\'ve received a health code violation warning. Quick action is required, or the government will shut down your cinema.',
@@ -740,7 +757,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 				eventAnswerD: 'The answer later gets reprinted in a electronics magazine, keeping your notoriety alive. Oh, and the award comes with a cash price of'
 			},
 			{
-				base: 5000,
+				base: 5000 * difficultyBadModifier,
 				eventTitle: 'On The Fritz',
 				modifierA: -1,
 				modifierB: -1,
@@ -887,7 +904,7 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 			var cost = (game.salonData.numOfSalons + 1) * game.salonData.newSalonPriceMultiplier;
 			if( cost <= (balance + 9990))
 			{
-				var salon = createSalon();
+				var salon = createSalon(difficultyBadModifier);
 				game.salonData.salonsOwned.push(salon);
 				game.salonData.numOfSalons = game.salonData.salonsOwned.length;
 				game.salonData.totalSeats = calculateTotalSeats();
@@ -1311,6 +1328,29 @@ cinemaTycoonApp.factory('gameData', ['$http', '$rootScope', function($http, $roo
 		game.state.isStarted = true;
 		game.miscData.moviesOwned.push(createMovie("No Movie Selected"));
 		game.miscData.numOfLicenses = game.miscData.moviesOwned.length - 1;
+	};
+	// Updates the difficulty choice made by user at start of game.
+	game.updateDifficulty = function(diff) {
+		switch(Number(diff)) {
+			case 0: {
+				difficultyBadModifier = 0.75;
+				difficultyGoodModifier = 1.25;
+				break;
+			}
+			case 1: {
+				difficultyBadModifier = 1;
+				difficultyGoodModifier = 1;
+				break;
+			}
+			case 2: {
+				difficultyBadModifier = 1.25;
+				difficultyGoodModifier = 0.75;
+				break
+			}
+			default: {
+				console.error("updateDifficulty: invalid difficulty setting chosen" + diff);
+			}
+		}
 	};
 	// Allows controller to update warning text without losing track of service warning text.
 	game.updateWarningText = function(module, msg)

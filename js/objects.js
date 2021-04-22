@@ -64,7 +64,7 @@ var createMovie = function(title, synopsis, expectedPopularity, actualPopularity
 	};
 };
 
-var createSalon = function()
+var createSalon = function(mod)
 {
 	var isMoviePlaying = false;
 	var maxSeats = 100;
@@ -73,9 +73,9 @@ var createSalon = function()
 	var projectorLevel = 1;
 	var screenLevel = 1;
 	var seats = 10;
-	var seatCost = 200;
+	var seatCost = 200 * mod;
 	var soundLevel = 1;
-	var upgradeMultiplier = 300;	
+	var upgradeMultiplier = 300 * mod;	
 
 	return {
 		addSeats: function(quantity, balance)
